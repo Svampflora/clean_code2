@@ -72,7 +72,7 @@ Game::Game(): resources(), background(600)
 
 void Game::Start()
 {
-	Player player{};
+
 	MakeWalls();
 	SpawnAliens();
 
@@ -84,10 +84,10 @@ void Game::MakeWalls()
 {
 	const float window_width = static_cast<float>(GetScreenWidth());
 	const float window_height = static_cast<float>(GetScreenHeight());
-	const int wallCount = 5;
-	const float wall_distance = window_width / (wallCount + 1);
+	const int wallAmount = 5;
+	const float wall_distance = window_width / (wallAmount + 1);
 
-	for (int i = 0; i < wallCount; ++i) {
+	for (int i = 0; i < wallAmount; ++i) {
 		Wall newWall;
 		newWall.position.y = window_height - 250;
 		newWall.position.x = wall_distance * (i + 1);
@@ -337,7 +337,7 @@ void Game::DrawLeaderboard()
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
 
-	for (size_t i = 0; i < Leaderboard.size(); ++i)
+	for (int i = 0; i < Leaderboard.size(); ++i)
 	{
 		DrawText(Leaderboard[i].name.data(), 50, 140 + (i * 40), 40, YELLOW);
 		DrawText(TextFormat("%i", Leaderboard[i].score), 350, 140 + (i * 40), 40, YELLOW);
@@ -350,8 +350,8 @@ void Game::SpawnAliens()
 		for (int col = 0; col < formationWidth; col++) {
 			Alien newAlien = Alien();
 			newAlien.active = true;
-			newAlien.position.x = formationX + 450 + (col * alienSpacing);
-			newAlien.position.y = formationY + (row * alienSpacing);
+			newAlien.position.x = formationX + 450.0f + (col * alienSpacing);
+			newAlien.position.y = static_cast<float>(formationY) + (row * alienSpacing);
 			Aliens.push_back(newAlien);
 			std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;
 			std::cout << "Find Alien -Y:" << newAlien.position.y << std::endl;
@@ -367,10 +367,10 @@ bool Game::CheckNewHighScore() const
 
 
 
-void Game::InsertNewHighScore(std::string name)
+void Game::InsertNewHighScore(std::string _name)
 {
 	HighScoreData newData;
-	newData.name = name;
+	newData.name = _name;
 	newData.score = score;
 
 	for (int i = 0; i < Leaderboard.size(); i++)
@@ -382,7 +382,7 @@ void Game::InsertNewHighScore(std::string name)
 
 			Leaderboard.pop_back();
 
-			i = Leaderboard.size();
+			i = static_cast<int>(Leaderboard.size());
 
 		}
 	}
@@ -448,12 +448,12 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 	Vector2 C = circlePos;
 
 	float length = Vector2Distance(A, B);
-	float dotP = (((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y))) / pow(length, 2);
+	float dotP = ((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y)) / static_cast<float>(pow(length, 2));
 
 	float closestX = A.x + (dotP * (B.x - A.x));
 	float closestY = A.y + (dotP * (B.y - A.y));
 
-	float buffer = 0.1;
+	float buffer = 0.1f;
 
 	float closeToStart = Vector2Distance(A, { closestX, closestY });
 	float closeToEnd = Vector2Distance(B, { closestX, closestY });
@@ -513,7 +513,6 @@ Player::Player() : frames(std::vector{ LoadTexture("./Assets/Ship1.png"), LoadTe
 
 void Player::Render()
 {
-	float window_height = GetScreenHeight(); 
 	Rectangle source_coordinates = { 0,0,352,352, };
 	Rectangle destination_coordinates = { position.x, position.y,100,100, };
 	Vector2 origin = { 50, 50 };
@@ -597,7 +596,7 @@ void Projectile::Render(const Texture2D& texture) const
 
 float Wall::GetRadius() const
 {
-	return radius;
+	return static_cast<float>(radius);
 }
 
 Vector2 Wall::GetPosition() const
@@ -624,7 +623,7 @@ void Wall::Render(const Texture2D& texture) const
 		WHITE);
 
 
-	DrawText(TextFormat("%i", health), position.x-21, position.y+10, 40, RED);
+	DrawText(TextFormat("%i", health), static_cast<int>(position.x-21), static_cast<int>(position.y+10), 40, RED);
 	
 }
 
@@ -652,7 +651,7 @@ float Alien::GetRadius() const
 
 void Alien::Update() 
 {
-	constexpr int moveDistance = 50;
+
 
 	if (moveRight) {
 		position.x += speed;
@@ -721,10 +720,10 @@ Background::Background(int starAmount)
 	{
 		Star newStar;
 
-		newStar.initPosition.x = GetRandomValue(-150, GetScreenWidth() + 150);
-		newStar.initPosition.y = GetRandomValue(0, GetScreenHeight());
+		newStar.initPosition.x = static_cast<float>(GetRandomValue(-150, GetScreenWidth() + 150));
+		newStar.initPosition.y = static_cast<float>(GetRandomValue(0, GetScreenHeight()));
 		newStar.color = SKYBLUE;
-		newStar.size = GetRandomValue(1, 4) / 2;
+		newStar.size = static_cast<float>(GetRandomValue(1, 4) / 2);
 
 		Stars.emplace_back(newStar);
 

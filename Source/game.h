@@ -135,7 +135,6 @@ struct Game //TODO: make into class   C.8: Use class rather than struct if any m
 	Background background;
 	float shootTimer = 0;
 	int score;
-	int wallCount = 5;
 	int formationWidth = 8;
 	int formationHeight = 5;
 	int alienSpacing = 80;
