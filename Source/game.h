@@ -108,9 +108,9 @@ struct Star  //TODO:make proper background class
 class Background  //TODO: make into class  C.8: Use class rather than struct if any member is non-public
 {
 	std::vector<Star> Stars;
-	Vector2 playerPos;
-	Vector2 cornerPos;
-	float offset;
+	Vector2 playerPos{0.0f, 0.0f};
+	Vector2 cornerPos{0.0f,0.0f};
+	float offset = 0.0f;
 
 public:
 
