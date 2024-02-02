@@ -17,36 +17,23 @@ public:
 
 class Resources 
 {
-	std::vector<Texture2D> shipTextures;
+    std::vector<Texture2D> shipTextures;
+    Texture2D alienTexture;
+    Texture2D barrierTexture;
+    Texture2D laserTexture;
 
-	void Load();
-	void Unload();
-public:									
-	Texture2D alienTexture;
-	Texture2D barrierTexture;
-	Texture2D laserTexture;
+    void Load();
 
-	Resources();
-	Resources(const Resources& other)
-		: shipTextures(other.shipTextures),
-		alienTexture(other.alienTexture),
-		barrierTexture(other.barrierTexture),
-		laserTexture(other.laserTexture)
-	{
-		Load();
-	}
-	Resources& operator=(const Resources& other)
-	{
-		if (this != &other) {
+public:
 
-			shipTextures = other.shipTextures;
-			alienTexture = other.alienTexture;
-			barrierTexture = other.barrierTexture;
-			laserTexture = other.laserTexture;
+    Resources();
+    Resources(const Resources& other);
+    Resources& operator=(const Resources& other);
+    Resources(Resources&& other) noexcept;
+    Resources& operator=(Resources&& other) noexcept;
+    ~Resources();
 
-		}
-		return *this;
-	}
-	~Resources();
-
+    const Texture2D& GetAlienTexture() const;
+    const Texture2D& GetBarrierTexture() const;
+    const Texture2D& GetLaserTexture() const;
 };

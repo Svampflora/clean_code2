@@ -1,10 +1,10 @@
 #include "game.h"
+#include "raymath.h"
 #include <iostream>
 #include <vector>
 #include <chrono>
 #include <thread>
 #include <fstream>
-#include "raymath.h"
 
 
 template <typename T>
@@ -281,10 +281,10 @@ void Game::Render() //TODO: long function
 		DrawText(TextFormat("Lives: %i", player.GetLives()), 50, 70, 40, YELLOW);
 
 		player.Render();
-		RenderObjects(enemyProjectiles, resources.laserTexture);
-		RenderObjects(playerProjectiles, resources.laserTexture);
-		RenderObjects(Walls, resources.barrierTexture);
-		RenderObjects(Aliens, resources.alienTexture);
+		RenderObjects(enemyProjectiles, resources.GetLaserTexture());
+		RenderObjects(playerProjectiles, resources.GetLaserTexture());
+		RenderObjects(Walls, resources.GetBarrierTexture());
+		RenderObjects(Aliens, resources.GetAlienTexture());
 
 		break;
 	case State::ENDSCREEN:

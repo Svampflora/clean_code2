@@ -1,5 +1,5 @@
   #include "Resources.h"
-#include <iostream>;
+#include <iostream>
 
 
 void Resources::Load()
@@ -25,24 +25,92 @@ void Resources::Load()
     std::cout << "Loaded resources!\n";
 }
 
-void Resources::Unload()
+Resources::Resources()
+{
+    Load();
+}
+
+//copy constructor
+Resources::Resources(const Resources& other)
+    : shipTextures(other.shipTextures.size())
+{
+    for (size_t i = 0; i < other.shipTextures.size(); ++i) 
+    {
+        shipTextures[i] = other.shipTextures[i];
+    }
+
+    alienTexture = other.alienTexture;
+    barrierTexture = other.barrierTexture;
+    laserTexture = other.laserTexture;
+
+    Load();  //load resources for the current instance
+}
+
+//copy assignment operator
+Resources& Resources::operator=(const Resources& other) 
+{
+    if (this != &other) 
+    {
+        shipTextures.clear();
+        shipTextures.resize(other.shipTextures.size());
+        for (size_t i = 0; i < other.shipTextures.size(); ++i) 
+        {
+            shipTextures[i] = other.shipTextures[i];
+        }
+
+        alienTexture = other.alienTexture;
+        barrierTexture = other.barrierTexture;
+        laserTexture = other.laserTexture;
+
+        Load();
+    }
+    return *this;
+}
+
+//move constructor
+Resources::Resources(Resources&& other) noexcept
+    : shipTextures(std::move(other.shipTextures)),
+    alienTexture(std::move(other.alienTexture)),
+    barrierTexture(std::move(other.barrierTexture)),
+    laserTexture(std::move(other.laserTexture)) 
+{
+}
+
+//move assignment operator
+Resources& Resources::operator=(Resources&& other) noexcept 
+{
+    if (this != &other) 
+    {
+        shipTextures = std::move(other.shipTextures);
+        alienTexture = std::move(other.alienTexture);
+        barrierTexture = std::move(other.barrierTexture);
+        laserTexture = std::move(other.laserTexture);
+    }
+    return *this;
+}
+
+//destructor
+Resources::~Resources() 
 {
     UnloadTexture(alienTexture);
     UnloadTexture(barrierTexture);
     UnloadTexture(laserTexture);
 }
 
-Resources::Resources()
+const Texture2D& Resources::GetAlienTexture() const 
 {
-    Load();
+    return alienTexture;
 }
 
-Resources::~Resources()
+const Texture2D& Resources::GetBarrierTexture() const 
 {
-    Unload();
+    return barrierTexture;
 }
 
-
+const Texture2D& Resources::GetLaserTexture() const 
+{
+    return laserTexture;
+}
 
 
 
