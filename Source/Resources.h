@@ -2,16 +2,23 @@
 #include "raylib.h"
 #include "vector"
 
-class Animation
+class Animation 
 {
-	std::vector<Texture2D> frames;
-	float timer;
-	int current_frame;
-public:
-	Animation(std::vector<Texture2D> _frames);
-	~Animation();
+    std::vector<Texture2D> frames;
+    float timer;
+    int current_frame;
 
-	Texture2D get(); 
+public:
+
+
+    Animation(std::vector<Texture2D> _frames) : frames(std::move(_frames)), timer(0.0f), current_frame(0){}
+    Animation(const Animation& other) : frames(other.frames), timer(other.timer), current_frame(other.current_frame) {}
+    Animation& operator=(const Animation& other);
+    Animation(Animation&& other) noexcept : frames(std::move(other.frames)), timer(other.timer), current_frame(other.current_frame) {}
+    Animation& operator=(Animation&& other) noexcept;
+    ~Animation();
+
+    const Texture2D& get();
 };
 
 

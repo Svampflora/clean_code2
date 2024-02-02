@@ -89,7 +89,6 @@ Resources& Resources::operator=(Resources&& other) noexcept
     return *this;
 }
 
-//destructor
 Resources::~Resources() 
 {
     UnloadTexture(alienTexture);
@@ -114,12 +113,7 @@ const Texture2D& Resources::GetLaserTexture() const
 
 
 
-Animation::Animation(std::vector<Texture2D> _frames)
-{
-	frames = _frames;
-	current_frame = 0;
-	timer = 0;
-}
+
 
 Animation::~Animation()
 {
@@ -129,7 +123,31 @@ Animation::~Animation()
 	}
 }
 
-Texture2D Animation::get()
+//copy assignment operator
+Animation& Animation::operator=(const Animation& other)
+{
+    if (this != &other) 
+    {
+        frames = other.frames;
+        timer = other.timer;
+        current_frame = other.current_frame;
+    }
+    return *this;
+}
+
+//move assignment operator
+Animation& Animation::operator=(Animation&& other) noexcept 
+{
+    if (this != &other) 
+    {
+        frames = std::move(other.frames);
+        timer = other.timer;
+        current_frame = other.current_frame;
+    }
+    return *this;
+}
+
+const Texture2D& Animation::get() 
 {
 	timer += GetFrameTime();
 	if (timer <= 0.4) {
