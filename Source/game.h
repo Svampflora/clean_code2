@@ -20,7 +20,6 @@ struct HighScoreData
 
 class Player 
 {
-	Animation frames;
 	Vector2 size = { 70.0f, 70.0f };
 	Vector2 position = { 0, GetScreenHeight() - size.y };
 	float speed = 7;
@@ -31,7 +30,7 @@ class Player
 public:
 	Player();
 	void Update();
-	void Render();
+	void Render(const Texture2D& texture) const;
 	void Hurt(int damage);
 	Vector2 GetSize() const;
 	Vector2 GetPosition() const;

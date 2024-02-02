@@ -280,7 +280,7 @@ void Game::Render() //TODO: long function
 		DrawText(TextFormat("Score: %i", score), 50, 20, 40, YELLOW);
 		DrawText(TextFormat("Lives: %i", player.GetLives()), 50, 70, 40, YELLOW);
 
-		player.Render();
+		player.Render(resources.GetShipTexture());
 		RenderObjects(enemyProjectiles, resources.GetLaserTexture());
 		RenderObjects(playerProjectiles, resources.GetLaserTexture());
 		RenderObjects(Walls, resources.GetBarrierTexture());
@@ -505,18 +505,18 @@ void Player::Update()
 	}
 }
 
-Player::Player() : frames(std::vector{ LoadTexture("./Assets/Ship1.png"), LoadTexture("./Assets/Ship2.png"), LoadTexture("./Assets/Ship3.png") })
+Player::Player()
 {
 	position.x = (float)GetScreenWidth() * 0.5f;
 	std::cout << "Find Player -X:" << GetScreenWidth() / 2 << "Find Player -Y" << GetScreenHeight() - size.y << std::endl;
 }
 
-void Player::Render()
+void Player::Render(const Texture2D& texture) const
 {
 	Rectangle source_coordinates = { 0,0,352,352, };
 	Rectangle destination_coordinates = { position.x, position.y,100,100, };
 	Vector2 origin = { 50, 50 };
-	DrawTexturePro(frames.get(), source_coordinates, destination_coordinates, origin, 0, WHITE);
+	DrawTexturePro(texture, source_coordinates, destination_coordinates, origin, 0, WHITE);
 }
 
 void Player::Hurt(int damage)

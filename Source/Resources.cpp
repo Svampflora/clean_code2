@@ -4,6 +4,15 @@
 
 void Resources::Load()
 {
+    shipTextures = std::vector{ LoadTexture("./Assets/Ship1.png"), LoadTexture("./Assets/Ship2.png"), LoadTexture("./Assets/Ship3.png") };
+    for (auto &texture : shipTextures)
+    {
+        if (texture.id == 0) 
+        {
+            std::cerr << "Error loading Ship texture\n";
+        }
+    }
+
     alienTexture = LoadTexture("./Assets/Alien.png");
     if (alienTexture.id == 0) 
     {
@@ -27,6 +36,7 @@ void Resources::Load()
 
 Resources::Resources()
 {
+    animator = {};
     Load();
 }
 
@@ -43,7 +53,7 @@ Resources::Resources(const Resources& other)
     barrierTexture = other.barrierTexture;
     laserTexture = other.laserTexture;
 
-    Load();  //load resources for the current instance
+    Load();
 }
 
 //copy assignment operator
@@ -91,6 +101,10 @@ Resources& Resources::operator=(Resources&& other) noexcept
 
 Resources::~Resources() 
 {
+    for (auto &texture : shipTextures)
+    {
+        UnloadTexture(texture);
+    }
     UnloadTexture(alienTexture);
     UnloadTexture(barrierTexture);
     UnloadTexture(laserTexture);
@@ -111,52 +125,24 @@ const Texture2D& Resources::GetLaserTexture() const
     return laserTexture;
 }
 
-
-
-
-
-Animation::~Animation()
+const Texture2D& Resources::GetShipTexture()
 {
-	for (const auto& texture : frames)
-	{
-		UnloadTexture(texture);
-	}
+    int frame = animator.get(shipTextures.size());
+    return shipTextures[frame];
 }
 
-//copy assignment operator
-Animation& Animation::operator=(const Animation& other)
-{
-    if (this != &other) 
-    {
-        frames = other.frames;
-        timer = other.timer;
-        current_frame = other.current_frame;
-    }
-    return *this;
-}
-
-//move assignment operator
-Animation& Animation::operator=(Animation&& other) noexcept 
-{
-    if (this != &other) 
-    {
-        frames = std::move(other.frames);
-        timer = other.timer;
-        current_frame = other.current_frame;
-    }
-    return *this;
-}
-
-const Texture2D& Animation::get() 
+const int Animator::get(int _number_of_frames) 
 {
 	timer += GetFrameTime();
-	if (timer <= 0.4) {
-		return frames[current_frame];
+	if (timer <= 0.4) 
+    {
+		return current_frame;
 	}
 	current_frame++;
 	timer = 0;
-	if (current_frame == frames.size()) {
+	if (current_frame == _number_of_frames) 
+    {
 		current_frame = 0;			
 	}		
-	return frames[current_frame];
+	return current_frame;
 }

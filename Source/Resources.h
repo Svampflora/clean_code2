@@ -2,23 +2,13 @@
 #include "raylib.h"
 #include "vector"
 
-class Animation 
+class Animator 
 {
-    std::vector<Texture2D> frames;
-    float timer;
-    int current_frame;
+    float timer = 0;
+    int current_frame = 0;
 
 public:
-
-
-    Animation(std::vector<Texture2D> _frames) : frames(std::move(_frames)), timer(0.0f), current_frame(0){}
-    Animation(const Animation& other) : frames(other.frames), timer(other.timer), current_frame(other.current_frame) {}
-    Animation& operator=(const Animation& other);
-    Animation(Animation&& other) noexcept : frames(std::move(other.frames)), timer(other.timer), current_frame(other.current_frame) {}
-    Animation& operator=(Animation&& other) noexcept;
-    ~Animation();
-
-    const Texture2D& get();
+    const int get(int _number_of_frames);
 };
 
 
@@ -28,6 +18,7 @@ class Resources
     Texture2D alienTexture;
     Texture2D barrierTexture;
     Texture2D laserTexture;
+    Animator animator;
 
     void Load();
 
@@ -43,4 +34,5 @@ public:
     const Texture2D& GetAlienTexture() const;
     const Texture2D& GetBarrierTexture() const;
     const Texture2D& GetLaserTexture() const;
+    const Texture2D& GetShipTexture();
 };
