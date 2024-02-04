@@ -48,7 +48,7 @@ public:
 int main(void)
 {    
     const int screenWidth = 1920;
-    const int screenHeight = 1000;
+    const int screenHeight = 1080;
 
     Window window(screenWidth, screenHeight);
     SetTargetFPS(60); 
@@ -61,13 +61,9 @@ int main(void)
         game.Update();
       
 
-        // Draw
-        //----------------------------------------------------------------------------------
         BeginDrawing();
 
         ClearBackground(BLACK);
-
-       
 
         game.Render();
 
