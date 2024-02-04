@@ -1,6 +1,7 @@
 #pragma once
-
 #include "raylib.h"
+
+
 
 struct Projectile  //TODO: make class  C.8: Use class rather than struct if any member is non-public
 {
