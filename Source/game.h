@@ -106,7 +106,7 @@ public:
 	void UpdatePlayer();
 	void HandleCollisions();
 	void UpdateGameObjects();
-	void CheckPlayerHealth();
+	bool PlayerHasHealth();
 	void CheckAlienAmount();
 	void AlienShooting();
 	void CheckPlayerShooting();

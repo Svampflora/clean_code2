@@ -5,6 +5,14 @@
 #include <chrono>
 #include <fstream>
 
+template<typename T, typename Func>
+void CheckConditionAndPerformAction(T value, Func action)
+{
+	if (value)
+	{
+		action();
+	}
+}
 
 template <typename T>
 void RenderObjects(const std::vector<T>& objects, const Texture& texture) {
@@ -63,10 +71,6 @@ void Game::HandleProjectileCollisions(std::vector<Projectile>& projectiles, std:
 	}
 }
 
-//Game::Game(): resources(), background(600), currentState(std::make_unique<Startscreen>(this))
-//{
-//}
-
 Game::Game()
 	: currentState(std::make_unique<Startscreen>(*this)),
 	rec({ 0, 0, 0, 0 }),
@@ -88,8 +92,6 @@ Game::Game()
 	newHighScore(false)
 {
 }
-
-
 
 void Game::Reset()
 {
@@ -190,14 +192,11 @@ void Game::SpawnAliens()
 		}
 	}
 }
-      
 
 bool Game::CheckNewHighScore() const
 {
 	return (score > Leaderboard[4].score);
 }
-
-
 
 void Game::InsertNewHighScore(std::string _name)
 {
@@ -287,12 +286,10 @@ void Game::UpdateGameObjects()
 	UpdateObjects(Walls);
 }
 
-void Game::CheckPlayerHealth()
+bool Game::PlayerHasHealth()
 {
-	if (player.GetLives() < 1)
-	{
-		Clear();
-	}
+	return (player.GetLives() < 1);
+
 }
 
 void Game::CheckAlienAmount()

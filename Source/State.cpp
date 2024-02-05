@@ -28,11 +28,20 @@ void Gameplay::Update()
 	{
 		game.Clear();
 		game.SwitchStates(std::make_unique<Endscreen>(game));
+		return;
 	}
 
 	game.UpdatePlayer();
 	game.UpdateAliens();
-	game.CheckPlayerHealth();
+
+	if (game.PlayerHasHealth())
+	{
+		game.Clear();
+		game.SwitchStates(std::make_unique<Endscreen>(game));
+		return;
+	}
+	
+
 	game.CheckAlienAmount();
 	game.UpdateGameObjects();
 	game.HandleCollisions();
@@ -41,7 +50,7 @@ void Gameplay::Update()
 	game.RemoveInactiveEntities();
 }
 
-void Gameplay::Render()// TODO: tampering with reference
+void Gameplay::Render()// TODO: tampering with reference, breaking demeter
 {
 	game.RenderBackground();
 
@@ -57,6 +66,7 @@ void Endscreen::Update() // TODO: alot of tampering with reference, Demeter it b
 	{
 		game.SaveLeaderboard();
 		game.SwitchStates(std::make_unique<Startscreen>(game));
+		return;
 
 	}
 
