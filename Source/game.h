@@ -8,7 +8,6 @@
 #include <vector>
 #include <string>
 
-//class State;
 
 struct HighScoreData
 {
@@ -60,7 +59,6 @@ public:
 
 class Game //TODO: make members non-public
 {
-public:
 	std::unique_ptr<State> currentState;
 	Rectangle rec; 
 	Resources resources;
@@ -78,21 +76,15 @@ public:
 	int alienSpacing;
 	int formationX;
 	int formationY;
-	bool newHighScore;
+	bool newHighScore; //shitty flag
 	
+public:
 
 	Game();
-	void Reset();
-	void Clear();
-	void Update();
-	void Render();
-	void DrawTextBox();
-	void DrawLeaderboard();
 	void SpawnAliens();
 	void MakeWalls();
 	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);
 	bool CheckNewHighScore() const;
-	void InsertNewHighScore(std::string name);                       
 	void LoadLeaderboard();
 	void SaveLeaderboard();
 	void RemoveInactiveEntities();
@@ -103,17 +95,29 @@ public:
 	template <typename ObjectType>
 	void HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects);
 	
+	int	GetScore() const;
+	int GetLives() const;
+	bool PlayerHasLives() const;
+	bool IsNewHighScore() const;
+	void InsertNewHighScore(std::string name);                      
+	void Update();
+	void Render();
 	void UpdatePlayer();
 	void HandleCollisions();
 	void UpdateGameObjects();
-	bool PlayerHasHealth();
 	void CheckAlienAmount();
 	void AlienShooting();
 	void CheckPlayerShooting();
 	void UpdateAliens();
+	void EnterName();
+	void Reset();
+	void Clear();
 
+	//TODO: delegate rendering properly
 	void RenderBackground();
 	void RenderGameObjects();
+	void DrawTextBox();
+	void DrawLeaderboard();
 
 	void SwitchStates(std::unique_ptr<State> newState);
 

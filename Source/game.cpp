@@ -56,14 +56,17 @@ template <typename ObjectType>
 void Game::HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects) {
 	for (Projectile& projectile : projectiles) {
 		for (ObjectType& object : objects) {
-			if (CheckProjectileCollision(projectile, object)) {
+			if (CheckProjectileCollision(projectile, object)) 
+			{
 				projectile.Impact();
 
-				if constexpr (std::is_same_v<ObjectType, Alien>) {
-					object.active = false;
+				if constexpr (std::is_same_v<ObjectType, Alien>) 
+				{
+					object.SetActive(false);
 					score += 100;
 				}
-				else if constexpr (std::is_same_v<ObjectType, Wall>) {
+				else if constexpr (std::is_same_v<ObjectType, Wall>) 
+				{
 					object.health -= 1;
 				}
 			}
@@ -180,15 +183,12 @@ void Game::DrawLeaderboard()
 
 void Game::SpawnAliens()
 {
-	for (int row = 0; row < formationHeight; row++) {
-		for (int col = 0; col < formationWidth; col++) {
-			Alien newAlien = Alien();
-			newAlien.active = true;
-			newAlien.position.x = formationX + 450.0f + (col * alienSpacing);
-			newAlien.position.y = static_cast<float>(formationY) + (row * alienSpacing);
-			Aliens.push_back(newAlien);
-			std::cout << "Find Alien -X:" << newAlien.position.x << std::endl;
-			std::cout << "Find Alien -Y:" << newAlien.position.y << std::endl;
+	for (int row = 0; row < formationHeight; row++) 
+	{
+		for (int col = 0; col < formationWidth; col++) 
+		{
+
+			Aliens.emplace_back(Alien{ {formationX + 450.0f + (col * alienSpacing), static_cast<float>(formationY) + (row * alienSpacing)} });
 		}
 	}
 }
@@ -262,7 +262,7 @@ void Game::RemoveInactiveEntities()
 	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.active; });
 	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.active; });
 	remove_if(Walls, [](const auto& projectile) { return !projectile.active; });
-	remove_if(Aliens, [](const auto& projectile) { return !projectile.active; });
+	remove_if(Aliens, [](const auto& alien) { return !alien.active; });
 }
 
 void Game::UpdatePlayer()
@@ -286,10 +286,25 @@ void Game::UpdateGameObjects()
 	UpdateObjects(Walls);
 }
 
-bool Game::PlayerHasHealth()
+int Game::GetScore() const
+{
+	return score;
+}
+
+int Game::GetLives() const
+{
+	return player.GetLives();
+}
+
+bool Game::PlayerHasLives() const
 {
 	return (player.GetLives() < 1);
 
+}
+
+bool Game::IsNewHighScore() const
+{
+	return newHighScore;
 }
 
 void Game::CheckAlienAmount()
@@ -308,7 +323,7 @@ void Game::AlienShooting()
 		if (Aliens.size() > 1)
 		{
 			int randomAlienIndex = rand() % Aliens.size();
-			enemyProjectiles.push_back(Projectile({ Aliens[randomAlienIndex].position.x, Aliens[randomAlienIndex].position.y + 40 }, -15));
+			enemyProjectiles.push_back(Projectile({ Aliens[randomAlienIndex].GetPosition().x, Aliens[randomAlienIndex].GetPosition().y + 40}, -15));
 
 		}
 		shootTimer = 0;
@@ -332,8 +347,62 @@ void Game::UpdateAliens()
 
 		if (alien.GetPosition().y > GetScreenHeight() - player.GetSize().y)
 		{
-			Clear();
+			Clear(); //TODO: switch state
 		}
+	}
+}
+
+void Game::EnterName()
+{
+	if (CheckCollisionPointRec(GetMousePosition(), textBox))
+	{
+		mouseOnText = true;
+	}
+	else
+	{
+		mouseOnText = false;
+	}
+
+	if (mouseOnText)
+	{
+		SetMouseCursor(MOUSE_CURSOR_IBEAM);
+		int key = GetCharPressed();
+
+		while (key > 0)
+		{
+			if ((key >= 32) && (key <= 125) && (letterCount < 9))
+			{
+				name[letterCount] = (char)key;
+				name[letterCount + 1] = '\0';
+				letterCount++;
+			}
+
+			key = GetCharPressed();
+		}
+
+		if (IsKeyPressed(KEY_BACKSPACE))
+		{
+			letterCount--;
+			if (letterCount < 0) letterCount = 0;
+			name[letterCount] = '\0';
+		}
+	}
+	else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+
+	if (mouseOnText)
+	{
+		framesCounter++;
+	}
+	else
+	{
+		framesCounter = 0;
+	}
+
+	if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
+	{
+		std::string nameEntry(name);
+		InsertNewHighScore(nameEntry);
+		newHighScore = false;
 	}
 }
 
@@ -430,7 +499,7 @@ void Wall::Render(const Texture2D& texture) const
 
 
 	DrawText(TextFormat("%i", health), static_cast<int>(position.x-21), static_cast<int>(position.y+10), 40, RED);
-	
+
 }
 
 void Wall::Update() 

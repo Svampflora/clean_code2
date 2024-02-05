@@ -32,9 +32,9 @@ void Gameplay::Update()
 	}
 
 	game.UpdatePlayer();
-	game.UpdateAliens();
+	game.UpdateAliens(); //TODO: need to be fixed. aliens reachin ground fucks shit up
 
-	if (game.PlayerHasHealth())
+	if (game.PlayerHasLives())
 	{
 		game.Clear();
 		game.SwitchStates(std::make_unique<Endscreen>(game));
@@ -54,85 +54,31 @@ void Gameplay::Render()// TODO: tampering with reference, breaking demeter
 {
 	game.RenderBackground();
 
-	DrawText(TextFormat("Score: %i", game.score), 50, 20, 40, YELLOW);
-	DrawText(TextFormat("Lives: %i", game.player.GetLives()), 50, 70, 40, YELLOW);
+	DrawText(TextFormat("Score: %i", game.GetScore()), 50, 20, 40, YELLOW);
+	DrawText(TextFormat("Lives: %i", game.GetLives()), 50, 70, 40, YELLOW);
 
 	game.RenderGameObjects();
 }
 
 void Endscreen::Update() // TODO: alot of tampering with reference, Demeter it better when UI has been improved
 {
-	if (IsKeyReleased(KEY_ENTER) && !game.newHighScore)
+	if (IsKeyReleased(KEY_ENTER) && !game.IsNewHighScore())
 	{
 		game.SaveLeaderboard();
 		game.SwitchStates(std::make_unique<Startscreen>(game));
 		return;
-
 	}
 
-	if (game.newHighScore)
+	if (game.IsNewHighScore())
 	{
-		if (CheckCollisionPointRec(GetMousePosition(), game.textBox)) game.mouseOnText = true;
-		else game.mouseOnText = false;
-
-		if (game.mouseOnText)
-		{
-			// Set the window's cursor to the I-Beam
-			SetMouseCursor(MOUSE_CURSOR_IBEAM);
-
-			// Get char pressed on the queue
-			int key = GetCharPressed();
-
-			// Check if more characters have been pressed on the same frame
-			while (key > 0)
-			{
-				// NOTE: Only allow keys in range [32..125]
-				if ((key >= 32) && (key <= 125) && (game.letterCount < 9))
-				{
-					game.name[game.letterCount] = (char)key;
-					game.name[game.letterCount + 1] = '\0'; // Add null terminator at the end of the string.
-					game.letterCount++;
-				}
-
-				key = GetCharPressed();  // Check next character in the queue
-			}
-
-			//Remove chars 
-			if (IsKeyPressed(KEY_BACKSPACE))
-			{
-				game.letterCount--;
-				if (game.letterCount < 0) game.letterCount = 0;
-				game.name[game.letterCount] = '\0';
-			}
-		}
-		else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-
-		if (game.mouseOnText)
-		{
-			game.framesCounter++;
-		}
-		else
-		{
-			game.framesCounter = 0;
-		}
-
-		// If the name is right legth and enter is pressed, exit screen by setting highscore to false and add 
-		// name + score to scoreboard
-		if (game.letterCount > 0 && game.letterCount < 9 && IsKeyReleased(KEY_ENTER))
-		{
-			std::string nameEntry(game.name);
-
-			game.InsertNewHighScore(nameEntry);
-
-			game.newHighScore = false;
-		}
+		game.EnterName();
 	}
 }
 
-void Endscreen::Render()// TODO: tampering with reference
+void Endscreen::Render()// TODO: should try and keep drawcalls in the Renderfunction
 {
 
-	if (game.newHighScore)
+	if (game.IsNewHighScore())
 	{
 		game.DrawTextBox();
 	}

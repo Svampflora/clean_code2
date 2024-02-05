@@ -1,5 +1,17 @@
 #include "Alien.h"
 
+Alien::Alien(Vector2 _position)
+{
+	color = WHITE;
+	position = _position;
+	radius = 30;
+	x = 0;					 //TODO: x, y?
+	y = 0;
+	speed = 2;
+	active = true;
+	moveRight = true;
+}
+
 Vector2 Alien::GetPosition() const
 {
 	return position;
@@ -8,6 +20,16 @@ Vector2 Alien::GetPosition() const
 float Alien::GetRadius() const
 {
 	return radius;
+}
+
+bool Alien::IsActive()
+{
+	return active;
+}
+
+void Alien::SetActive(bool _status)
+{
+	active = _status;
 }
 
 void Alien::Update()
