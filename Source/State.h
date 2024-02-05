@@ -7,8 +7,8 @@ class State
 protected:
 	Game& game;
 public:
-	State(Game& _game) : game(_game) {}
-	virtual ~State() {}
+	State(Game& _game);
+	virtual ~State();
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 };
@@ -17,7 +17,7 @@ public:
 class Startscreen : public State
 {
 public:
-	Startscreen(Game& _game) : State(_game) {}
+	Startscreen(Game& _game);
 	void Update() override;
 	void Render() override;
 };

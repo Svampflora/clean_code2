@@ -2,6 +2,10 @@
 #include "game.h"
 #include <memory>
 
+State::State(Game& _game) : game(_game) {}
+State::~State() {}
+
+Startscreen::Startscreen(Game& _game) : State(_game) {}
 
 void Startscreen::Update()
 {

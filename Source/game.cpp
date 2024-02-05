@@ -68,7 +68,7 @@ void Game::HandleProjectileCollisions(std::vector<Projectile>& projectiles, std:
 //}
 
 Game::Game()
-	: currentState(std::make_unique<Startscreen>(this)),
+	: currentState(std::make_unique<Startscreen>(*this)),
 	rec({ 0, 0, 0, 0 }),
 	resources(),
 	player(),

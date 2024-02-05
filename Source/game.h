@@ -1,4 +1,5 @@
 #pragma once
+#include "State.h"
 #include "Resources.h"
 #include "Player.h"
 #include "Alien.h"
@@ -7,7 +8,7 @@
 #include <vector>
 #include <string>
 
-class State;
+//class State;
 
 struct HighScoreData
 {
