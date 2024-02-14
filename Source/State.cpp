@@ -26,22 +26,20 @@ void Gameplay::Update()
 {
 	if (IsKeyReleased(KEY_Q))
 	{
-		game.Clear();
 		game.SwitchStates(std::make_unique<Endscreen>(game));
 		return;
 	}
 
 	game.UpdatePlayer();
-	game.UpdateAliens(); //TODO: need to be fixed. aliens reachin ground fucks shit up
+	
+	bool invaded = game.UpdateAliens();
 
-	if (game.PlayerHasLives())
+	if (!game.PlayerHasLives() || invaded)
 	{
-		game.Clear();
 		game.SwitchStates(std::make_unique<Endscreen>(game));
 		return;
 	}
 	
-
 	game.CheckAlienAmount();
 	game.UpdateGameObjects();
 	game.HandleCollisions();
@@ -50,7 +48,7 @@ void Gameplay::Update()
 	game.RemoveInactiveEntities();
 }
 
-void Gameplay::Render()// TODO: tampering with reference, breaking demeter
+void Gameplay::Render()
 {
 	game.RenderBackground();
 
@@ -60,24 +58,25 @@ void Gameplay::Render()// TODO: tampering with reference, breaking demeter
 	game.RenderGameObjects();
 }
 
-void Endscreen::Update() // TODO: alot of tampering with reference, Demeter it better when UI has been improved
+void Endscreen::Update()
 {
-	if (IsKeyReleased(KEY_ENTER) && !game.IsNewHighScore())
-	{
-		game.SaveLeaderboard();
-		game.SwitchStates(std::make_unique<Startscreen>(game));
-		return;
-	}
-
 	if (game.IsNewHighScore())
 	{
 		game.EnterName();
+		return;
+	}
+
+	if (IsKeyReleased(KEY_ENTER))
+	{
+		game.SaveLeaderboard();
+		game.Clear();
+		game.SwitchStates(std::make_unique<Startscreen>(game));
+		return;
 	}
 }
 
 void Endscreen::Render()// TODO: should try and keep drawcalls in the Renderfunction
 {
-
 	if (game.IsNewHighScore())
 	{
 		game.DrawTextBox();

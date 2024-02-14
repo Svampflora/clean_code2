@@ -91,8 +91,7 @@ Game::Game()
 	formationHeight(5),
 	alienSpacing(80),
 	formationX(100),
-	formationY(50),
-	newHighScore(false)
+	formationY(50)
 {
 }
 
@@ -101,6 +100,7 @@ void Game::Reset()
 
 	MakeWalls();
 	SpawnAliens();
+	player.Reset();
 	score = 0;
 
 }
@@ -122,13 +122,11 @@ void Game::MakeWalls()
 
 void Game::Clear()
 {
-	//SAVE SCORE AND UPDATE SCOREBOARD
 	playerProjectiles.clear();
 	enemyProjectiles.clear();
 	Walls.clear();
 	Aliens.clear();
-	newHighScore = CheckNewHighScore();
-
+	score = 0;
 }
 
 void Game::Update()
@@ -187,7 +185,6 @@ void Game::SpawnAliens()
 	{
 		for (int col = 0; col < formationWidth; col++) 
 		{
-
 			Aliens.emplace_back(Alien{ {formationX + 450.0f + (col * alienSpacing), static_cast<float>(formationY) + (row * alienSpacing)} });
 		}
 	}
@@ -208,13 +205,10 @@ void Game::InsertNewHighScore(std::string _name)
 	{
 		if (newData.score > Leaderboard[i].score)
 		{
-
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
-
 			Leaderboard.pop_back();
-
 			i = static_cast<int>(Leaderboard.size());
-
+			score = 0;
 		}
 	}
 }
@@ -298,13 +292,21 @@ int Game::GetLives() const
 
 bool Game::PlayerHasLives() const
 {
-	return (player.GetLives() < 1);
-
+	return (player.GetLives() > 0);
 }
 
 bool Game::IsNewHighScore() const
 {
-	return newHighScore;
+	return (score > Leaderboard[4].score); //TODO: hardcoded
+}
+
+bool Game::CheckAlienHasInvaded(const Alien& alien)
+{
+	if (alien.GetPosition().y > GetScreenHeight() - player.GetSize().y)
+	{
+		return true;
+	}
+	return false;
 }
 
 void Game::CheckAlienAmount()
@@ -339,17 +341,18 @@ void Game::CheckPlayerShooting()
 	}
 }
 
-void Game::UpdateAliens()
+bool Game::UpdateAliens()
 {
 	for (Alien& alien : Aliens)
 	{
 		alien.Update();
 
-		if (alien.GetPosition().y > GetScreenHeight() - player.GetSize().y)
+		if (CheckAlienHasInvaded(alien))
 		{
-			Clear(); //TODO: switch state
+			return true;
 		}
 	}
+	return false;
 }
 
 void Game::EnterName()
@@ -402,7 +405,6 @@ void Game::EnterName()
 	{
 		std::string nameEntry(name);
 		InsertNewHighScore(nameEntry);
-		newHighScore = false;
 	}
 }
 
@@ -513,9 +515,6 @@ void Wall::Update()
 
 
 }
-
-
-
 
 //BACKGROUND
 void Star::Update(float starOffset)

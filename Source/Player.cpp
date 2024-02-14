@@ -45,6 +45,12 @@ void Player::Hurt(int damage)
 	lives -= damage;
 }
 
+void Player::Reset()//TODO: repeating constructor values
+{
+	lives = 3;
+	position = { GetScreenWidth() * 0.5f, GetScreenHeight() - size.y }; 
+}
+
 Vector2 Player::GetSize() const
 {
 	return size;

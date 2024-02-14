@@ -16,6 +16,7 @@ class Alien
 
 public:
 	bool active; //TODO: stupid stupid 
+
 	Alien(Vector2 _position);
 	Vector2 GetPosition() const;
 	float GetRadius() const;

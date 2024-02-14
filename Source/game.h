@@ -76,7 +76,6 @@ class Game //TODO: make members non-public
 	int alienSpacing;
 	int formationX;
 	int formationY;
-	bool newHighScore; //shitty flag
 	
 public:
 
@@ -99,6 +98,8 @@ public:
 	int GetLives() const;
 	bool PlayerHasLives() const;
 	bool IsNewHighScore() const;
+	bool CheckAlienHasInvaded(const Alien& alien);
+	bool UpdateAliens();
 	void InsertNewHighScore(std::string name);                      
 	void Update();
 	void Render();
@@ -108,7 +109,6 @@ public:
 	void CheckAlienAmount();
 	void AlienShooting();
 	void CheckPlayerShooting();
-	void UpdateAliens();
 	void EnterName();
 	void Reset();
 	void Clear();
