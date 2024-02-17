@@ -5,6 +5,7 @@
 #include "Alien.h"
 #include "Projectile.h"
 #include "Wall.h"
+#include "Background.h"
 #include <memory>
 #include <vector>
 #include <string>
@@ -14,32 +15,6 @@ struct HighScoreData
 {
 	std::string name{};
 	int score = 0;
-};
-
-struct Star  //TODO:make proper background class
-{
-	Vector2 initPosition = { 0, 0 };
-	Vector2 position = { 0, 0 };
-	Color color = GRAY;
-	float size = 0;
-	float radius = size;
-	void Update(float starOffset);
-	void Render() const;
-};
-
-class Background
-{
-	std::vector<Star> Stars;
-	Vector2 playerPos{0.0f, 0.0f};
-	Vector2 cornerPos{0.0f,0.0f};
-	float offset = 0.0f;
-
-public:
-
-	Background(int starAmount);
-	void Update(const Player& player);
-	void Render();  //TODO: const ref
-
 };
 
 class Game

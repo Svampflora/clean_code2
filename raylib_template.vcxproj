@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="level.cpp" />
     <ClCompile Include="Source\Alien.cpp" />
+    <ClCompile Include="Source\Background.cpp" />
     <ClCompile Include="Source\game.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Player.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="level.h" />
     <ClInclude Include="Source\Alien.h" />
+    <ClInclude Include="Source\Background.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\Projectile.h" />
     <ClInclude Include="Source\State.h" />
