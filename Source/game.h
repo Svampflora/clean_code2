@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Alien.h"
 #include "Projectile.h"
+#include "Wall.h"
 #include <memory>
 #include <vector>
 #include <string>
@@ -13,22 +14,6 @@ struct HighScoreData
 {
 	std::string name{};
 	int score = 0;
-};
-
-struct Wall  //TODO: class
-{
-	Vector2 position{0.0f,0.0f};
-	Rectangle rec{};
-	Color color{};
-	int health = 50;
-	int radius = 60;
-	bool active = true; 
-
-public: 
-	Vector2 GetPosition() const;
-	float GetRadius() const;
-	void Render(const Texture2D& texture) const; //TODO: should pass in a const ref texture
-	void Update(); 
 };
 
 struct Star  //TODO:make proper background class
@@ -42,7 +27,7 @@ struct Star  //TODO:make proper background class
 	void Render() const;
 };
 
-class Background  //TODO: make into class  C.8: Use class rather than struct if any member is non-public
+class Background
 {
 	std::vector<Star> Stars;
 	Vector2 playerPos{0.0f, 0.0f};
@@ -57,10 +42,9 @@ public:
 
 };
 
-class Game //TODO: make members non-public
+class Game
 {
 	std::unique_ptr<State> currentState;
-	Rectangle rec; 
 	Resources resources;
 	Player player;
 	std::vector<Projectile> playerProjectiles;
@@ -77,16 +61,11 @@ class Game //TODO: make members non-public
 	int formationX;
 	int formationY;
 	
-public:
-
-	Game();
 	void SpawnAliens();
 	void MakeWalls();
 	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);
-	bool CheckNewHighScore() const;
 	void LoadLeaderboard();
-	void SaveLeaderboard();
-	void RemoveInactiveEntities();
+
 	template <typename Object>
 	bool CheckProjectileCollision(const Projectile& projectile, const Object& object);
 	template <typename ProjectileContainer, typename ObjectType>
@@ -94,14 +73,19 @@ public:
 	template <typename ObjectType>
 	void HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects);
 	
+public:
+	Game();
 	int	GetScore() const;
 	int GetLives() const;
 	bool PlayerHasLives() const;
 	bool IsNewHighScore() const;
 	bool CheckAlienHasInvaded(const Alien& alien);
 	bool UpdateAliens();
+	void SwitchStates(std::unique_ptr<State> newState);
 	void InsertNewHighScore(std::string name);                      
+	void RemoveInactiveEntities();
 	void Update();
+	void SaveLeaderboard();
 	void Render();
 	void UpdatePlayer();
 	void HandleCollisions();
@@ -119,14 +103,10 @@ public:
 	void DrawTextBox();
 	void DrawLeaderboard();
 
-	void SwitchStates(std::unique_ptr<State> newState);
-
 	//TODO: separate intertface object
-
-	//TEXTBOX ENTER
 	Rectangle textBox = { 600, 500, 225, 50 };
 	int letterCount = 0;
-	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0'
+	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0' //TODO: why not add it in the InsertNewHighscore?
 	bool mouseOnText = false;
 
 	int framesCounter = 0;

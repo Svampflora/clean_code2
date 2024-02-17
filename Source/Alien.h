@@ -3,7 +3,7 @@
 
 
 
-class Alien
+class Alien //TODO: make regular
 {
 
 	Color color;
@@ -13,14 +13,14 @@ class Alien
 	int y;
 	int speed;
 	bool moveRight;
+	bool active; 
 
 public:
-	bool active; //TODO: stupid stupid 
 
 	Alien(Vector2 _position);
 	Vector2 GetPosition() const;
 	float GetRadius() const;
-	bool IsActive();
+	bool Active() const;
 	void SetActive(bool _status);
 	void ChangeDirection();
 	void Update();

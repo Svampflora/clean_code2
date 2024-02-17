@@ -22,7 +22,7 @@ float Alien::GetRadius() const
 	return radius;
 }
 
-bool Alien::IsActive()
+bool Alien::Active() const
 {
 	return active;
 }

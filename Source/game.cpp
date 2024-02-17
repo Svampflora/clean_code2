@@ -67,7 +67,7 @@ void Game::HandleProjectileCollisions(std::vector<Projectile>& projectiles, std:
 				}
 				else if constexpr (std::is_same_v<ObjectType, Wall>) 
 				{
-					object.health -= 1;
+					object.Damage(1);
 				}
 			}
 		}
@@ -76,7 +76,6 @@ void Game::HandleProjectileCollisions(std::vector<Projectile>& projectiles, std:
 
 Game::Game()
 	: currentState(std::make_unique<Startscreen>(*this)),
-	rec({ 0, 0, 0, 0 }),
 	resources(),
 	player(),
 	playerProjectiles(),
@@ -113,10 +112,8 @@ void Game::MakeWalls()
 	const float wall_distance = window_width / (wallAmount + 1);
 
 	for (int i = 0; i < wallAmount; ++i) {
-		Wall newWall;
-		newWall.position.y = window_height - 250;
-		newWall.position.x = wall_distance * (i + 1);
-		Walls.push_back(newWall);
+		Wall _wall{ Vector2{wall_distance * (i + 1), window_height - 250} };
+		Walls.push_back(_wall);
 	}
 }
 
@@ -190,11 +187,6 @@ void Game::SpawnAliens()
 	}
 }
 
-bool Game::CheckNewHighScore() const
-{
-	return (score > Leaderboard[4].score);
-}
-
 void Game::InsertNewHighScore(std::string _name)
 {
 	HighScoreData newData;
@@ -255,8 +247,8 @@ void Game::RemoveInactiveEntities()
 {
 	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.active; });
 	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.active; });
-	remove_if(Walls, [](const auto& projectile) { return !projectile.active; });
-	remove_if(Aliens, [](const auto& alien) { return !alien.active; });
+	remove_if(Walls, [](const auto& projectile) { return !projectile.Active(); });
+	remove_if(Aliens, [](const auto& alien) { return !alien.Active(); });
 }
 
 void Game::UpdatePlayer()
@@ -468,51 +460,6 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineSta
 	{
 		return false;
 	}
-
-}
-
-float Wall::GetRadius() const
-{
-	return static_cast<float>(radius);
-}
-
-Vector2 Wall::GetPosition() const
-{
-	return position;
-}
-
-void Wall::Render(const Texture2D& texture) const
-{
-	DrawTexturePro(texture,
-		{
-			0,
-			0,
-			704,
-			704,
-		},
-		{
-			position.x,
-			position.y,
-			200,
-			200,
-		}, { 100 , 100 },
-		0,
-		WHITE);
-
-
-	DrawText(TextFormat("%i", health), static_cast<int>(position.x-21), static_cast<int>(position.y+10), 40, RED);
-
-}
-
-void Wall::Update() 
-{
-
-	// set walls as inactive when out of health
-	if (health < 1)
-	{
-		active = false;
-	}
-
 
 }
 
