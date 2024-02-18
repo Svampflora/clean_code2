@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
 
-class Wall  //TODO: make regular
+class Wall
 {
 	Vector2 position;
 	Rectangle rec;

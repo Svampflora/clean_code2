@@ -3,7 +3,7 @@
 
 
 
-class Player //TODO: make regular
+class Player
 {
 	Vector2 size = { 70.0f, 70.0f };
 	Vector2 position = { GetScreenWidth() * 0.5f, GetScreenHeight() - size.y};

@@ -5,7 +5,7 @@ Alien::Alien(Vector2 _position)
 	color = WHITE;
 	position = _position;
 	radius = 30;
-	x = 0;					 //TODO: x, y?
+	x = 0;					
 	y = 0;
 	speed = 2;
 	active = true;
@@ -58,11 +58,6 @@ void Alien::ChangeDirection() {
 
 void Alien::Render(const Texture2D& texture) const
 {
-	//DrawRectangle((int)position.x - 25, (int)position.y, 30, 30, RED);
-	//DrawCircle((int)position.x, (int)position.y, radius, GREEN);
-
-
-
 	DrawTexturePro(texture,
 		{
 			0,

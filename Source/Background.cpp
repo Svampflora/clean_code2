@@ -47,7 +47,7 @@ void Background::Update(const Player& player)
 	}
 }
 
-void Background::Render()
+void Background::Render() const
 {
 	for (int i = 0; i < Stars.size(); i++)
 	{

@@ -2,7 +2,7 @@
 #include "Player.h"
 #include <vector>
 
-class Star  //TODO:make regular
+class Star
 {
 	Vector2 initPosition;
 	Vector2 position;
@@ -27,6 +27,6 @@ public:
 
 	Background(int starAmount);
 	void Update(const Player& player);
-	void Render();  //TODO: const ref
+	void Render() const;
 
 };

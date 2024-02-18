@@ -42,7 +42,8 @@ Resources::Resources()
 
 //copy constructor
 Resources::Resources(const Resources& other)
-    : shipTextures(other.shipTextures.size())
+    : shipTextures(other.shipTextures.size()),
+    animator(other.animator)
 {
     for (size_t i = 0; i < other.shipTextures.size(); ++i) 
     {
@@ -53,7 +54,7 @@ Resources::Resources(const Resources& other)
     barrierTexture = other.barrierTexture;
     laserTexture = other.laserTexture;
 
-    Load();
+    //Load();
 }
 
 //copy assignment operator
@@ -71,8 +72,9 @@ Resources& Resources::operator=(const Resources& other)
         alienTexture = other.alienTexture;
         barrierTexture = other.barrierTexture;
         laserTexture = other.laserTexture;
+        animator = other.animator;
 
-        Load();
+        //Load();
     }
     return *this;
 }
@@ -82,7 +84,8 @@ Resources::Resources(Resources&& other) noexcept
     : shipTextures(std::move(other.shipTextures)),
     alienTexture(std::move(other.alienTexture)),
     barrierTexture(std::move(other.barrierTexture)),
-    laserTexture(std::move(other.laserTexture)) 
+    laserTexture(std::move(other.laserTexture)),
+    animator(std::move(other.animator))
 {
 }
 
@@ -95,6 +98,7 @@ Resources& Resources::operator=(Resources&& other) noexcept
         alienTexture = std::move(other.alienTexture);
         barrierTexture = std::move(other.barrierTexture);
         laserTexture = std::move(other.laserTexture);
+        animator = std::move(other.animator);
     }
     return *this;
 }
@@ -127,7 +131,7 @@ const Texture2D& Resources::GetLaserTexture() const
 
 const Texture2D& Resources::GetShipTexture()
 {
-    int frame = animator.get(shipTextures.size());
+    int frame = animator.get(static_cast<int>(shipTextures.size()));
     return shipTextures[frame];
 }
 

@@ -6,7 +6,7 @@ class Animator
 {
     float timer = 0;
     int current_frame = 0;
-
+    
 public:
     const int get(int _number_of_frames);
 };

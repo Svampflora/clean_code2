@@ -3,18 +3,18 @@
 
 
 
-class Alien //TODO: make regular
+class Alien
 {
-
 	Color color;
 	Vector2 position;
 	float radius;
-	int x;					 //TODO: x, y?
+	int x;
 	int y;
 	int speed;
 	bool moveRight;
 	bool active; 
 
+	void ChangeDirection();
 public:
 
 	Alien(Vector2 _position);
@@ -22,7 +22,6 @@ public:
 	float GetRadius() const;
 	bool Active() const;
 	void SetActive(bool _status);
-	void ChangeDirection();
 	void Update();
 	void Render(const Texture2D& _texture) const;
 };
