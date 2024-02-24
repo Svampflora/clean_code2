@@ -10,7 +10,7 @@ Projectile::Projectile(Vector2 _position, int _speed)
 
 std::pair<Vector2, Vector2> Projectile::GetEdges() const
 {
-	std::pair<Vector2, Vector2> edges = { lineStart, lineEnd };
+	std::pair<Vector2, Vector2> edges = { {position.x, position.y - 15}, {position.x, position.y + 15} };
 	return edges;
 }
 
@@ -22,13 +22,6 @@ bool Projectile::Active() const
 void Projectile::Update()
 {
 	position.y -= speed;
-
-	// UPDATE LINE POSITION
-	lineStart.y = position.y - 15;
-	lineEnd.y = position.y + 15;
-
-	lineStart.x = position.x;
-	lineEnd.x = position.x;
 
 	if (position.y < 0 || position.y > 1500)
 	{

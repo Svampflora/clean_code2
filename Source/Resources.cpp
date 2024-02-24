@@ -54,7 +54,6 @@ Resources::Resources(const Resources& other)
     barrierTexture = other.barrierTexture;
     laserTexture = other.laserTexture;
 
-    //Load();
 }
 
 //copy assignment operator
@@ -73,8 +72,6 @@ Resources& Resources::operator=(const Resources& other)
         barrierTexture = other.barrierTexture;
         laserTexture = other.laserTexture;
         animator = other.animator;
-
-        //Load();
     }
     return *this;
 }
