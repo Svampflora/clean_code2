@@ -1,9 +1,10 @@
 #pragma once
 #include "raylib.h"
+#include <utility>
 
 
 
-struct Projectile  //TODO: make class  C.8: Use class rather than struct if any member is non-public
+class Projectile
 {
 	Vector2 position = { 0,0 };
 	Vector2 lineStart = { 0, 0 };
@@ -14,7 +15,9 @@ struct Projectile  //TODO: make class  C.8: Use class rather than struct if any 
 public:
 
 	Projectile(Vector2 _position, int _speed);
+	std::pair<Vector2, Vector2> GetEdges() const;
+	bool Active() const;
 	void Update();
 	void Impact();
-	void Render(const Texture2D& texture) const;//TODO: should pass in a const ref for texture
+	void Render(const Texture2D& texture) const;
 };

@@ -38,7 +38,7 @@ class Game
 	
 	void SpawnAliens();
 	void MakeWalls();
-	bool CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineTop, Vector2 lineBottom);
+	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);
 	void LoadLeaderboard();
 
 	template <typename Object>
@@ -72,7 +72,7 @@ public:
 	void Reset();
 	void Clear();
 
-	//TODO: delegate rendering properly
+	//TODO: delegate rendering more clearly
 	void RenderBackground();
 	void RenderGameObjects();
 	void DrawTextBox();

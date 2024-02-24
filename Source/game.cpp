@@ -37,7 +37,7 @@ void remove_if(Container& container, Predicate predicate) {
 
 template <typename Object>
 bool Game::CheckProjectileCollision(const Projectile& projectile, const Object& object) {
-	return CheckCollision(object.GetPosition(), object.GetRadius(), projectile.lineStart, projectile.lineEnd);
+	return CheckCollision(object.GetPosition(), object.GetRadius(), projectile.GetEdges());
 }
 
 template <typename ProjectileContainer, typename ObjectType>
@@ -245,8 +245,8 @@ void Game::SaveLeaderboard() //TODO: does not save to file
 
 void Game::RemoveInactiveEntities()
 {
-	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.active; });
-	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.active; });
+	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.Active(); });
+	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(Walls, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(Aliens, [](const auto& alien) { return !alien.Active(); });
 }
@@ -326,7 +326,7 @@ void Game::AlienShooting()
 
 void Game::CheckPlayerShooting()
 {
-	if (IsKeyPressed(KEY_SPACE)) //TODO: should be part of player Input?
+	if (IsKeyPressed(KEY_SPACE))
 	{
 		float window_height = static_cast<float>(GetScreenHeight());
 		playerProjectiles.push_back(Projectile({ player.GetPosition().x, window_height - 130 }, 15));
@@ -419,15 +419,15 @@ void Game::RenderBackground()
 	background.Render();
 }
 
-bool Game::CheckCollision(Vector2 circlePos, float circleRadius, Vector2 lineStart, Vector2 lineEnd)
+bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges)
 {
-	if (CheckCollisionPointCircle(lineStart, circlePos, circleRadius) || CheckCollisionPointCircle(lineEnd, circlePos, circleRadius))
+	if (CheckCollisionPointCircle(edges.first, circlePos, circleRadius) || CheckCollisionPointCircle(edges.second, circlePos, circleRadius))
 	{
 		return true;
 	}
 
-	Vector2 A = lineStart;
-	Vector2 B = lineEnd;
+	Vector2 A = edges.first;
+	Vector2 B = edges.second ;
 	Vector2 C = circlePos;
 
 	float length = Vector2Distance(A, B);

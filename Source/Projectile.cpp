@@ -8,6 +8,17 @@ Projectile::Projectile(Vector2 _position, int _speed)
 	speed = _speed;
 }
 
+std::pair<Vector2, Vector2> Projectile::GetEdges() const
+{
+	std::pair<Vector2, Vector2> edges = { lineStart, lineEnd };
+	return edges;
+}
+
+bool Projectile::Active() const
+{
+	return active;
+}
+
 void Projectile::Update()
 {
 	position.y -= speed;

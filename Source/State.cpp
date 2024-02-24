@@ -75,7 +75,7 @@ void Endscreen::Update()
 	}
 }
 
-void Endscreen::Render()// TODO: should try and keep drawcalls in the Renderfunction
+void Endscreen::Render()
 {
 	if (game.IsNewHighScore())
 	{
