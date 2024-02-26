@@ -23,6 +23,7 @@
 
 #include "raylib.h"
 #include "game.h"
+#include <iostream>
 
 
 class Window
@@ -47,38 +48,39 @@ public:
 
 int main(void)
 {    
-    const int screenWidth = 1920;
-    const int screenHeight = 1080;
+    try
+    { 
+        const int screenWidth = 1920;
+        const int screenHeight = 1080;
 
-    Window window(screenWidth, screenHeight);
-    SetTargetFPS(60); 
+        Window window(screenWidth, screenHeight);
+        SetTargetFPS(60); 
 
-    Game game{};
+        Game game{};
 
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
+        while (!WindowShouldClose())    // Detect window close button or ESC key
+        {
 
-        game.Update();
-      
+            game.Update();
+          
 
-        BeginDrawing();
+            BeginDrawing();
 
-        ClearBackground(BLACK);
+            ClearBackground(BLACK);
 
-        game.Render();
+            game.Render();
 
-        EndDrawing();
-        //----------------------------------------------------------------------------------
+            EndDrawing();
+
+             std::string filename = "level.txt";  
+        }
     }
-
+    catch (const std::exception& _exception)
+    {
+        std::cerr << "Exception caught: " << _exception.what() << std::endl;
+    }
  
     
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    //CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
-    std::string filename = "level.txt";  
 
     return 0;
 }
