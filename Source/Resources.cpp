@@ -37,7 +37,7 @@ const Texture2D& Resources::GetShipTexture()
     return shipTextures[frame].texture;
 }
 
-const int Animator::get(int _number_of_frames) 
+const int Animator::get(int _number_of_frames)
 {
 	timer += GetFrameTime();
 	if (timer <= 0.4) 

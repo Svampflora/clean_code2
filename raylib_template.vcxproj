@@ -163,7 +163,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="level.cpp" />
     <ClCompile Include="Source\Alien.cpp" />
     <ClCompile Include="Source\Background.cpp" />
     <ClCompile Include="Source\game.cpp" />
@@ -175,7 +174,6 @@
     <ClCompile Include="Source\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="level.h" />
     <ClInclude Include="Source\Alien.h" />
     <ClInclude Include="Source\Background.h" />
     <ClInclude Include="Source\game.h" />

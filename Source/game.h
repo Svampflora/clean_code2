@@ -54,14 +54,13 @@ public:
 	int GetLives() const;
 	bool PlayerHasLives() const;
 	bool IsNewHighScore() const;
-	bool CheckAlienHasInvaded(const Alien& alien);
+	bool CheckAlienHasInvaded(const Alien& alien) const;
 	bool UpdateAliens();
 	void SwitchStates(std::unique_ptr<State> newState);
 	void InsertNewHighScore(std::string name);                      
 	void RemoveInactiveEntities();
 	void Update();
 	void SaveLeaderboard();
-	void Render();
 	void UpdatePlayer();
 	void HandleCollisions();
 	void UpdateGameObjects();
@@ -71,21 +70,19 @@ public:
 	void EnterName();
 	void Reset();
 	void Clear();
-
-	//TODO: delegate rendering more clearly
-	void DrawTitle();
-	void RenderStats();
-	void RenderBackground();
+	void Render();
+	void DrawTitle() const;
+	void RenderStats() const;
+	void RenderBackground() const;
 	void RenderGameObjects();
-	void DrawTextBox();
-	void DrawLeaderboard();
+	void DrawTextBox() const;
+	void DrawLeaderboard() const;
 
 	//TODO: separate intertface object
 	Rectangle textBox = { 600, 500, 225, 50 };
 	int letterCount = 0;
 	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0' //TODO: why not add it in the InsertNewHighscore?
 	bool mouseOnText = false;
-
 	int framesCounter = 0;
 
 };

@@ -16,7 +16,7 @@ void Startscreen::Update()
 	}
 }
 
-void Startscreen::Render() //TODO: raystuff in game
+void Startscreen::Render()
 {
 	game.DrawTitle();
 }

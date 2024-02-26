@@ -137,7 +137,7 @@ void Game::Render()
 	currentState->Render();
 }
 
-void Game::DrawTextBox()
+void Game::DrawTextBox() const
 {
 	Color borderColor = mouseOnText ? RED : DARKGRAY;
 	DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, borderColor);
@@ -164,7 +164,7 @@ void Game::DrawTextBox()
 	}
 }
 
-void Game::DrawLeaderboard()
+void Game::DrawLeaderboard() const
 {
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
@@ -276,7 +276,7 @@ bool Game::IsNewHighScore() const
 	return (score > Leaderboard[4].score); //TODO: hardcoded
 }
 
-bool Game::CheckAlienHasInvaded(const Alien& alien)
+bool Game::CheckAlienHasInvaded(const Alien& alien) const
 {
 	if (alien.GetPosition().y > GetScreenHeight() - player.GetSize().y)
 	{
@@ -398,19 +398,19 @@ void Game::RenderGameObjects()
 	RenderObjects(Aliens, resources.GetAlienTexture());
 }
 
-void Game::DrawTitle()
+void Game::DrawTitle() const
 {
 	DrawText("SPACE INVADERS", 200, 100, 160, YELLOW);
 	DrawText("PRESS SPACE TO BEGIN", 200, 350, 40, YELLOW);
 }
 
-void Game::RenderStats()
+void Game::RenderStats() const
 {
 	DrawText(TextFormat("Score: %i", GetScore()), 50, 20, 40, YELLOW);
 	DrawText(TextFormat("Lives: %i", GetLives()), 50, 70, 40, YELLOW);
 }
 
-void Game::RenderBackground()
+void Game::RenderBackground() const
 {
 	background.Render();
 }

@@ -58,29 +58,19 @@ int main(void)
 
         Game game{};
 
-        while (!WindowShouldClose())    // Detect window close button or ESC key
+        while (!WindowShouldClose())
         {
-
             game.Update();
-          
-
             BeginDrawing();
-
             ClearBackground(BLACK);
-
             game.Render();
-
             EndDrawing();
-
-             std::string filename = "level.txt";  
         }
     }
     catch (const std::exception& _exception)
     {
         std::cerr << "Exception caught: " << _exception.what() << std::endl;
     }
- 
-    
 
     return 0;
 }

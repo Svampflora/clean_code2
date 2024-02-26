@@ -45,7 +45,7 @@ void Player::Hurt(int damage)
 	lives -= damage;
 }
 
-void Player::Reset()//TODO: repeating constructor values
+void Player::Reset()
 {
 	lives = 3;
 	position = { GetScreenWidth() * 0.5f, GetScreenHeight() - size.y }; 
