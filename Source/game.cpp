@@ -207,22 +207,11 @@ void Game::InsertNewHighScore(std::string _name)
 
 void Game::LoadLeaderboard() //TODO: empty
 {
-	// CLEAR LEADERBOARD
 
-	// OPEN FILE
-
-	// READ DATA
-
-	// WRITE DATA ONTO LEADERBOARD
-
-	//CLOSE FILE
 }
 
 void Game::SaveLeaderboard() //TODO: does not save to file 
 {
-	// SAVE LEADERBOARD AS ARRAY
-
-	// OPEN FILE
 	std::fstream file;
 
 	file.open("Leaderboard");
@@ -236,11 +225,6 @@ void Game::SaveLeaderboard() //TODO: does not save to file
 	{
 		std::cout << "file found \n";
 	}
-	// CLEAR FILE
-
-	// WRITE ARRAY DATA INTO FILE
-
-	// CLOSE FILE
 }
 
 void Game::RemoveInactiveEntities()
@@ -412,6 +396,18 @@ void Game::RenderGameObjects()
 	RenderObjects(playerProjectiles, resources.GetLaserTexture());
 	RenderObjects(Walls, resources.GetBarrierTexture());
 	RenderObjects(Aliens, resources.GetAlienTexture());
+}
+
+void Game::DrawTitle()
+{
+	DrawText("SPACE INVADERS", 200, 100, 160, YELLOW);
+	DrawText("PRESS SPACE TO BEGIN", 200, 350, 40, YELLOW);
+}
+
+void Game::RenderStats()
+{
+	DrawText(TextFormat("Score: %i", GetScore()), 50, 20, 40, YELLOW);
+	DrawText(TextFormat("Lives: %i", GetLives()), 50, 70, 40, YELLOW);
 }
 
 void Game::RenderBackground()

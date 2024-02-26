@@ -37,9 +37,7 @@ public:
     Texture_Container laserTexture;
     Animator animator;
 
-
      Resources();
-
 
     const Texture2D& GetAlienTexture() const;
     const Texture2D& GetBarrierTexture() const;

@@ -16,10 +16,9 @@ void Startscreen::Update()
 	}
 }
 
-void Startscreen::Render()
+void Startscreen::Render() //TODO: raystuff in game
 {
-	DrawText("SPACE INVADERS", 200, 100, 160, YELLOW);
-	DrawText("PRESS SPACE TO BEGIN", 200, 350, 40, YELLOW);
+	game.DrawTitle();
 }
 
 void Gameplay::Update()
@@ -51,10 +50,7 @@ void Gameplay::Update()
 void Gameplay::Render()
 {
 	game.RenderBackground();
-
-	DrawText(TextFormat("Score: %i", game.GetScore()), 50, 20, 40, YELLOW);
-	DrawText(TextFormat("Lives: %i", game.GetLives()), 50, 70, 40, YELLOW);
-
+	game.RenderStats();
 	game.RenderGameObjects();
 }
 

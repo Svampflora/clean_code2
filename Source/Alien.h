@@ -11,7 +11,6 @@ class Alien
 	int x;
 	int y;
 	int speed;
-	bool moveRight;
 	bool active; 
 
 	void ChangeDirection();

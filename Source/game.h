@@ -73,6 +73,8 @@ public:
 	void Clear();
 
 	//TODO: delegate rendering more clearly
+	void DrawTitle();
+	void RenderStats();
 	void RenderBackground();
 	void RenderGameObjects();
 	void DrawTextBox();

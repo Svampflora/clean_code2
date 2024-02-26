@@ -9,7 +9,6 @@ Alien::Alien(Vector2 _position)
 	y = 0;
 	speed = 2;
 	active = true;
-	moveRight = true;
 }
 
 Vector2 Alien::GetPosition() const
@@ -34,43 +33,21 @@ void Alien::SetActive(bool _status)
 
 void Alien::Update()
 {
-	if (moveRight) {
-		position.x += speed;
-
-		if (position.x >= GetScreenWidth()) {
-			ChangeDirection();
-		}
-	}
-	else {
-		position.x -= speed;
-
-		if (position.x <= 0) {
-			ChangeDirection();
-		}
+	position.x += speed;
+	
+	if (position.x >= GetScreenWidth() || position.x <= 0)
+	{
+		ChangeDirection();
 	}
 }
 
-
-void Alien::ChangeDirection() {
-	moveRight = !moveRight;
+void Alien::ChangeDirection() 
+{
+	speed *= -1;
 	position.y += 50;
 }
 
 void Alien::Render(const Texture2D& texture) const
 {
-	DrawTexturePro(texture,
-		{
-			0,
-			0,
-			352,
-			352,
-		},
-		{
-			position.x,
-			position.y,
-			100,
-			100,
-		}, { 50 , 50 },
-		0,
-		WHITE);
+	DrawTexturePro(texture,{0,0,352,352,},{position.x,position.y,100,100,}, { 50 , 50 },0,WHITE);
 }
