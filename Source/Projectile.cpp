@@ -36,20 +36,5 @@ void Projectile::Impact()
 
 void Projectile::Render(const Texture2D& texture) const
 {
-	//DrawCircle((int)position.x, (int)position.y, 10, RED);
-	DrawTexturePro(texture,
-		{
-			0,
-			0,
-			176,
-			176,
-		},
-		{
-			position.x,
-			position.y,
-			50,
-			50,
-		}, { 25 , 25 },
-		0,
-		WHITE);
+	DrawTexturePro(texture,{0,0,176,176,},{position.x,position.y,50,50,}, { 25 , 25 },0, WHITE);
 }
