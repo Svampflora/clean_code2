@@ -14,7 +14,7 @@ void CheckConditionAndPerformAction(T value, Func action)
 	}
 }
 
-template <typename T>
+template <typename T> [[gsl::suppress(f.6)]]
 void RenderObjects(const std::vector<T>& objects, const Texture& texture) 
 {
 	for (const T& obj : objects) 
@@ -23,7 +23,7 @@ void RenderObjects(const std::vector<T>& objects, const Texture& texture)
 	}
 }
 
-template <typename T>
+template <typename T> [[gsl::suppress(f.6)]]
 void UpdateObjects(std::vector<T>& objects) 
 {
 	for (T& obj : objects) 
@@ -152,7 +152,7 @@ void Game::DrawTextBox() const noexcept
 	const Color borderColor = mouseOnText ? RED : DARKGRAY;
 	DrawRectangleLines(static_cast<int>(textBox.x), static_cast<int>(textBox.y), static_cast<int>(textBox.width), static_cast<int>(textBox.height), borderColor);
 
-	DrawText(name, static_cast<int>(textBox.x + 5), static_cast<int>(textBox.y + 8), 40, MAROON);
+	DrawText(name.c_str(), static_cast<int>(textBox.x + 5), static_cast<int>(textBox.y + 8), 40, MAROON);
 
 	DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, 8), 600, 600, 20, YELLOW);
 
@@ -160,7 +160,7 @@ void Game::DrawTextBox() const noexcept
 	{
 		if ((framesCounter / 20) % 2 == 0)
 		{
-			DrawText("_", static_cast<int>(textBox.x + 8 + MeasureText(name, 40)), static_cast<int>(textBox.y + 12), 40, MAROON);
+			DrawText("_", static_cast<int>(textBox.x + 8 + MeasureText(name.c_str(), 40)), static_cast<int>(textBox.y + 12), 40, MAROON);
 		}
 	}
 	else if (mouseOnText)
@@ -209,6 +209,7 @@ void Game::InsertNewHighScore(std::string _name) noexcept
 		{
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
 			Leaderboard.pop_back();
+			[[gsl::suppress(type.1)]]
 			i = static_cast<int>(Leaderboard.size());
 			score = 0;
 		}
@@ -237,11 +238,12 @@ void Game::SaveLeaderboard() //TODO: does not save to file
 	}
 }
 
-void Game::RemoveInactiveEntities() 
+void Game::RemoveInactiveEntities() noexcept
 {
+	[[gsl::suppress(f.6)]]
+	remove_if(Walls, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.Active(); });
-	remove_if(Walls, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(Aliens, [](const auto& alien) { return !alien.Active(); });
 }
 
@@ -361,19 +363,17 @@ void Game::EnterName() noexcept
 		{
 			if ((key >= 32) && (key <= 125) && (letterCount < 9))
 			{
-				name[letterCount] = static_cast<char>(key);
-				name[letterCount + 1] = '\0';
+				name += static_cast<char>(key);
 				letterCount++;
 			}
 
 			key = GetCharPressed();
 		}
 
-		if (IsKeyPressed(KEY_BACKSPACE))
+		if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0)
 		{
+			name.pop_back();
 			letterCount--;
-			if (letterCount < 0) letterCount = 0;
-			name[letterCount] = '\0';
 		}
 	}
 	else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
@@ -389,8 +389,8 @@ void Game::EnterName() noexcept
 
 	if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
 	{
-		std::string nameEntry(name);
-		InsertNewHighScore(nameEntry);
+		//std::string nameEntry(name);
+		InsertNewHighScore(name);
 	}
 }
 

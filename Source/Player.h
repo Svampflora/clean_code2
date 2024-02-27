@@ -7,10 +7,6 @@
 #pragma warning(pop)
 
 
-//#include "raylib.h"
-
-
-
 class Player
 {
 	Vector2 size = { 70.0f, 70.0f };

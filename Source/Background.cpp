@@ -1,6 +1,11 @@
 #include "Background.h"
+#include <codeanalysis\warnings.h>
+#pragma warning(push)
+#pragma warning(disable:ALL_CODE_ANALYSIS_WARNINGS)
 #include "raylib.h"
 #include "raymath.h"
+#pragma warning(pop)
+
 
 
 Star::Star(Vector2 _start_position, Color _color, float _size) noexcept

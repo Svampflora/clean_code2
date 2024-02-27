@@ -1,6 +1,6 @@
 #include "Alien.h"
 
-Alien::Alien(Vector2 _position)
+Alien::Alien(Vector2 _position) noexcept
 {
 	color = WHITE;
 	position = _position;
@@ -11,27 +11,27 @@ Alien::Alien(Vector2 _position)
 	active = true;
 }
 
-Vector2 Alien::GetPosition() const
+Vector2 Alien::GetPosition() const noexcept
 {
 	return position;
 }
 
-float Alien::GetRadius() const
+float Alien::GetRadius() const noexcept
 {
 	return radius;
 }
 
-bool Alien::Active() const
+bool Alien::Active() const noexcept
 {
 	return active;
 }
 
-void Alien::SetActive(bool _status)
+void Alien::SetActive(bool _status) noexcept
 {
 	active = _status;
 }
 
-void Alien::Update()
+void Alien::Update() noexcept
 {
 	position.x += speed;
 	
@@ -41,13 +41,13 @@ void Alien::Update()
 	}
 }
 
-void Alien::ChangeDirection() 
+void Alien::ChangeDirection() noexcept
 {
 	speed *= -1;
 	position.y += 50;
 }
 
-void Alien::Render(const Texture2D& texture) const
+void Alien::Render(const Texture2D& texture) const noexcept
 {
 	DrawTexturePro(texture,{0,0,352,352,},{position.x,position.y,100,100,}, { 50 , 50 },0,WHITE);
 }

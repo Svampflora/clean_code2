@@ -33,6 +33,7 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
 
 const Texture2D& Resources::GetShipTexture() noexcept
 {
+    [[gsl::suppress(type.1)]]
     const int frame = animator.get(static_cast<int>(shipTextures.size()));
     
     return shipTextures.at(frame).texture;

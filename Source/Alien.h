@@ -1,5 +1,9 @@
 #pragma once
+#include <codeanalysis\warnings.h>
+#pragma warning(push)
+#pragma warning(disable:ALL_CODE_ANALYSIS_WARNINGS)
 #include "raylib.h"
+#pragma warning(pop)
 
 
 
@@ -13,14 +17,14 @@ class Alien
 	int speed;
 	bool active; 
 
-	void ChangeDirection();
+	void ChangeDirection() noexcept;
 public:
 
-	Alien(Vector2 _position);
-	Vector2 GetPosition() const;
-	float GetRadius() const;
-	bool Active() const;
-	void SetActive(bool _status);
-	void Update();
-	void Render(const Texture2D& _texture) const;
+	Alien(Vector2 _position) noexcept;
+	Vector2 GetPosition() const noexcept;
+	float GetRadius() const noexcept;
+	bool Active() const noexcept;
+	void SetActive(bool _status) noexcept;
+	void Update() noexcept;
+	void Render(const Texture2D& _texture) const noexcept;
 };

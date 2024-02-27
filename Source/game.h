@@ -6,7 +6,6 @@
 #include "raymath.h"
 #pragma warning(pop)
 
-//#include "raylib.h"
 #include "State.h"
 #include "Resources.h"
 #include "Player.h"
@@ -72,7 +71,7 @@ public:
 	void UpdateGameObjects();
 	void HandleCollisions();
 	void AlienShooting();
-	void RemoveInactiveEntities();
+	void RemoveInactiveEntities() noexcept;
 	void Render();
 	void DrawTitle() const noexcept;
 	void RenderStats() const noexcept;
@@ -89,7 +88,7 @@ public:
 	//TODO: separate intertface object
 	Rectangle textBox = { 600, 500, 225, 50 };
 	int letterCount = 0;
-	char name[9 + 1] = "\0";      //One extra space required for null terminator char '\0' //TODO: why not add it in the InsertNewHighscore?
+	std::string name{};
 	bool mouseOnText = false;
 	int framesCounter = 0;
 

@@ -21,7 +21,6 @@
 *
 ********************************************************************************************/
 
-#include "raylib.h"
 #include "game.h"
 #include <iostream>
 
@@ -30,7 +29,7 @@ class Window
 {
 
 public:
-    Window(int screenWidth, int screenHeight)
+    Window(int screenWidth, int screenHeight) noexcept
     {
         InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
     }
@@ -50,8 +49,8 @@ int main(void)
 {    
     try
     { 
-        const int screenWidth = 1920;
-        const int screenHeight = 1080;
+        constexpr int screenWidth = 1920;
+        constexpr int screenHeight = 1080;
 
         Window window(screenWidth, screenHeight);
         SetTargetFPS(60); 
