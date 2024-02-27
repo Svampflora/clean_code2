@@ -1,8 +1,8 @@
   #include "Resources.h"
 #include <iostream>
 
-
-Resources::Resources() : 
+[[gsl::suppress(f.6)]]
+Resources::Resources() :
     alienTexture { "./Assets/Alien.png"sv },
     barrierTexture{ "./Assets/Barrier.png"sv },
     laserTexture{ "./Assets/Laser.png"sv },
@@ -16,28 +16,29 @@ Resources::Resources() :
 }
 
 
-const Texture2D& Resources::GetAlienTexture() const 
+const Texture2D& Resources::GetAlienTexture() const noexcept
 {
     return alienTexture.texture;
 }
 
-const Texture2D& Resources::GetBarrierTexture() const 
+const Texture2D& Resources::GetBarrierTexture() const noexcept
 {
     return barrierTexture.texture;
 }
 
-const Texture2D& Resources::GetLaserTexture() const 
+const Texture2D& Resources::GetLaserTexture() const noexcept
 {
     return laserTexture.texture;
 }
 
-const Texture2D& Resources::GetShipTexture()
+const Texture2D& Resources::GetShipTexture() noexcept
 {
-    int frame = animator.get(static_cast<int>(shipTextures.size()));
-    return shipTextures[frame].texture;
+    const int frame = animator.get(static_cast<int>(shipTextures.size()));
+    
+    return shipTextures.at(frame).texture;
 }
 
-const int Animator::get(int _number_of_frames)
+const int Animator::get(int _number_of_frames) noexcept
 {
 	timer += GetFrameTime();
 	if (timer <= 0.4) 

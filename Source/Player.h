@@ -1,5 +1,13 @@
 #pragma once
+
+#include <codeanalysis\warnings.h>
+#pragma warning(push)
+#pragma warning(disable:ALL_CODE_ANALYSIS_WARNINGS)
 #include "raylib.h"
+#pragma warning(pop)
+
+
+//#include "raylib.h"
 
 
 
@@ -13,14 +21,14 @@ class Player
 	int direction = 0;
 
 public:
-	Player();
-	void Update();
-	void Render(const Texture2D& texture) const;
-	void Hurt(int damage);
-	void Reset();
-	Vector2 GetSize() const;
-	Vector2 GetPosition() const;
-	float GetRadius() const;
-	int GetLives() const;
+	Player() noexcept;
+	void Update() noexcept;
+	void Render(const Texture2D& texture) const noexcept;
+	void Hurt(int damage) noexcept;
+	void Reset() noexcept;
+	Vector2 GetSize() const noexcept;
+	Vector2 GetPosition() const noexcept;
+	float GetRadius() const noexcept;
+	int GetLives() const noexcept;
 
 };

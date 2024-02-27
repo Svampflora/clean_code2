@@ -1,4 +1,12 @@
 #pragma once
+#include <codeanalysis\warnings.h>
+#pragma warning(push)
+#pragma warning(disable:ALL_CODE_ANALYSIS_WARNINGS)
+#include "raylib.h"
+#include "raymath.h"
+#pragma warning(pop)
+
+//#include "raylib.h"
 #include "State.h"
 #include "Resources.h"
 #include "Player.h"
@@ -37,9 +45,9 @@ class Game
 	int formationY;
 	
 	void SpawnAliens();
-	void MakeWalls();
+	void MakeWalls() noexcept;
 	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);
-	void LoadLeaderboard();
+	void LoadLeaderboard() noexcept;
 
 	template <typename Object>
 	bool CheckProjectileCollision(const Projectile& projectile, const Object& object);
@@ -49,34 +57,34 @@ class Game
 	void HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects);
 	
 public:
-	Game();
-	int	GetScore() const;
-	int GetLives() const;
-	bool PlayerHasLives() const;
-	bool IsNewHighScore() const;
+	Game() noexcept;
+	int	GetScore() const noexcept;
+	int GetLives() const noexcept;
+	bool PlayerHasLives() const noexcept;
+	bool IsNewHighScore() const noexcept;
 	bool CheckAlienHasInvaded(const Alien& alien) const;
-	bool UpdateAliens();
-	void SwitchStates(std::unique_ptr<State> newState);
-	void InsertNewHighScore(std::string name);                      
-	void RemoveInactiveEntities();
-	void Update();
-	void SaveLeaderboard();
-	void UpdatePlayer();
-	void HandleCollisions();
-	void UpdateGameObjects();
-	void CheckAlienAmount();
-	void AlienShooting();
 	void CheckPlayerShooting();
-	void EnterName();
-	void Reset();
-	void Clear();
+	void CheckAlienAmount();
+	void SwitchStates(std::unique_ptr<State> newState) noexcept;
+	void Update();
+	void UpdatePlayer() noexcept;
+	bool UpdateAliens();
+	void UpdateGameObjects();
+	void HandleCollisions();
+	void AlienShooting();
+	void RemoveInactiveEntities();
 	void Render();
-	void DrawTitle() const;
-	void RenderStats() const;
-	void RenderBackground() const;
+	void DrawTitle() const noexcept;
+	void RenderStats() const noexcept;
+	void RenderBackground() const noexcept;
 	void RenderGameObjects();
-	void DrawTextBox() const;
-	void DrawLeaderboard() const;
+	void DrawTextBox() const noexcept;
+	void DrawLeaderboard() const noexcept;
+	void Reset();
+	void Clear() noexcept;
+	void EnterName() noexcept;
+	void InsertNewHighScore(std::string name) noexcept;
+	void SaveLeaderboard();
 
 	//TODO: separate intertface object
 	Rectangle textBox = { 600, 500, 225, 50 };

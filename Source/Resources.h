@@ -7,13 +7,14 @@
 #include <format>
 
 using namespace std::literals::string_view_literals;
+
 class Animator 
 {
     float timer = 0;
     int current_frame = 0;
     
 public:
-    const int get(int _number_of_frames);
+    const int get(int _number_of_frames) noexcept;
 };
 
 class Texture_Container
@@ -39,8 +40,8 @@ public:
 
      Resources();
 
-    const Texture2D& GetAlienTexture() const;
-    const Texture2D& GetBarrierTexture() const;
-    const Texture2D& GetLaserTexture() const;
-    const Texture2D& GetShipTexture();
+    const Texture2D& GetAlienTexture() const noexcept;
+    const Texture2D& GetBarrierTexture() const noexcept;
+    const Texture2D& GetLaserTexture() const noexcept;
+    const Texture2D& GetShipTexture() noexcept;
 };

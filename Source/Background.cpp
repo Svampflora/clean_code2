@@ -3,7 +3,7 @@
 #include "raymath.h"
 
 
-Star::Star(Vector2 _start_position, Color _color, float _size)
+Star::Star(Vector2 _start_position, Color _color, float _size) noexcept
 {
 	initPosition = _start_position;
 	position = { 0, 0 };
@@ -12,45 +12,47 @@ Star::Star(Vector2 _start_position, Color _color, float _size)
 	radius = size;
 }
 
-void Star::Update(float starOffset)
+void Star::Update(float starOffset) noexcept
 {
 	position.x = initPosition.x + starOffset;
 	position.y = initPosition.y;
 
 }
 
-void Star::Render() const
+void Star::Render() const noexcept
 {
-	DrawCircle((int)position.x, (int)position.y, size, color);
+	DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), size, color);
 }
 
-Background::Background(int starAmount)
+Background::Background(int starAmount) noexcept
 {
 	for (int i = 0; i < starAmount; i++)
 	{
-		Vector2 start_position{ static_cast<float>(GetRandomValue(-150, GetScreenWidth() + 150)), static_cast<float>(GetRandomValue(0, GetScreenHeight())) };
-		float size = static_cast<float>(GetRandomValue(1, 4) / 2);
+		const Vector2 start_position{ static_cast<float>(GetRandomValue(-150, GetScreenWidth() + 150)), static_cast<float>(GetRandomValue(0, GetScreenHeight())) };
+		const float size = static_cast<float>(GetRandomValue(1, 4) / 2);
 		Star newStar{start_position, SKYBLUE, size};
 
-		Stars.emplace_back(newStar);
+		stars.emplace_back(newStar);
 	}
 }
 
-void Background::Update(const Player& player)
+void Background::Update(const Player& player) 
 {
-	playerPos = { player.GetPosition().x, (float)player.GetSize().y };
-	cornerPos = { 0, (float)player.GetSize().y };
+	playerPos = { player.GetPosition().x, static_cast<float>(player.GetSize().y) };
+	cornerPos = { 0, static_cast<float>(player.GetSize().y) };
 	offset = Vector2Distance(playerPos, cornerPos) * -1;
-	for (int i = 0; i < Stars.size(); i++)
+	for (int i = 0; i < stars.size(); i++)
 	{
-		Stars[i].Update(offset / 15);
+		[[gsl::suppress(bounds.4)]]
+		stars[i].Update(offset / 15);
 	}
 }
 
-void Background::Render() const
+void Background::Render() const noexcept
 {
-	for (int i = 0; i < Stars.size(); i++)
+	for (int i = 0; i < stars.size(); i++)
 	{
-		Stars[i].Render();
+		[[gsl::suppress(bounds.4)]]
+		stars[i].Render();
 	}
 }

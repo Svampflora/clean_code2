@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-void Player::Update()
+void Player::Update() noexcept
 {
 
 	direction = 0;
@@ -26,47 +26,47 @@ void Player::Update()
 	}
 }
 
-Player::Player()
+Player::Player() noexcept
 {
-	position.x = (float)GetScreenWidth() * 0.5f;
-	std::cout << "Find Player -X:" << GetScreenWidth() / 2 << "Find Player -Y" << GetScreenHeight() - size.y << std::endl;
+	[[gsl::suppress(f.6)]]
+	position.x = static_cast<float>(GetScreenWidth() * 0.5f);
 }
 
-void Player::Render(const Texture2D& texture) const
+void Player::Render(const Texture2D& texture) const noexcept
 {
-	Rectangle source_coordinates = { 0,0,352,352, };
-	Rectangle destination_coordinates = { position.x, position.y,100,100, };
-	Vector2 origin = { 50, 50 };
+	const Rectangle source_coordinates { 0,0,352,352, };
+	const Rectangle destination_coordinates { position.x, position.y,100,100, };
+	const Vector2 origin { 50, 50 };
 	DrawTexturePro(texture, source_coordinates, destination_coordinates, origin, 0, WHITE);
 }
 
-void Player::Hurt(int damage)
+void Player::Hurt(int damage) noexcept
 {
 	lives -= damage;
 }
 
-void Player::Reset()
+void Player::Reset() noexcept
 {
 	lives = 3;
 	position = { GetScreenWidth() * 0.5f, GetScreenHeight() - size.y }; 
 }
 
-Vector2 Player::GetSize() const
+Vector2 Player::GetSize() const noexcept
 {
 	return size;
 }
 
-Vector2 Player::GetPosition() const
+Vector2 Player::GetPosition() const noexcept
 {
 	return position;
 }
 
-float Player::GetRadius() const
+float Player::GetRadius() const noexcept
 {
 	return radius;
 }
 
-int Player::GetLives() const
+int Player::GetLives() const noexcept
 {
 	return lives;
 }

@@ -11,22 +11,22 @@ class Star
 	float radius;
 
 public:
-	Star(Vector2 _start_position, Color _color, float _size);
-	void Update(float _starOffset);
-	void Render() const;
+	Star(Vector2 _start_position, Color _color, float _size) noexcept;
+	void Update(float _starOffset) noexcept;
+	void Render() const noexcept;
 };
 
 class Background
 {
-	std::vector<Star> Stars;
+	std::vector<Star> stars;
 	Vector2 playerPos{ 0.0f, 0.0f };
 	Vector2 cornerPos{ 0.0f,0.0f };
 	float offset = 0.0f;
 
 public:
 
-	Background(int starAmount);
+	Background(int starAmount) noexcept;
 	void Update(const Player& player);
-	void Render() const;
+	void Render() const noexcept;
 
 };

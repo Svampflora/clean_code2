@@ -15,36 +15,46 @@ void CheckConditionAndPerformAction(T value, Func action)
 }
 
 template <typename T>
-void RenderObjects(const std::vector<T>& objects, const Texture& texture) {
-	for (const T& obj : objects) {
+void RenderObjects(const std::vector<T>& objects, const Texture& texture) 
+{
+	for (const T& obj : objects) 
+	{
 		obj.Render(texture);
 	}
 }
 
 template <typename T>
-void UpdateObjects(std::vector<T>& objects) {
-	for (T& obj : objects) {
+void UpdateObjects(std::vector<T>& objects) 
+{
+	for (T& obj : objects) 
+	{
 		obj.Update();
 	}
 }
 
 template <typename Container, typename Predicate>
-void remove_if(Container& container, Predicate predicate) {
+void remove_if(Container& container, Predicate predicate) 
+{
 	container.erase(
 		std::remove_if(container.begin(), container.end(), predicate),
 		container.end());
 }
 
 template <typename Object>
-bool Game::CheckProjectileCollision(const Projectile& projectile, const Object& object) {
+bool Game::CheckProjectileCollision(const Projectile& projectile, const Object& object) 
+{
 	return CheckCollision(object.GetPosition(), object.GetRadius(), projectile.GetEdges());
 }
 
 template <typename ProjectileContainer, typename ObjectType>
-void Game::HandleProjectileCollisions(ProjectileContainer& projectiles, ObjectType& object) {
-	for (Projectile& projectile : projectiles) {
-		if (CheckProjectileCollision(projectile, object)) {
-			if constexpr (std::is_same_v<ObjectType, Player>) {
+void Game::HandleProjectileCollisions(ProjectileContainer& projectiles, ObjectType& object) 
+{
+	for (Projectile& projectile : projectiles) 
+	{
+		if (CheckProjectileCollision(projectile, object)) 
+		{
+			if constexpr (std::is_same_v<ObjectType, Player>) 
+			{
 				projectile.Impact();
 				object.Hurt(1);
 			}
@@ -74,7 +84,7 @@ void Game::HandleProjectileCollisions(std::vector<Projectile>& projectiles, std:
 	}
 }
 
-Game::Game()
+Game::Game() noexcept
 	: currentState(std::make_unique<Startscreen>(*this)),
 	resources(),
 	player(),
@@ -94,7 +104,7 @@ Game::Game()
 {
 }
 
-void Game::Reset()
+void Game::Reset() 
 {
 
 	MakeWalls();
@@ -104,20 +114,20 @@ void Game::Reset()
 
 }
 
-void Game::MakeWalls()
+void Game::MakeWalls() noexcept
 {
 	const float window_width = static_cast<float>(GetScreenWidth());
 	const float window_height = static_cast<float>(GetScreenHeight());
-	const int wallAmount = 5;
+	constexpr int wallAmount = 5;
 	const float wall_distance = window_width / (wallAmount + 1);
 
 	for (int i = 0; i < wallAmount; ++i) {
-		Wall _wall{ Vector2{wall_distance * (i + 1), window_height - 250} };
+		const Wall _wall{ Vector2{wall_distance * (i + 1), window_height - 250} };
 		Walls.push_back(_wall);
 	}
 }
 
-void Game::Clear()
+void Game::Clear() noexcept
 {
 	playerProjectiles.clear();
 	enemyProjectiles.clear();
@@ -126,23 +136,23 @@ void Game::Clear()
 	score = 0;
 }
 
-void Game::Update()
+void Game::Update() 
 {
 	currentState->Update();
 }
 
 
-void Game::Render()
+void Game::Render() 
 {
 	currentState->Render();
 }
 
-void Game::DrawTextBox() const
+void Game::DrawTextBox() const noexcept
 {
-	Color borderColor = mouseOnText ? RED : DARKGRAY;
-	DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, borderColor);
+	const Color borderColor = mouseOnText ? RED : DARKGRAY;
+	DrawRectangleLines(static_cast<int>(textBox.x), static_cast<int>(textBox.y), static_cast<int>(textBox.width), static_cast<int>(textBox.height), borderColor);
 
-	DrawText(name, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
+	DrawText(name, static_cast<int>(textBox.x + 5), static_cast<int>(textBox.y + 8), 40, MAROON);
 
 	DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, 8), 600, 600, 20, YELLOW);
 
@@ -150,7 +160,7 @@ void Game::DrawTextBox() const
 	{
 		if ((framesCounter / 20) % 2 == 0)
 		{
-			DrawText("_", (int)textBox.x + 8 + MeasureText(name, 40), (int)textBox.y + 12, 40, MAROON);
+			DrawText("_", static_cast<int>(textBox.x + 8 + MeasureText(name, 40)), static_cast<int>(textBox.y + 12), 40, MAROON);
 		}
 	}
 	else if (mouseOnText)
@@ -164,15 +174,15 @@ void Game::DrawTextBox() const
 	}
 }
 
-void Game::DrawLeaderboard() const
+void Game::DrawLeaderboard() const noexcept
 {
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
 
 	for (int i = 0; i < Leaderboard.size(); ++i)
 	{
-		DrawText(Leaderboard[i].name.data(), 50, 140 + (i * 40), 40, YELLOW);
-		DrawText(TextFormat("%i", Leaderboard[i].score), 350, 140 + (i * 40), 40, YELLOW);
+		DrawText(Leaderboard.at(i).name.data(), 50, 140 + (i * 40), 40, YELLOW);
+		DrawText(TextFormat("%i", Leaderboard.at(i).score), 350, 140 + (i * 40), 40, YELLOW);
 	}
 }
 
@@ -187,7 +197,7 @@ void Game::SpawnAliens()
 	}
 }
 
-void Game::InsertNewHighScore(std::string _name)
+void Game::InsertNewHighScore(std::string _name) noexcept
 {
 	HighScoreData newData;
 	newData.name = _name;
@@ -195,7 +205,7 @@ void Game::InsertNewHighScore(std::string _name)
 
 	for (int i = 0; i < Leaderboard.size(); i++)
 	{
-		if (newData.score > Leaderboard[i].score)
+		if (newData.score > Leaderboard.at(i).score)
 		{
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
 			Leaderboard.pop_back();
@@ -205,7 +215,7 @@ void Game::InsertNewHighScore(std::string _name)
 	}
 }
 
-void Game::LoadLeaderboard() //TODO: empty
+void Game::LoadLeaderboard() noexcept//TODO: empty
 {
 
 }
@@ -227,7 +237,7 @@ void Game::SaveLeaderboard() //TODO: does not save to file
 	}
 }
 
-void Game::RemoveInactiveEntities()
+void Game::RemoveInactiveEntities() 
 {
 	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.Active(); });
@@ -235,7 +245,7 @@ void Game::RemoveInactiveEntities()
 	remove_if(Aliens, [](const auto& alien) { return !alien.Active(); });
 }
 
-void Game::UpdatePlayer()
+void Game::UpdatePlayer() noexcept
 {
 	player.Update();
 }
@@ -248,7 +258,7 @@ void Game::HandleCollisions()
 	HandleProjectileCollisions(playerProjectiles, Walls);
 }
 
-void Game::UpdateGameObjects()
+void Game::UpdateGameObjects() 
 {
 	background.Update(player);
 	UpdateObjects(playerProjectiles);
@@ -256,24 +266,24 @@ void Game::UpdateGameObjects()
 	UpdateObjects(Walls);
 }
 
-int Game::GetScore() const
+int Game::GetScore() const noexcept
 {
 	return score;
 }
 
-int Game::GetLives() const
+int Game::GetLives() const noexcept
 {
 	return player.GetLives();
 }
 
-bool Game::PlayerHasLives() const
+bool Game::PlayerHasLives() const noexcept
 {
 	return (player.GetLives() > 0);
 }
 
-bool Game::IsNewHighScore() const
+bool Game::IsNewHighScore() const noexcept
 {
-	return (score > Leaderboard[4].score); //TODO: hardcoded
+	return (score > Leaderboard.at(4).score); //TODO: hardcoded
 }
 
 bool Game::CheckAlienHasInvaded(const Alien& alien) const
@@ -293,31 +303,31 @@ void Game::CheckAlienAmount()
 	}
 }
 
-void Game::AlienShooting()
+void Game::AlienShooting() 
 {
-	int framesPerSecond = GetFPS();
+	const int framesPerSecond = GetFPS();
 	if (++shootTimer > framesPerSecond)
 	{
 		if (Aliens.size() > 1)
 		{
-			int randomAlienIndex = rand() % Aliens.size();
-			enemyProjectiles.push_back(Projectile({ Aliens[randomAlienIndex].GetPosition().x, Aliens[randomAlienIndex].GetPosition().y + 40}, -15));
+			const int randomAlienIndex = rand() % Aliens.size();
+			enemyProjectiles.push_back(Projectile({ Aliens.at(randomAlienIndex).GetPosition().x, Aliens.at(randomAlienIndex).GetPosition().y + 40}, -15));
 
 		}
 		shootTimer = 0;
 	}
 }
 
-void Game::CheckPlayerShooting()
+void Game::CheckPlayerShooting() 
 {
 	if (IsKeyPressed(KEY_SPACE))
 	{
-		float window_height = static_cast<float>(GetScreenHeight());
+		const float window_height = static_cast<float>(GetScreenHeight());
 		playerProjectiles.push_back(Projectile({ player.GetPosition().x, window_height - 130 }, 15));
 	}
 }
 
-bool Game::UpdateAliens()
+bool Game::UpdateAliens() 
 {
 	for (Alien& alien : Aliens)
 	{
@@ -331,7 +341,7 @@ bool Game::UpdateAliens()
 	return false;
 }
 
-void Game::EnterName()
+void Game::EnterName() noexcept
 {
 	if (CheckCollisionPointRec(GetMousePosition(), textBox))
 	{
@@ -351,7 +361,7 @@ void Game::EnterName()
 		{
 			if ((key >= 32) && (key <= 125) && (letterCount < 9))
 			{
-				name[letterCount] = (char)key;
+				name[letterCount] = static_cast<char>(key);
 				name[letterCount + 1] = '\0';
 				letterCount++;
 			}
@@ -384,7 +394,7 @@ void Game::EnterName()
 	}
 }
 
-void Game::SwitchStates(std::unique_ptr<State> newState)
+void Game::SwitchStates(std::unique_ptr<State> newState) noexcept
 {
 	currentState = std::move(newState);
 }
@@ -398,50 +408,50 @@ void Game::RenderGameObjects()
 	RenderObjects(Aliens, resources.GetAlienTexture());
 }
 
-void Game::DrawTitle() const
+void Game::DrawTitle() const noexcept
 {
 	DrawText("SPACE INVADERS", 200, 100, 160, YELLOW);
 	DrawText("PRESS SPACE TO BEGIN", 200, 350, 40, YELLOW);
 }
 
-void Game::RenderStats() const
+void Game::RenderStats() const noexcept
 {
 	DrawText(TextFormat("Score: %i", GetScore()), 50, 20, 40, YELLOW);
 	DrawText(TextFormat("Lives: %i", GetLives()), 50, 70, 40, YELLOW);
 }
 
-void Game::RenderBackground() const
+void Game::RenderBackground() const noexcept
 {
 	background.Render();
 }
 
-bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges)
+bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges) 
 {
 	if (CheckCollisionPointCircle(edges.first, circlePos, circleRadius) || CheckCollisionPointCircle(edges.second, circlePos, circleRadius))
 	{
 		return true;
 	}
 
-	Vector2 A = edges.first;
-	Vector2 B = edges.second ;
-	Vector2 C = circlePos;
+	const Vector2 A = edges.first;
+	const Vector2 B = edges.second ;
+	const Vector2 C = circlePos;
 
-	float length = Vector2Distance(A, B);
-	float dotP = ((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y)) / static_cast<float>(pow(length, 2));
+	const float length = Vector2Distance(A, B);
+	const float dotP = ((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y)) / static_cast<float>(pow(length, 2));
 
-	float closestX = A.x + (dotP * (B.x - A.x));
-	float closestY = A.y + (dotP * (B.y - A.y));
+	const float closestX = A.x + (dotP * (B.x - A.x));
+	const float closestY = A.y + (dotP * (B.y - A.y));
 
-	float buffer = 0.1f;
+	const float buffer = 0.1f;
 
-	float closeToStart = Vector2Distance(A, { closestX, closestY });
-	float closeToEnd = Vector2Distance(B, { closestX, closestY });
+	const float closeToStart = Vector2Distance(A, { closestX, closestY });
+	const float closeToEnd = Vector2Distance(B, { closestX, closestY });
 
-	float closestLength = closeToStart + closeToEnd;
+	const float closestLength = closeToStart + closeToEnd;
 
 	if (closestLength == length + buffer || closestLength == length - buffer)
 	{
-		float closeToCentre = Vector2Distance(A, { closestX, closestY });
+		const float closeToCentre = Vector2Distance(A, { closestX, closestY });
 
 		if (closeToCentre < circleRadius)
 		{
