@@ -12,10 +12,10 @@ class Projectile
 
 public:
 
-	Projectile(Vector2 _position, int _speed);
-	std::pair<Vector2, Vector2> GetEdges() const;
-	bool Active() const;
-	void Update();
-	void Impact();
-	void Render(const Texture2D& texture) const;
+	Projectile(Vector2 _position, int _speed) noexcept;
+	std::pair<Vector2, Vector2> GetEdges() const noexcept;
+	bool Active() const noexcept;
+	void Update() noexcept;
+	void Impact() noexcept;
+	void Render(const Texture2D& texture) const noexcept;
 };
