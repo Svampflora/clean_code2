@@ -46,18 +46,18 @@ void Background::Update(const Player& player)
 	playerPos = { player.GetPosition().x, static_cast<float>(player.GetSize().y) };
 	cornerPos = { 0, static_cast<float>(player.GetSize().y) };
 	offset = Vector2Distance(playerPos, cornerPos) * -1;
-	for (int i = 0; i < stars.size(); i++)
+
+	for (auto &star : stars)
 	{
-		[[gsl::suppress(bounds.4)]]
-		stars[i].Update(offset / 15);
+		star.Update(offset / 15);
 	}
 }
 
 void Background::Render() const noexcept
 {
-	for (int i = 0; i < stars.size(); i++)
+
+	for (auto& star : stars)
 	{
-		[[gsl::suppress(bounds.4)]]
-		stars[i].Render();
+		star.Render();
 	}
 }

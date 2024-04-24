@@ -1,7 +1,7 @@
   #include "Resources.h"
 #include <iostream>
 
-[[gsl::suppress(f.6)]]
+//[[gsl::suppress(f.6)]]
 Resources::Resources() :
     alienTexture { "./Assets/Alien.png"sv },
     barrierTexture{ "./Assets/Barrier.png"sv },
@@ -33,26 +33,24 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
 
 const Texture2D& Resources::GetShipTexture() noexcept
 {
-    [[gsl::suppress(type.1)]]
-    const int frame = animator.get(static_cast<int>(shipTextures.size()));
-    
+    const size_t frame = animator.get(shipTextures.size());
     return shipTextures.at(frame).texture;
 }
 
-const int Animator::get(int _number_of_frames) noexcept
+const size_t Animator::get(size_t _number_of_frames) noexcept
 {
-	timer += GetFrameTime();
-	if (timer <= 0.4) 
+    timer += GetFrameTime();
+    if (timer <= 0.4)
     {
-		return current_frame;
-	}
-	current_frame++;
-	timer = 0;
-	if (current_frame == _number_of_frames) 
+        return current_frame;
+    }
+    current_frame++;
+    timer = 0;
+    if (current_frame == _number_of_frames)
     {
-		current_frame = 0;			
-	}		
-	return current_frame;
+        current_frame = 0;
+    }
+    return current_frame;
 }
 
 Texture_Container::Texture_Container(std::string_view path)

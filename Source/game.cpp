@@ -14,7 +14,7 @@ void CheckConditionAndPerformAction(T value, Func action)
 	}
 }
 
-template <typename T> [[gsl::suppress(f.6)]]
+template <typename T> //[[gsl::suppress(f.6)]]
 void RenderObjects(const std::vector<T>& objects, const Texture& texture) 
 {
 	for (const T& obj : objects) 
@@ -23,7 +23,7 @@ void RenderObjects(const std::vector<T>& objects, const Texture& texture)
 	}
 }
 
-template <typename T> [[gsl::suppress(f.6)]]
+template <typename T> //[[gsl::suppress(f.6)]]
 void UpdateObjects(std::vector<T>& objects) 
 {
 	for (T& obj : objects) 
@@ -209,7 +209,7 @@ void Game::InsertNewHighScore(std::string _name) noexcept
 		{
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
 			Leaderboard.pop_back();
-			[[gsl::suppress(type.1)]]
+			//[[gsl::suppress(type.1)]]
 			i = static_cast<int>(Leaderboard.size());
 			score = 0;
 		}
@@ -240,7 +240,7 @@ void Game::SaveLeaderboard() //TODO: does not save to file
 
 void Game::RemoveInactiveEntities() noexcept
 {
-	[[gsl::suppress(f.6)]]
+	//[[gsl::suppress(f.6)]]
 	remove_if(Walls, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.Active(); });
 	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.Active(); });
@@ -288,7 +288,7 @@ bool Game::IsNewHighScore() const noexcept
 	return (score > Leaderboard.at(4).score); //TODO: hardcoded
 }
 
-bool Game::CheckAlienHasInvaded(const Alien& alien) const
+bool Game::CheckAlienHasInvaded(const Alien& alien) const noexcept
 {
 	if (alien.GetPosition().y > GetScreenHeight() - player.GetSize().y)
 	{

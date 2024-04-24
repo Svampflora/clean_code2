@@ -16,11 +16,11 @@ using namespace std::literals::string_view_literals;
 
 class Animator 
 {
+    size_t current_frame = 0;
     float timer = 0;
-    int current_frame = 0;
     
 public:
-    const int get(int _number_of_frames) noexcept;
+    const size_t get(size_t _number_of_frames) noexcept;
 };
 
 class Texture_Container
@@ -44,7 +44,7 @@ public:
     Texture_Container laserTexture;
     Animator animator;
 
-     Resources();
+     Resources() ;
 
     const Texture2D& GetAlienTexture() const noexcept;
     const Texture2D& GetBarrierTexture() const noexcept;

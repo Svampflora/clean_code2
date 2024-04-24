@@ -61,7 +61,7 @@ public:
 	int GetLives() const noexcept;
 	bool PlayerHasLives() const noexcept;
 	bool IsNewHighScore() const noexcept;
-	bool CheckAlienHasInvaded(const Alien& alien) const;
+	bool CheckAlienHasInvaded(const Alien& alien) const noexcept;
 	void CheckPlayerShooting();
 	void CheckAlienAmount();
 	void SwitchStates(std::unique_ptr<State> newState) noexcept;
