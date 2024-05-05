@@ -1,18 +1,13 @@
   #include "Resources.h"
 #include <iostream>
 
-//[[gsl::suppress(f.6)]]
-Resources::Resources() :
-    alienTexture { "./Assets/Alien.png"sv },
-    barrierTexture{ "./Assets/Barrier.png"sv },
-    laserTexture{ "./Assets/Laser.png"sv },
-    animator{}
+
+Resources::Resources() noexcept
 {
     shipTextures.reserve(3);
     shipTextures.emplace_back("./Assets/Ship1.png"sv);
     shipTextures.emplace_back("./Assets/Ship2.png"sv);
     shipTextures.emplace_back("./Assets/Ship3.png"sv);
-
 }
 
 
@@ -31,7 +26,7 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
     return laserTexture.texture;
 }
 
-const Texture2D& Resources::GetShipTexture() noexcept
+const Texture2D& Resources::GetShipTexture()
 {
     const size_t frame = animator.get(shipTextures.size());
     return shipTextures.at(frame).texture;

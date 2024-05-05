@@ -82,7 +82,7 @@ public:
 	void Reset();
 	void Clear() noexcept;
 	void EnterName() noexcept;
-	void InsertNewHighScore(std::string name) noexcept;
+	void InsertNewHighScore(std::string name);
 	void SaveLeaderboard();
 
 	//TODO: separate intertface object

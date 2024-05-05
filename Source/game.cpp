@@ -14,8 +14,8 @@ void CheckConditionAndPerformAction(T value, Func action)
 	}
 }
 
-template <typename T> //[[gsl::suppress(f.6)]]
-void RenderObjects(const std::vector<T>& objects, const Texture& texture) 
+template <typename T> 
+void RenderObjects(const std::vector<T>& objects, const Texture& texture) noexcept
 {
 	for (const T& obj : objects) 
 	{
@@ -23,8 +23,8 @@ void RenderObjects(const std::vector<T>& objects, const Texture& texture)
 	}
 }
 
-template <typename T> //[[gsl::suppress(f.6)]]
-void UpdateObjects(std::vector<T>& objects) 
+template <typename T> 
+void UpdateObjects(std::vector<T>& objects)  noexcept
 {
 	for (T& obj : objects) 
 	{
@@ -197,20 +197,20 @@ void Game::SpawnAliens()
 	}
 }
 
-void Game::InsertNewHighScore(std::string _name) noexcept
+void Game::InsertNewHighScore(std::string _name)
 {
 	HighScoreData newData;
 	newData.name = _name;
 	newData.score = score;
 
-	for (int i = 0; i < Leaderboard.size(); i++)
+	for (size_t i = 0; i < Leaderboard.size(); i++)
 	{
 		if (newData.score > Leaderboard.at(i).score)
 		{
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
 			Leaderboard.pop_back();
-			//[[gsl::suppress(type.1)]]
-			i = static_cast<int>(Leaderboard.size());
+			
+			i = Leaderboard.size();
 			score = 0;
 		}
 	}

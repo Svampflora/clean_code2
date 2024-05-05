@@ -39,15 +39,16 @@ class Resources
 {
 public:
     std::vector<Texture_Container> shipTextures;
-    Texture_Container alienTexture;
-    Texture_Container barrierTexture;
-    Texture_Container laserTexture;
-    Animator animator;
+    Texture_Container alienTexture = Texture_Container( "./Assets/Alien.png"sv );
+    Texture_Container barrierTexture = Texture_Container( "./Assets/Barrier.png"sv);
+    Texture_Container laserTexture = Texture_Container( "./Assets/Laser.png"sv );
+    Animator animator{};
 
-     Resources() ;
+
+     Resources() noexcept;
 
     const Texture2D& GetAlienTexture() const noexcept;
     const Texture2D& GetBarrierTexture() const noexcept;
     const Texture2D& GetLaserTexture() const noexcept;
-    const Texture2D& GetShipTexture() noexcept;
+    const Texture2D& GetShipTexture();
 };
