@@ -26,7 +26,7 @@ class Background
 public:
 
 	Background(int starAmount) noexcept;
-	void Update(const Player& player) noexcept;
+	void Update(const Player& player);
 	void Render() const noexcept;
 
 };

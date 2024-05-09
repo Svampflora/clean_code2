@@ -41,7 +41,7 @@ Background::Background(int starAmount) noexcept
 	}
 }
 
-void Background::Update(const Player& player) noexcept
+void Background::Update(const Player& player) 
 {
 	playerPos = { player.GetPosition().x, static_cast<float>(player.GetSize().y) };
 	cornerPos = { 0, static_cast<float>(player.GetSize().y) };

@@ -5,6 +5,8 @@
 #include <chrono>
 #include <fstream>
 
+
+
 template<typename T, typename Func>
 void CheckConditionAndPerformAction(T value, Func action)
 {
@@ -240,11 +242,11 @@ void Game::SaveLeaderboard() //TODO: does not save to file
 
 void Game::RemoveInactiveEntities() noexcept
 {
-	//[[gsl::suppress(f.6)]]
-	remove_if(Walls, [](const auto& projectile) { return !projectile.Active(); });
-	remove_if(enemyProjectiles, [](const auto& projectile) { return !projectile.Active(); });
-	remove_if(playerProjectiles, [](const auto& projectile) { return !projectile.Active(); });
-	remove_if(Aliens, [](const auto& alien) { return !alien.Active(); });
+
+	remove_if(Walls, [](const auto& projectile) noexcept { return !projectile.Active(); });
+	remove_if(enemyProjectiles, [](const auto& projectile) noexcept { return !projectile.Active(); });
+	remove_if(playerProjectiles, [](const auto& projectile) noexcept { return !projectile.Active(); });
+	remove_if(Aliens, [](const auto& alien) noexcept { return !alien.Active(); });
 }
 
 void Game::UpdatePlayer() noexcept
@@ -260,7 +262,7 @@ void Game::HandleCollisions()
 	HandleProjectileCollisions(playerProjectiles, Walls);
 }
 
-void Game::UpdateGameObjects() 
+void Game::UpdateGameObjects() noexcept
 {
 	background.Update(player);
 	UpdateObjects(playerProjectiles);
@@ -329,7 +331,7 @@ void Game::CheckPlayerShooting()
 	}
 }
 
-bool Game::UpdateAliens() 
+bool Game::UpdateAliens() noexcept
 {
 	for (Alien& alien : Aliens)
 	{
@@ -343,31 +345,22 @@ bool Game::UpdateAliens()
 	return false;
 }
 
-void Game::EnterName() noexcept
+void Game::EnterName()
 {
-	if (CheckCollisionPointRec(GetMousePosition(), textBox))
-	{
-		mouseOnText = true;
-	}
-	else
-	{
-		mouseOnText = false;
-	}
+	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);
 
 	if (mouseOnText)
 	{
 		SetMouseCursor(MOUSE_CURSOR_IBEAM);
-		int key = GetCharPressed();
-
-		while (key > 0)
+		int key;
+		while ((key = GetCharPressed()) > 0)
 		{
 			if ((key >= 32) && (key <= 125) && (letterCount < 9))
 			{
-				name += static_cast<char>(key);
+				char character_key = static_cast<char>( key );
+				name.push_back( character_key );
 				letterCount++;
 			}
-
-			key = GetCharPressed();
 		}
 
 		if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0)
@@ -376,23 +369,70 @@ void Game::EnterName() noexcept
 			letterCount--;
 		}
 	}
-	else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-
-	if (mouseOnText)
-	{
-		framesCounter++;
-	}
 	else
 	{
-		framesCounter = 0;
+		SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 	}
+
+	framesCounter = mouseOnText ? framesCounter + 1 : 0;
 
 	if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
 	{
-		//std::string nameEntry(name);
 		InsertNewHighScore(name);
 	}
 }
+
+//void Game::EnterName() 
+//{
+//	if (CheckCollisionPointRec(GetMousePosition(), textBox))
+//	{
+//		mouseOnText = true;
+//	}
+//	else
+//	{
+//		mouseOnText = false;
+//	}
+//
+//	if (mouseOnText)
+//	{
+//		SetMouseCursor(MOUSE_CURSOR_IBEAM);
+//		int key =  GetCharPressed();
+//
+//		while (key > 0)
+//		{
+//			if ((key >= 32) && (key <= 125) && (letterCount < 9))
+//			{
+//			
+//				name.append({ static_cast<char>(key) });
+//				letterCount++;
+//			}
+//
+//			key = GetCharPressed();
+//		}
+//
+//		if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0)
+//		{
+//			name.pop_back();
+//			letterCount--;
+//		}
+//	}
+//	else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+//
+//	if (mouseOnText)
+//	{
+//		framesCounter++;
+//	}
+//	else
+//	{
+//		framesCounter = 0;
+//	}
+//
+//	if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
+//	{
+//		//std::string nameEntry(name);
+//		InsertNewHighScore(name);
+//	}
+//}
 
 void Game::SwitchStates(std::unique_ptr<State> newState) noexcept
 {
@@ -442,7 +482,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vecto
 	const float closestX = A.x + (dotP * (B.x - A.x));
 	const float closestY = A.y + (dotP * (B.y - A.y));
 
-	const float buffer = 0.1f;
+	constexpr float buffer = 0.1f;
 
 	const float closeToStart = Vector2Distance(A, { closestX, closestY });
 	const float closeToEnd = Vector2Distance(B, { closestX, closestY });

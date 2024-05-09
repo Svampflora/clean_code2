@@ -67,8 +67,8 @@ public:
 	void SwitchStates(std::unique_ptr<State> newState) noexcept;
 	void Update();
 	void UpdatePlayer() noexcept;
-	bool UpdateAliens();
-	void UpdateGameObjects();
+	bool UpdateAliens() noexcept;
+	void UpdateGameObjects() noexcept;
 	void HandleCollisions();
 	void AlienShooting();
 	void RemoveInactiveEntities() noexcept;
@@ -81,7 +81,7 @@ public:
 	void DrawLeaderboard() const noexcept;
 	void Reset();
 	void Clear() noexcept;
-	void EnterName() noexcept;
+	void EnterName();
 	void InsertNewHighScore(std::string name);
 	void SaveLeaderboard();
 
