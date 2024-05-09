@@ -262,7 +262,7 @@ void Game::HandleCollisions()
 	HandleProjectileCollisions(playerProjectiles, Walls);
 }
 
-void Game::UpdateGameObjects() noexcept
+void Game::UpdateGameObjects() 
 {
 	background.Update(player);
 	UpdateObjects(playerProjectiles);
@@ -357,7 +357,8 @@ void Game::EnterName()
 		{
 			if ((key >= 32) && (key <= 125) && (letterCount < 9))
 			{
-				char character_key = static_cast<char>( key );
+
+				const char character_key = static_cast<char>( key ); //TODO: find solution so we don't need to cast
 				name.push_back( character_key );
 				letterCount++;
 			}

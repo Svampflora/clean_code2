@@ -13,23 +13,23 @@ Resources::Resources() noexcept
 
 const Texture2D& Resources::GetAlienTexture() const noexcept
 {
-    return alienTexture.texture;
+    return alienTexture.Get();
 }
 
 const Texture2D& Resources::GetBarrierTexture() const noexcept
 {
-    return barrierTexture.texture;
+    return barrierTexture.Get();
 }
 
 const Texture2D& Resources::GetLaserTexture() const noexcept
 {
-    return laserTexture.texture;
+    return laserTexture.Get();
 }
 
 const Texture2D& Resources::GetShipTexture()
 {
     const size_t frame = animator.get(shipTextures.size());
-    return shipTextures.at(frame).texture;
+    return shipTextures.at(frame).Get();
 }
 
 const size_t Animator::get(size_t _number_of_frames) noexcept
@@ -75,4 +75,9 @@ Texture_Container& Texture_Container::operator=(Texture_Container&& other) noexc
 Texture_Container::~Texture_Container()
 {
     UnloadTexture(texture);
+}
+
+const Texture2D& Texture_Container::Get() const noexcept
+{
+    return texture;
 }

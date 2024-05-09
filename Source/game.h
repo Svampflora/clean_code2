@@ -68,7 +68,7 @@ public:
 	void Update();
 	void UpdatePlayer() noexcept;
 	bool UpdateAliens() noexcept;
-	void UpdateGameObjects() noexcept;
+	void UpdateGameObjects();
 	void HandleCollisions();
 	void AlienShooting();
 	void RemoveInactiveEntities() noexcept;
