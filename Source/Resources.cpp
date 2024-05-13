@@ -34,7 +34,7 @@ const Texture2D& Resources::GetShipTexture()
 
 const size_t Animator::get(size_t _number_of_frames) noexcept
 {
-    timer += GetFrameTime();
+    timer += GetFrameTime(); //TODO: make sure exceptionsafe
     if (timer <= 0.4)
     {
         return current_frame;

@@ -3,7 +3,7 @@
 
 float Wall::GetRadius() const noexcept
 {
-	return static_cast<float>(radius);
+	return radius;
 }
 
 Wall::Wall(Vector2 _position) noexcept
@@ -21,7 +21,7 @@ Vector2 Wall::GetPosition() const noexcept
 	return position;
 }
 
-void Wall::Render(const Texture2D& texture) const noexcept
+void Wall::Render(const Texture2D& texture) const noexcept //TODO: casting
 {
 	DrawTexturePro(texture,{0,0,704,704,},{position.x,position.y,200,200,}, { 100 , 100 },0,WHITE);
 	DrawText(TextFormat("%i", health), static_cast<int>(position.x - 21), static_cast<int>(position.y + 10), 40, RED);

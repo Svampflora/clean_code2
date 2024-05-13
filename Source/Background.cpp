@@ -14,7 +14,7 @@ Star::Star(Vector2 _start_position, Color _color, float _size) noexcept
 	position = { 0, 0 };
 	color = _color;
 	size = _size;
-	radius = size;
+	//radius = size;
 }
 
 void Star::Update(float starOffset) noexcept
@@ -24,27 +24,28 @@ void Star::Update(float starOffset) noexcept
 
 }
 
-void Star::Render() const noexcept
+void Star::Render() const noexcept //TODO: casting
 {
 	DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), size, color);
 }
 
-Background::Background(int starAmount) noexcept
+Background::Background(int starAmount) 
 {
 	for (int i = 0; i < starAmount; i++)
 	{
-		const Vector2 start_position{ static_cast<float>(GetRandomValue(-150, GetScreenWidth() + 150)), static_cast<float>(GetRandomValue(0, GetScreenHeight())) };
-		const float size = static_cast<float>(GetRandomValue(1, 4) / 2);
+		const Vector2 start_position{ GetRandomValueF(-150, GetScreenWidth() + 150), GetRandomValueF(0, GetScreenHeight()) };
+		const float size = (GetRandomValueF(1, 4) / 2);
 		Star newStar{start_position, SKYBLUE, size};
 
 		stars.emplace_back(newStar);
 	}
 }
 
-void Background::Update(const Player& player) 
+void Background::Update(const Player& player)  //TODO casting? "demeterproblem", dont get make function 
 {
-	playerPos = { player.GetPosition().x, static_cast<float>(player.GetSize().y) };
-	cornerPos = { 0, static_cast<float>(player.GetSize().y) };
+	playerPos = { player.GetPosition().x, player.GetSize().y };
+	cornerPos = { 0, player.GetSize().y };
+
 	offset = Vector2Distance(playerPos, cornerPos) * -1;
 
 	for (auto &star : stars)

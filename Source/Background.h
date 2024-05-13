@@ -2,13 +2,14 @@
 #include "Player.h"
 #include <vector>
 
+
 class Star
 {
 	Vector2 initPosition;
 	Vector2 position;
 	Color color;
 	float size;
-	float radius;
+	//int radius;
 
 public:
 	Star(Vector2 _start_position, Color _color, float _size) noexcept;
@@ -19,13 +20,13 @@ public:
 class Background
 {
 	std::vector<Star> stars;
-	Vector2 playerPos{ 0.0f, 0.0f };
-	Vector2 cornerPos{ 0.0f,0.0f };
-	float offset = 0.0f;
+	Vector2 playerPos{ 0,0 };
+	Vector2 cornerPos{ 0,0 };
+	float offset = 0;
 
 public:
 
-	Background(int starAmount) noexcept;
+	Background(int starAmount);
 	void Update(const Player& player);
 	void Render() const noexcept;
 

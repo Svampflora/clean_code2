@@ -183,6 +183,7 @@
     <ClInclude Include="Source\State.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Resources.h" />
+    <ClInclude Include="Source\Utilities.h" />
     <ClInclude Include="Source\Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

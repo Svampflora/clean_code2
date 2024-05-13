@@ -16,20 +16,20 @@ void Player::Update() noexcept
 
 	position.x += speed * direction;
 
-	if (position.x < 0 + radius)
+	if (position.x < 0.0f + radius)
 	{
 		position.x = 0 + radius;
 	}
-	else if (position.x > GetScreenWidth() - radius)
+	else if (position.x > GetScreenWidthF() - radius)
 	{
-		position.x = GetScreenWidth() - radius;
+		position.x = GetScreenWidthF() - radius;
 	}
 }
 
-Player::Player() noexcept
+Player::Player() noexcept //TODO: casting
 {
-	[[gsl::suppress(f.6)]]
-	position.x = static_cast<float>(GetScreenWidth() * 0.5f);
+	//[[gsl::suppress(f.6)]]
+	position.x = GetScreenWidthF() * 0.5f;
 }
 
 void Player::Render(const Texture2D& texture) const noexcept
@@ -45,10 +45,10 @@ void Player::Hurt(int damage) noexcept
 	lives -= damage;
 }
 
-void Player::Reset() noexcept
+void Player::Reset() noexcept//TODO: casting
 {
 	lives = 3;
-	position = { GetScreenWidth() * 0.5f, GetScreenHeight() - size.y }; 
+	position = { GetScreenWidthF() * 0.5f, GetScreenHeightF() - size.y };
 }
 
 Vector2 Player::GetSize() const noexcept

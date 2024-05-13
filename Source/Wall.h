@@ -1,13 +1,14 @@
 #pragma once
 #include "raylib.h"
 
+
 class Wall
 {
 	Vector2 position;
 	Rectangle rec;
 	Color color;
 	int health;
-	int radius;
+	float radius;
 	bool active;
 
 public:

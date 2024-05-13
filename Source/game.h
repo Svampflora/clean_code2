@@ -44,7 +44,7 @@ class Game
 	int formationY;
 	
 	void SpawnAliens();
-	void MakeWalls() noexcept;
+	void MakeWalls();
 	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);
 	void LoadLeaderboard() noexcept;
 
@@ -78,7 +78,7 @@ public:
 	void RenderBackground() const noexcept;
 	void RenderGameObjects();
 	void DrawTextBox() const noexcept;
-	void DrawLeaderboard() const noexcept;
+	void DrawLeaderboard() const;
 	void Reset();
 	void Clear() noexcept;
 	void EnterName();

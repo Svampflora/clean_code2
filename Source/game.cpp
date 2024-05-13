@@ -116,7 +116,7 @@ void Game::Reset()
 
 }
 
-void Game::MakeWalls() noexcept
+void Game::MakeWalls() 
 {
 	const float window_width = static_cast<float>(GetScreenWidth());
 	const float window_height = static_cast<float>(GetScreenHeight());
@@ -176,7 +176,7 @@ void Game::DrawTextBox() const noexcept
 	}
 }
 
-void Game::DrawLeaderboard() const noexcept
+void Game::DrawLeaderboard() const
 {
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
@@ -184,7 +184,7 @@ void Game::DrawLeaderboard() const noexcept
 	for (int i = 0; i < Leaderboard.size(); ++i)
 	{
 		DrawText(Leaderboard.at(i).name.data(), 50, 140 + (i * 40), 40, YELLOW);
-		DrawText(TextFormat("%i", Leaderboard.at(i).score), 350, 140 + (i * 40), 40, YELLOW);
+		DrawText(TextFormat("%i", Leaderboard.at(i).score), 350, 140 + (i * 40), 40, YELLOW); //TODO: don't usw at()
 	}
 }
 
@@ -345,7 +345,7 @@ bool Game::UpdateAliens() noexcept
 	return false;
 }
 
-void Game::EnterName()
+void Game::EnterName() //TODO: make shorter 
 {
 	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);
 
@@ -466,7 +466,7 @@ void Game::RenderBackground() const noexcept
 	background.Render();
 }
 
-bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges) 
+bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges) //TODO: casting and too long function
 {
 	if (CheckCollisionPointCircle(edges.first, circlePos, circleRadius) || CheckCollisionPointCircle(edges.second, circlePos, circleRadius))
 	{

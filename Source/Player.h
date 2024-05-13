@@ -6,11 +6,13 @@
 #include "raylib.h"
 #pragma warning(pop)
 
+#include "Utilities.h"
+
 
 class Player
 {
 	Vector2 size = { 70.0f, 70.0f };
-	Vector2 position = { GetScreenWidth() * 0.5f, GetScreenHeight() - size.y};
+	Vector2 position = { GetScreenWidthF() * 0.5f, GetScreenHeightF() - size.y};
 	float speed = 7;
 	float radius = 50;
 	int lives = 3;
