@@ -57,6 +57,7 @@ class Game
 	
 public:
 	Game() noexcept;
+	float CalculateOffset() const;
 	int	GetScore() const noexcept;
 	int GetLives() const noexcept;
 	bool PlayerHasLives() const noexcept;

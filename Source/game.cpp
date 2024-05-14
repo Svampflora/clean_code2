@@ -106,6 +106,14 @@ Game::Game() noexcept
 {
 }
 
+float Game::CalculateOffset() const
+{
+	const Vector2 playerPos = { player.GetPosition().x, player.GetSize().y };
+	const Vector2 cornerPos = { 0, player.GetSize().y };
+
+	return Vector2Distance(playerPos, cornerPos) * -1;
+}
+
 void Game::Reset() 
 {
 
@@ -264,7 +272,8 @@ void Game::HandleCollisions()
 
 void Game::UpdateGameObjects() 
 {
-	background.Update(player);
+	const float offset = CalculateOffset();
+	background.Update(offset);
 	UpdateObjects(playerProjectiles);
 	UpdateObjects(enemyProjectiles);
 	UpdateObjects(Walls);

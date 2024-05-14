@@ -29,8 +29,9 @@ void Star::Render() const noexcept //TODO: casting
 	DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), size, color);
 }
 
-Background::Background(int starAmount) 
+Background::Background(int starAmount) noexcept
 {
+	stars.reserve(starAmount);
 	for (int i = 0; i < starAmount; i++)
 	{
 		const Vector2 start_position{ GetRandomValueF(-150, GetScreenWidth() + 150), GetRandomValueF(0, GetScreenHeight()) };
@@ -41,16 +42,11 @@ Background::Background(int starAmount)
 	}
 }
 
-void Background::Update(const Player& player)  //TODO casting? "demeterproblem", dont get make function 
+void Background::Update(const float _offset) noexcept
 {
-	playerPos = { player.GetPosition().x, player.GetSize().y };
-	cornerPos = { 0, player.GetSize().y };
-
-	offset = Vector2Distance(playerPos, cornerPos) * -1;
-
-	for (auto &star : stars)
+	for (auto& star : stars)
 	{
-		star.Update(offset / 15);
+		star.Update(_offset / 15);
 	}
 }
 
