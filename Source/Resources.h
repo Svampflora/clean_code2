@@ -46,7 +46,7 @@ public:
     Animator animator{};
 
 
-     Resources() noexcept;
+     Resources();
 
     const Texture2D& GetAlienTexture() const noexcept;
     const Texture2D& GetBarrierTexture() const noexcept;

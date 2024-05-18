@@ -7,6 +7,7 @@
 
 
 
+
 template<typename T, typename Func>
 void CheckConditionAndPerformAction(T value, Func action)
 {
@@ -192,7 +193,8 @@ void Game::DrawLeaderboard() const
 	for (int i = 0; i < Leaderboard.size(); ++i)
 	{
 		DrawText(Leaderboard.at(i).name.data(), 50, 140 + (i * 40), 40, YELLOW);
-		DrawText(TextFormat("%i", Leaderboard.at(i).score), 350, 140 + (i * 40), 40, YELLOW); //TODO: don't usw at()
+		DrawText(TextFormat("%i", Leaderboard.at(i).score), 350, 140 + (i * 40), 40, YELLOW); //TODO: conside using gsl::at()
+
 	}
 }
 
@@ -226,7 +228,7 @@ void Game::InsertNewHighScore(std::string _name)
 	}
 }
 
-void Game::LoadLeaderboard() noexcept//TODO: empty
+void Game::LoadLeaderboard() noexcept //TODO: empty
 {
 
 }
@@ -335,7 +337,7 @@ void Game::CheckPlayerShooting()
 {
 	if (IsKeyPressed(KEY_SPACE))
 	{
-		const float window_height = static_cast<float>(GetScreenHeight());
+		const float window_height = GetScreenHeightF();
 		playerProjectiles.push_back(Projectile({ player.GetPosition().x, window_height - 130 }, 15));
 	}
 }
@@ -354,30 +356,15 @@ bool Game::UpdateAliens() noexcept
 	return false;
 }
 
-void Game::EnterName() //TODO: make shorter 
+void Game::EnterName()
 {
 	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);
 
 	if (mouseOnText)
 	{
 		SetMouseCursor(MOUSE_CURSOR_IBEAM);
-		int key;
-		while ((key = GetCharPressed()) > 0)
-		{
-			if ((key >= 32) && (key <= 125) && (letterCount < 9))
-			{
+		InsertLetters();
 
-				const char character_key = static_cast<char>( key ); //TODO: find solution so we don't need to cast
-				name.push_back( character_key );
-				letterCount++;
-			}
-		}
-
-		if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0)
-		{
-			name.pop_back();
-			letterCount--;
-		}
 	}
 	else
 	{
@@ -392,57 +379,29 @@ void Game::EnterName() //TODO: make shorter
 	}
 }
 
-//void Game::EnterName() 
-//{
-//	if (CheckCollisionPointRec(GetMousePosition(), textBox))
-//	{
-//		mouseOnText = true;
-//	}
-//	else
-//	{
-//		mouseOnText = false;
-//	}
-//
-//	if (mouseOnText)
-//	{
-//		SetMouseCursor(MOUSE_CURSOR_IBEAM);
-//		int key =  GetCharPressed();
-//
-//		while (key > 0)
-//		{
-//			if ((key >= 32) && (key <= 125) && (letterCount < 9))
-//			{
-//			
-//				name.append({ static_cast<char>(key) });
-//				letterCount++;
-//			}
-//
-//			key = GetCharPressed();
-//		}
-//
-//		if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0)
-//		{
-//			name.pop_back();
-//			letterCount--;
-//		}
-//	}
-//	else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-//
-//	if (mouseOnText)
-//	{
-//		framesCounter++;
-//	}
-//	else
-//	{
-//		framesCounter = 0;
-//	}
-//
-//	if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
-//	{
-//		//std::string nameEntry(name);
-//		InsertNewHighScore(name);
-//	}
-//}
+void Game::InsertLetters()
+{
+	int key;
+	while ((key = GetCharPressed()) > 0)
+	{
+		if ((key >= 32) && (key <= 125) && (letterCount < 9))
+		{
+			[[gsl::suppress(bounds.4)]]
+			[[gsl::suppress(bounds.2)]]
+			const char character_key = static_cast<char>(key); //TODO: find solution so we don't need to cast
+			[[gsl::suppress(bounds.4)]]
+			[[gsl::suppress(bounds.2)]]
+			name.push_back(character_key);
+			letterCount++;
+		}
+	}
+
+	if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0)
+	{
+		name.pop_back();
+		letterCount--;
+	}
+}
 
 void Game::SwitchStates(std::unique_ptr<State> newState) noexcept
 {

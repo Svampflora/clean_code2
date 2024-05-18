@@ -83,6 +83,7 @@ public:
 	void Reset();
 	void Clear() noexcept;
 	void EnterName();
+	void InsertLetters();
 	void InsertNewHighScore(std::string name);
 	void SaveLeaderboard();
 

@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Resources::Resources() noexcept
+Resources::Resources()
 {
     shipTextures.reserve(3);
     shipTextures.emplace_back("./Assets/Ship1.png"sv);
@@ -34,7 +34,7 @@ const Texture2D& Resources::GetShipTexture()
 
 const size_t Animator::get(size_t _number_of_frames) noexcept
 {
-    timer += GetFrameTime(); //TODO: make sure exceptionsafe
+    timer += GetFrameTime();
     if (timer <= 0.4)
     {
         return current_frame;
