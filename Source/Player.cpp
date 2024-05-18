@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-void Player::Update() noexcept
+void Player::Update() noexcept //TODO: too long function?
 {
 
 	direction = 0;
@@ -26,9 +26,8 @@ void Player::Update() noexcept
 	}
 }
 
-Player::Player() noexcept //TODO: casting
+Player::Player() noexcept
 {
-	//[[gsl::suppress(f.6)]]
 	position.x = GetScreenWidthF() * 0.5f;
 }
 
@@ -45,7 +44,7 @@ void Player::Hurt(int damage) noexcept
 	lives -= damage;
 }
 
-void Player::Reset() noexcept//TODO: casting
+void Player::Reset() noexcept
 {
 	lives = 3;
 	position = { GetScreenWidthF() * 0.5f, GetScreenHeightF() - size.y };

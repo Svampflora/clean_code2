@@ -9,7 +9,6 @@ class Star
 	Vector2 position;
 	Color color;
 	float size;
-	//int radius;
 
 public:
 	Star(Vector2 _start_position, Color _color, float _size) noexcept;

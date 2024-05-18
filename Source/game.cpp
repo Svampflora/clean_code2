@@ -95,7 +95,7 @@ Game::Game() noexcept
 	enemyProjectiles(),
 	Walls(),
 	Aliens(),
-	Leaderboard({ {"Player 1", 500}, {"Player 2", 400}, {"Player 3", 300}, {"Player 4", 200}, {"Player 5", 100} }),
+	Leaderboard ({ {"Player 1", 500}, {"Player 2", 400}, {"Player 3", 300}, {"Player 4", 200}, {"Player 5", 100} }),
 	background(600),
 	shootTimer(0),
 	score(0),
@@ -185,20 +185,28 @@ void Game::DrawTextBox() const noexcept
 	}
 }
 
-void Game::DrawLeaderboard() const
+void Game::DrawLeaderboard() const noexcept
 {
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
-
-	for (int i = 0; i < Leaderboard.size(); ++i)
-	{
-		DrawText(Leaderboard.at(i).name.data(), 50, 140 + (i * 40), 40, YELLOW);
-		DrawText(TextFormat("%i", Leaderboard.at(i).score), 350, 140 + (i * 40), 40, YELLOW); //TODO: conside using gsl::at()
-
+	int yOffset = 140;
+	for (const auto& entry : Leaderboard) {
+		DrawText(entry.name.c_str(), 50, yOffset, 40, YELLOW);
+		DrawText(TextFormat("%i", entry.score), 350, yOffset, 40, YELLOW);
+		yOffset += 40;  
 	}
+
+	//for (int i = 0; i < Leaderboard.size(); ++i)
+	//{
+	//	[[gsl::suppress(bounds.4)]]
+	//	DrawText(Leaderboard[i].name.data(), 50, 140 + (i * 40), 40, YELLOW);
+	//	[[gsl::suppress(bounds.4)]]
+	//	DrawText(TextFormat("%i", Leaderboard[i].score), 350, 140 + (i * 40), 40, YELLOW);
+
+	//}
 }
 
-void Game::SpawnAliens()
+void Game::SpawnAliens() //TODO: better for-loop
 {
 	for (int row = 0; row < formationHeight; row++) 
 	{
@@ -215,8 +223,9 @@ void Game::InsertNewHighScore(std::string _name)
 	newData.name = _name;
 	newData.score = score;
 
-	for (size_t i = 0; i < Leaderboard.size(); i++)
+	for (size_t i = 0; i < Leaderboard.size(); i++) //TODO: better for-loop
 	{
+	
 		if (newData.score > Leaderboard.at(i).score)
 		{
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
@@ -386,11 +395,10 @@ void Game::InsertLetters()
 	{
 		if ((key >= 32) && (key <= 125) && (letterCount < 9))
 		{
-			[[gsl::suppress(bounds.4)]]
-			[[gsl::suppress(bounds.2)]]
+
+			[[gsl::suppress(type.1)]]
 			const char character_key = static_cast<char>(key); //TODO: find solution so we don't need to cast
-			[[gsl::suppress(bounds.4)]]
-			[[gsl::suppress(bounds.2)]]
+
 			name.push_back(character_key);
 			letterCount++;
 		}
@@ -408,7 +416,7 @@ void Game::SwitchStates(std::unique_ptr<State> newState) noexcept
 	currentState = std::move(newState);
 }
 
-void Game::RenderGameObjects()
+void Game::RenderGameObjects() noexcept
 {
 	player.Render(resources.GetShipTexture());
 	RenderObjects(enemyProjectiles, resources.GetLaserTexture());

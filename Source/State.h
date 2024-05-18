@@ -7,7 +7,7 @@ class State
 protected:
 	Game& game;
 public:
-	State(Game& _game);
+	State(Game& _game) noexcept;
 	virtual ~State();
 	virtual void Update() = 0;
 	virtual void Render() = 0;
@@ -17,15 +17,15 @@ public:
 class Startscreen : public State
 {
 public:
-	Startscreen(Game& _game);
+	Startscreen(Game& _game) noexcept;
 	void Update() override;
-	void Render() override;
+	void Render() noexcept override;
 };
 
 class Gameplay : public State
 {
 public:
-	Gameplay(Game& _game) : State(_game) {}
+	Gameplay(Game& _game) noexcept : State(_game) {}
 	void Update() override;
 	void Render() override;
 };
@@ -33,7 +33,7 @@ public:
 class Endscreen : public State
 {
 public:
-	Endscreen(Game& _game) : State(_game) {}
+	Endscreen(Game& _game) noexcept : State(_game) {}
 	void Update() override;
-	void Render() override;
+	void Render() noexcept override;
 };

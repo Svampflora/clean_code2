@@ -20,7 +20,7 @@ class Animator
     float timer = 0;
     
 public:
-    const size_t get(size_t _number_of_frames) noexcept;
+    const size_t Get(size_t _number_of_frames) noexcept;
 };
 
 class Texture_Container
@@ -35,6 +35,8 @@ public:
     ~Texture_Container();
     const Texture2D& Get() const noexcept;
 };
+
+//const Texture2D& Get(Texture_Container& textureContainer) noexcept;
 
 class Resources 
 {
@@ -51,5 +53,5 @@ public:
     const Texture2D& GetAlienTexture() const noexcept;
     const Texture2D& GetBarrierTexture() const noexcept;
     const Texture2D& GetLaserTexture() const noexcept;
-    const Texture2D& GetShipTexture();
+    const Texture2D& GetShipTexture() noexcept;
 };

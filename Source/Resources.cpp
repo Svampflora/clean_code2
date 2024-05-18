@@ -2,37 +2,7 @@
 #include <iostream>
 
 
-Resources::Resources()
-{
-    shipTextures.reserve(3);
-    shipTextures.emplace_back("./Assets/Ship1.png"sv);
-    shipTextures.emplace_back("./Assets/Ship2.png"sv);
-    shipTextures.emplace_back("./Assets/Ship3.png"sv);
-}
-
-
-const Texture2D& Resources::GetAlienTexture() const noexcept
-{
-    return alienTexture.Get();
-}
-
-const Texture2D& Resources::GetBarrierTexture() const noexcept
-{
-    return barrierTexture.Get();
-}
-
-const Texture2D& Resources::GetLaserTexture() const noexcept
-{
-    return laserTexture.Get();
-}
-
-const Texture2D& Resources::GetShipTexture()
-{
-    const size_t frame = animator.get(shipTextures.size());
-    return shipTextures.at(frame).Get();
-}
-
-const size_t Animator::get(size_t _number_of_frames) noexcept
+const size_t Animator::Get(size_t _number_of_frames) noexcept
 {
     timer += GetFrameTime();
     if (timer <= 0.4)
@@ -81,3 +51,37 @@ const Texture2D& Texture_Container::Get() const noexcept
 {
     return texture;
 }
+
+Resources::Resources()
+{
+    shipTextures.reserve(3);
+    shipTextures.emplace_back("./Assets/Ship1.png"sv);
+    shipTextures.emplace_back("./Assets/Ship2.png"sv);
+    shipTextures.emplace_back("./Assets/Ship3.png"sv);
+}
+
+
+const Texture2D& Resources::GetAlienTexture() const noexcept
+{
+    return alienTexture.Get();
+}
+
+const Texture2D& Resources::GetBarrierTexture() const noexcept
+{
+    return barrierTexture.Get();
+}
+
+const Texture2D& Resources::GetLaserTexture() const noexcept
+{
+    return laserTexture.Get();
+}
+
+const Texture2D& Resources::GetShipTexture() noexcept//TODO: get around at()
+{
+    const size_t frame = animator.Get(shipTextures.size());
+
+    [[gsl::suppress(bounds.4)]]
+    return shipTextures[frame].Get();
+ 
+}
+

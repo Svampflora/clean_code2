@@ -14,7 +14,6 @@ Star::Star(Vector2 _start_position, Color _color, float _size) noexcept
 	position = { 0, 0 };
 	color = _color;
 	size = _size;
-	//radius = size;
 }
 
 void Star::Update(float starOffset) noexcept

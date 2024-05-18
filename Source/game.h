@@ -20,7 +20,7 @@
 
 struct HighScoreData
 {
-	std::string name{};
+	std::string name{""};
 	int score = 0;
 };
 
@@ -77,9 +77,9 @@ public:
 	void DrawTitle() const noexcept;
 	void RenderStats() const noexcept;
 	void RenderBackground() const noexcept;
-	void RenderGameObjects();
+	void RenderGameObjects() noexcept;
 	void DrawTextBox() const noexcept;
-	void DrawLeaderboard() const;
+	void DrawLeaderboard() const noexcept;
 	void Reset();
 	void Clear() noexcept;
 	void EnterName();

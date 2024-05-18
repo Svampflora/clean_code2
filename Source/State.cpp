@@ -2,10 +2,10 @@
 #include "game.h"
 #include <memory>
 
-State::State(Game& _game) : game(_game) {}
+State::State(Game& _game) noexcept : game(_game) {}
 State::~State() {}
 
-Startscreen::Startscreen(Game& _game) : State(_game) {}
+Startscreen::Startscreen(Game& _game) noexcept : State(_game) {}
 
 void Startscreen::Update()
 {
@@ -16,7 +16,7 @@ void Startscreen::Update()
 	}
 }
 
-void Startscreen::Render()
+void Startscreen::Render() noexcept
 {
 	game.DrawTitle();
 }
@@ -31,7 +31,7 @@ void Gameplay::Update()
 
 	game.UpdatePlayer();
 	
-	bool invaded = game.UpdateAliens();
+	const bool invaded = game.UpdateAliens();
 
 	if (!game.PlayerHasLives() || invaded)
 	{
@@ -47,7 +47,7 @@ void Gameplay::Update()
 	game.RemoveInactiveEntities();
 }
 
-void Gameplay::Render()
+void Gameplay::Render() 
 {
 	game.RenderBackground();
 	game.RenderStats();
@@ -71,7 +71,7 @@ void Endscreen::Update()
 	}
 }
 
-void Endscreen::Render()
+void Endscreen::Render() noexcept
 {
 	if (game.IsNewHighScore())
 	{
