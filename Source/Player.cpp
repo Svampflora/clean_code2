@@ -31,7 +31,7 @@ Player::Player() noexcept
 	position.x = GetScreenWidthF() * 0.5f;
 }
 
-void Player::Render(const Texture2D& texture) const noexcept
+void Player::Render(const Texture2D& texture) const noexcept //TODO: magic values
 {
 	const Rectangle source_coordinates { 0,0,352,352, };
 	const Rectangle destination_coordinates { position.x, position.y,100,100, };

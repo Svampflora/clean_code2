@@ -6,8 +6,6 @@
 #include <fstream>
 
 
-
-
 template<typename T, typename Func>
 void CheckConditionAndPerformAction(T value, Func action)
 {
@@ -102,8 +100,8 @@ Game::Game() noexcept
 	formationWidth(8),
 	formationHeight(5),
 	alienSpacing(80),
-	formationX(100),
-	formationY(50)
+	formationX(100.0f),
+	formationY(50.0f)
 {
 }
 
@@ -125,16 +123,15 @@ void Game::Reset()
 
 }
 
-void Game::MakeWalls() 
+void Game::MakeWalls() //TODO: old loop, pushback?
 {
-	const float window_width = static_cast<float>(GetScreenWidth());
-	const float window_height = static_cast<float>(GetScreenHeight());
+	const float window_width = GetScreenWidthF();
+	const float window_height = GetScreenHeightF();
 	constexpr int wallAmount = 5;
 	const float wall_distance = window_width / (wallAmount + 1);
 
 	for (int i = 0; i < wallAmount; ++i) {
-		const Wall _wall{ Vector2{wall_distance * (i + 1), window_height - 250} };
-		Walls.push_back(_wall);
+		Walls.emplace_back(Vector2{ wall_distance * (i + 1), window_height - 250 });
 	}
 }
 
@@ -161,17 +158,17 @@ void Game::Render()
 void Game::DrawTextBox() const noexcept
 {
 	const Color borderColor = mouseOnText ? RED : DARKGRAY;
-	DrawRectangleLines(static_cast<int>(textBox.x), static_cast<int>(textBox.y), static_cast<int>(textBox.width), static_cast<int>(textBox.height), borderColor);
-
-	DrawText(name.c_str(), static_cast<int>(textBox.x + 5), static_cast<int>(textBox.y + 8), 40, MAROON);
-
+	constexpr float thickness = 2.0f;
+	DrawRectangleLinesEx(textBox, thickness, borderColor);
+	DrawTextF(name.c_str(), textBox.x + 5.0f, textBox.y + 8.0f, 40, MAROON);
 	DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, 8), 600, 600, 20, YELLOW);
 
-	if (mouseOnText && letterCount < 9)
+	constexpr int macLetterCount = 9;
+	if (mouseOnText && letterCount < macLetterCount)
 	{
 		if ((framesCounter / 20) % 2 == 0)
 		{
-			DrawText("_", static_cast<int>(textBox.x + 8 + MeasureText(name.c_str(), 40)), static_cast<int>(textBox.y + 12), 40, MAROON);
+			DrawTextF("_", textBox.x + 8 + MeasureText(name.c_str(), 40), textBox.y + 12.0f, 40, MAROON);
 		}
 	}
 	else if (mouseOnText)
@@ -185,7 +182,7 @@ void Game::DrawTextBox() const noexcept
 	}
 }
 
-void Game::DrawLeaderboard() const noexcept
+void Game::DrawLeaderboard() const noexcept //TODO: name magic values
 {
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
@@ -195,33 +192,22 @@ void Game::DrawLeaderboard() const noexcept
 		DrawText(TextFormat("%i", entry.score), 350, yOffset, 40, YELLOW);
 		yOffset += 40;  
 	}
-
-	//for (int i = 0; i < Leaderboard.size(); ++i)
-	//{
-	//	[[gsl::suppress(bounds.4)]]
-	//	DrawText(Leaderboard[i].name.data(), 50, 140 + (i * 40), 40, YELLOW);
-	//	[[gsl::suppress(bounds.4)]]
-	//	DrawText(TextFormat("%i", Leaderboard[i].score), 350, 140 + (i * 40), 40, YELLOW);
-
-	//}
 }
 
-void Game::SpawnAliens() //TODO: better for-loop
+void Game::SpawnAliens() 
 {
 	for (int row = 0; row < formationHeight; row++) 
 	{
-		for (int col = 0; col < formationWidth; col++) 
+		for (int column = 0; column < formationWidth; column++) 
 		{
-			Aliens.emplace_back(Alien{ {formationX + 450.0f + (col * alienSpacing), static_cast<float>(formationY) + (row * alienSpacing)} });
+			Aliens.emplace_back(Alien{ {formationX + 450.0f + (column * alienSpacing), formationY + (row * alienSpacing)} });
 		}
 	}
 }
 
-void Game::InsertNewHighScore(std::string _name)
+void Game::InsertNewHighScore(std::string _name) //TODO: get around at()
 {
-	HighScoreData newData;
-	newData.name = _name;
-	newData.score = score;
+	HighScoreData newData{_name, score};
 
 	for (size_t i = 0; i < Leaderboard.size(); i++) //TODO: better for-loop
 	{
@@ -242,7 +228,7 @@ void Game::LoadLeaderboard() noexcept //TODO: empty
 
 }
 
-void Game::SaveLeaderboard() //TODO: does not save to file 
+void Game::SaveLeaderboard() //TODO: does not save to file, Wrap fstream?
 {
 	std::fstream file;
 
@@ -305,7 +291,7 @@ bool Game::PlayerHasLives() const noexcept
 	return (player.GetLives() > 0);
 }
 
-bool Game::IsNewHighScore() const noexcept
+bool Game::IsNewHighScore() const noexcept //TODO: not noexcept! get around at()
 {
 	return (score > Leaderboard.at(4).score); //TODO: hardcoded
 }
@@ -327,7 +313,7 @@ void Game::CheckAlienAmount()
 	}
 }
 
-void Game::AlienShooting() 
+void Game::AlienShooting() //TODO: get around at()
 {
 	const int framesPerSecond = GetFPS();
 	if (++shootTimer > framesPerSecond)

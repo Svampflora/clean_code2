@@ -11,7 +11,8 @@ class Star
 	float size;
 
 public:
-	Star(Vector2 _start_position, Color _color, float _size) noexcept;
+	Star() noexcept;
+
 	void Update(float _starOffset) noexcept;
 	void Render() const noexcept;
 };

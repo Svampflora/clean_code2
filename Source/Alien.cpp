@@ -41,13 +41,13 @@ void Alien::Update() noexcept
 	}
 }
 
-void Alien::ChangeDirection() noexcept
+void Alien::ChangeDirection() noexcept //TODO: Magic values
 {
 	speed *= -1;
 	position.y += 50;
 }
 
-void Alien::Render(const Texture2D& texture) const noexcept
+void Alien::Render(const Texture2D& texture) const noexcept //TODO: Magic values
 {
 	DrawTexturePro(texture,{0,0,352,352,},{position.x,position.y,100,100,}, { 50 , 50 },0,WHITE);
 }

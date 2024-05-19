@@ -36,12 +36,12 @@ class Game
 	std::vector<HighScoreData> Leaderboard;
 	Background background;
 	float shootTimer;
+	float formationX;
+	float formationY;
 	int score;
 	int formationWidth;
 	int formationHeight;
 	int alienSpacing;
-	int formationX;
-	int formationY;
 	
 	void SpawnAliens();
 	void MakeWalls();

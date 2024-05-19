@@ -20,7 +20,7 @@ class Animator
     float timer = 0;
     
 public:
-    const size_t Get(size_t _number_of_frames) noexcept;
+    const size_t Get(size_t _number_of_frames) noexcept; //TODO: better name?
 };
 
 class Texture_Container

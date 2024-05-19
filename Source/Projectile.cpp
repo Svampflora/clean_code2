@@ -8,7 +8,7 @@ Projectile::Projectile(Vector2 _position, int _speed) noexcept
 	speed = _speed;
 }
 
-std::pair<Vector2, Vector2> Projectile::GetEdges() const noexcept
+std::pair<Vector2, Vector2> Projectile::GetEdges() const noexcept //TODO: magic values
 {
 	std::pair<Vector2, Vector2> edges = { {position.x, position.y - 15}, {position.x, position.y + 15} };
 	return edges;
@@ -19,7 +19,7 @@ bool Projectile::Active() const noexcept
 	return active;
 }
 
-void Projectile::Update() noexcept
+void Projectile::Update() noexcept //TODO: magic values
 {
 	position.y -= speed;
 

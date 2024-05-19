@@ -52,7 +52,7 @@ const Texture2D& Texture_Container::Get() const noexcept
     return texture;
 }
 
-Resources::Resources()
+Resources::Resources() //TODO: can we make this noexcept?
 {
     shipTextures.reserve(3);
     shipTextures.emplace_back("./Assets/Ship1.png"sv);
