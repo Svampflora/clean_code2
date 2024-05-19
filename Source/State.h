@@ -8,7 +8,7 @@ protected:
 	Game& game;
 public:
 	State(Game& _game) noexcept;
-	virtual ~State();
+	virtual ~State() = default;
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 };
@@ -27,7 +27,7 @@ class Gameplay : public State
 public:
 	Gameplay(Game& _game) noexcept : State(_game) {}
 	void Update() override;
-	void Render() override;
+	void Render() noexcept override;
 };
 
 class Endscreen : public State

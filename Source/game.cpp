@@ -123,14 +123,15 @@ void Game::Reset()
 
 }
 
-void Game::MakeWalls() //TODO: old loop, pushback?
+void Game::MakeWalls() //TODO: old loop
 {
 	const float window_width = GetScreenWidthF();
 	const float window_height = GetScreenHeightF();
 	constexpr int wallAmount = 5;
 	const float wall_distance = window_width / (wallAmount + 1);
 
-	for (int i = 0; i < wallAmount; ++i) {
+	for (int i = 0; i < wallAmount; ++i) 
+	{
 		Walls.emplace_back(Vector2{ wall_distance * (i + 1), window_height - 250 });
 	}
 }
@@ -155,7 +156,7 @@ void Game::Render()
 	currentState->Render();
 }
 
-void Game::DrawTextBox() const noexcept
+void Game::DrawTextBox() const noexcept //TODO: magic values
 {
 	const Color borderColor = mouseOnText ? RED : DARKGRAY;
 	constexpr float thickness = 2.0f;
@@ -182,12 +183,13 @@ void Game::DrawTextBox() const noexcept
 	}
 }
 
-void Game::DrawLeaderboard() const noexcept //TODO: name magic values
+void Game::DrawLeaderboard() const noexcept //TODO: magic values
 {
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
 	int yOffset = 140;
-	for (const auto& entry : Leaderboard) {
+	for (const auto& entry : Leaderboard) 
+	{
 		DrawText(entry.name.c_str(), 50, yOffset, 40, YELLOW);
 		DrawText(TextFormat("%i", entry.score), 350, yOffset, 40, YELLOW);
 		yOffset += 40;  
@@ -205,15 +207,13 @@ void Game::SpawnAliens()
 	}
 }
 
-void Game::InsertNewHighScore(std::string _name) //TODO: get around at()
+void Game::InsertNewHighScore(std::string _name)
 {
-	HighScoreData newData{_name, score};
-
 	for (size_t i = 0; i < Leaderboard.size(); i++) //TODO: better for-loop
 	{
-	
-		if (newData.score > Leaderboard.at(i).score)
+		if (score > Leaderboard.at(i).score)
 		{
+			HighScoreData newData{ _name, score };
 			Leaderboard.insert(Leaderboard.begin() + i, newData);
 			Leaderboard.pop_back();
 			
@@ -221,6 +221,36 @@ void Game::InsertNewHighScore(std::string _name) //TODO: get around at()
 			score = 0;
 		}
 	}
+
+	//std::vector<HighScoreData> newLeaderboard;
+	//constexpr int maxLeaderboardSize = 5;
+	//newLeaderboard.reserve(maxLeaderboardSize);
+	//for (auto& entry : Leaderboard) 
+	//{
+	//	if (newLeaderboard.size() >= maxLeaderboardSize) 
+	//	{
+	//		break;
+	//	}
+	//	
+	//	if (score > entry.score) 
+	//	{
+	//		HighScoreData newData{ _name, score };
+	//		newLeaderboard.emplace_back(newData);
+	//		score = 0;
+	//	}
+	//	newLeaderboard.emplace_back(entry);
+	//	//if (newLeaderboard.size() >= maxLeaderboardSize) 
+	//	//{
+	//	//	break;
+	//	//}
+	//}
+
+	///*if (newLeaderboard.size() < maxLeaderboardSize) {
+	//	newLeaderboard.emplace_back(newData);
+	//}*/
+
+	//Leaderboard = std::move(newLeaderboard);
+	//score = 0;
 }
 
 void Game::LoadLeaderboard() noexcept //TODO: empty
@@ -228,11 +258,9 @@ void Game::LoadLeaderboard() noexcept //TODO: empty
 
 }
 
-void Game::SaveLeaderboard() //TODO: does not save to file, Wrap fstream?
+void Game::SaveLeaderboard() //TODO: does not save to file
 {
-	std::fstream file;
-
-	file.open("Leaderboard");
+	std::fstream file{ "Leaderboard" };
 
 	if (!file)
 	{
@@ -291,9 +319,9 @@ bool Game::PlayerHasLives() const noexcept
 	return (player.GetLives() > 0);
 }
 
-bool Game::IsNewHighScore() const noexcept //TODO: not noexcept! get around at()
+bool Game::IsNewHighScore() const noexcept
 {
-	return (score > Leaderboard.at(4).score); //TODO: hardcoded
+	return (score > Leaderboard.back().score);
 }
 
 bool Game::CheckAlienHasInvaded(const Alien& alien) const noexcept

@@ -52,7 +52,8 @@ const Texture2D& Texture_Container::Get() const noexcept
     return texture;
 }
 
-Resources::Resources() //TODO: can we make this noexcept?
+[[gsl::suppress(f.6)]]
+Resources::Resources() //TODO: constructor insists on noexcept?
 {
     shipTextures.reserve(3);
     shipTextures.emplace_back("./Assets/Ship1.png"sv);
@@ -76,7 +77,7 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
     return laserTexture.Get();
 }
 
-const Texture2D& Resources::GetShipTexture() noexcept//TODO: get around at()
+const Texture2D& Resources::GetShipTexture() noexcept
 {
     const size_t frame = animator.Get(shipTextures.size());
 

@@ -3,7 +3,6 @@
 #include <memory>
 
 State::State(Game& _game) noexcept : game(_game) {}
-State::~State() {} //TODO: rule of six?
 
 Startscreen::Startscreen(Game& _game) noexcept : State(_game) {}
 
@@ -47,7 +46,7 @@ void Gameplay::Update()
 	game.RemoveInactiveEntities();
 }
 
-void Gameplay::Render() //TODO: make noexcept
+void Gameplay::Render() noexcept
 {
 	game.RenderBackground();
 	game.RenderStats();
