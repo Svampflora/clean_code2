@@ -79,7 +79,7 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
 
 const Texture2D& Resources::GetShipTexture() noexcept
 {
-    const size_t frame = animator.Get(shipTextures.size());
+    const size_t frame = animator.Get(shipTextures.size()-1);
 
     [[gsl::suppress(bounds.4)]]
     return shipTextures[frame].Get();
