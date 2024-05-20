@@ -5,7 +5,7 @@ class Game;
 class State
 {
 protected:
-	Game& game;
+	Game& game; //TODO: avoid using reference member
 public:
 	State(Game& _game) noexcept;
 	virtual ~State() = default;
