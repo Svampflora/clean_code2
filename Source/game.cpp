@@ -463,7 +463,7 @@ bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vecto
 	{
 		return true;
 	}
-	else if (CheckCollisionCircleRec(circlePos, circleRadius, Rectangle{ edges.first.x, edges.first.y, 0.0f, length }))
+	else if (CheckCollisionCircleRec(circlePos, circleRadius, Rectangle{ edges.first.x, edges.first.y, 0.5f, length }))
 	{
 		return true;
 	}
