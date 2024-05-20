@@ -36,7 +36,6 @@ public:
     const Texture2D& Get() const noexcept;
 };
 
-//const Texture2D& Get(Texture_Container& textureContainer) noexcept;
 
 class Resources 
 {

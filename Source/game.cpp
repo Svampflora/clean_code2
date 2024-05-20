@@ -456,45 +456,16 @@ void Game::RenderBackground() const noexcept
 	background.Render();
 }
 
-bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges) //TODO: casting and too long function
+bool Game::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges)
 {
+	const float length = Vector2Distance(edges.first, edges.second);
 	if (CheckCollisionPointCircle(edges.first, circlePos, circleRadius) || CheckCollisionPointCircle(edges.second, circlePos, circleRadius))
 	{
 		return true;
 	}
-
-	const Vector2 A = edges.first;
-	const Vector2 B = edges.second ;
-	const Vector2 C = circlePos;
-
-	const float length = Vector2Distance(A, B);
-	const float dotP = ((C.x - A.x) * (B.x - A.x)) + ((C.y - A.y) * (B.y - A.y)) / static_cast<float>(pow(length, 2));
-
-	const float closestX = A.x + (dotP * (B.x - A.x));
-	const float closestY = A.y + (dotP * (B.y - A.y));
-
-	constexpr float buffer = 0.1f;
-
-	const float closeToStart = Vector2Distance(A, { closestX, closestY });
-	const float closeToEnd = Vector2Distance(B, { closestX, closestY });
-
-	const float closestLength = closeToStart + closeToEnd;
-
-	if (closestLength == length + buffer || closestLength == length - buffer)
+	else if (CheckCollisionCircleRec(circlePos, circleRadius, Rectangle{ edges.first.x, edges.first.y, 0.0f, length }))
 	{
-		const float closeToCentre = Vector2Distance(A, { closestX, closestY });
-
-		if (closeToCentre < circleRadius)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }

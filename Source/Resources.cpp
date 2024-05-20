@@ -53,7 +53,7 @@ const Texture2D& Texture_Container::Get() const noexcept
 }
 
 [[gsl::suppress(f.6)]]
-Resources::Resources() //TODO: constructor insists on noexcept?
+Resources::Resources() //TODO: default constructor insists on noexcept
 {
     shipTextures.reserve(3);
     shipTextures.emplace_back("./Assets/Ship1.png"sv);

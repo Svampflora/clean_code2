@@ -1,5 +1,5 @@
 #include "Wall.h"
-
+#include "Utilities.h"
 
 float Wall::GetRadius() const noexcept
 {
@@ -21,10 +21,10 @@ Vector2 Wall::GetPosition() const noexcept
 	return position;
 }
 
-void Wall::Render(const Texture2D& texture) const noexcept //TODO: casting
+void Wall::Render(const Texture2D& texture) const noexcept
 {
 	DrawTexturePro(texture,{0,0,704,704,},{position.x,position.y,200,200,}, { 100 , 100 },0,WHITE);
-	DrawText(TextFormat("%i", health), static_cast<int>(position.x - 21), static_cast<int>(position.y + 10), 40, RED);
+	DrawTextF(TextFormat("%i", health), position.x - 21.0f, position.y + 10.0f, 40, RED);
 }
 
 void Wall::Damage(int _damage) noexcept
