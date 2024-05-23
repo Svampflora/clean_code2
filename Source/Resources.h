@@ -14,15 +14,6 @@
 
 using namespace std::literals::string_view_literals;
 
-class Animator 
-{
-    size_t current_frame = 0;
-    float timer = 0;
-    
-public:
-    const size_t Get(size_t _number_of_frames) noexcept; //TODO: better name?
-};
-
 class Texture_Container
 {
     Texture2D texture;
@@ -36,21 +27,29 @@ public:
     const Texture2D& Get() const noexcept;
 };
 
+class Animator
+{
+    std::vector<Texture_Container> frames;
+    size_t current_frame = 0;
+    float frames_per_second = 3.0f;
+    float timer = 0;
+
+public:
+    Animator(std::vector<std::string_view> file_paths);
+
+    void Update(float deltaTime) noexcept;
+    const Texture2D& GetFrame() const noexcept;
+};
 
 class Resources 
 {
-    std::vector<Texture_Container> shipTextures;
     Texture_Container alienTexture = Texture_Container( "./Assets/Alien.png"sv );
     Texture_Container barrierTexture = Texture_Container( "./Assets/Barrier.png"sv);
     Texture_Container laserTexture = Texture_Container( "./Assets/Laser.png"sv );
 public:
-    Animator animator{};
-
-
-     Resources();
 
     const Texture2D& GetAlienTexture() const noexcept;
     const Texture2D& GetBarrierTexture() const noexcept;
     const Texture2D& GetLaserTexture() const noexcept;
-    const Texture2D& GetShipTexture() noexcept;
+
 };

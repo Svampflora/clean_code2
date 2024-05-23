@@ -1,39 +1,31 @@
 #pragma once
 
-class Game;
+#include <codeanalysis\warnings.h>
+#pragma warning(push)
+#pragma warning(disable:ALL_CODE_ANALYSIS_WARNINGS)
+#include "raylib.h"
+#include "raymath.h"
+#pragma warning(pop)
+
+#include <memory>
+#include <string>
+#include "Utilities.h"
+
+enum class Switch_State { to_startscreen, to_gameplay, to_endgame, stay_at_same };
 
 class State
 {
-protected:
-	Game& game; //TODO: avoid using reference member
+
 public:
-	State(Game& _game) noexcept;
+
 	virtual ~State() = default;
-	virtual void Update() = 0;
-	virtual void Render() = 0;
+	virtual Switch_State Update() = 0;
+	virtual int Reset() = 0;
+	virtual void Render()  const noexcept = 0;
 };
 
 
-class Startscreen : public State
-{
-public:
-	Startscreen(Game& _game) noexcept;
-	void Update() override;
-	void Render() noexcept override;
-};
 
-class Gameplay : public State
-{
-public:
-	Gameplay(Game& _game) noexcept : State(_game) {}
-	void Update() override;
-	void Render() noexcept override;
-};
 
-class Endscreen : public State
-{
-public:
-	Endscreen(Game& _game) noexcept : State(_game) {}
-	void Update() override;
-	void Render() noexcept override;
-};
+
+

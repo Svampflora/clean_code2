@@ -2,22 +2,6 @@
 #include <iostream>
 
 
-const size_t Animator::Get(size_t _number_of_frames) noexcept
-{
-    timer += GetFrameTime();
-    if (timer <= 0.4)
-    {
-        return current_frame;
-    }
-    current_frame++;
-    timer = 0;
-    if (current_frame == _number_of_frames)
-    {
-        current_frame = 0;
-    }
-    return current_frame;
-}
-
 Texture_Container::Texture_Container(std::string_view path)
 {
     texture = LoadTexture(path.data());
@@ -52,14 +36,14 @@ const Texture2D& Texture_Container::Get() const noexcept
     return texture;
 }
 
-[[gsl::suppress(f.6)]]
-Resources::Resources() //TODO: default constructor insists on noexcept
-{
-    shipTextures.reserve(3);
-    shipTextures.emplace_back("./Assets/Ship1.png"sv);
-    shipTextures.emplace_back("./Assets/Ship2.png"sv);
-    shipTextures.emplace_back("./Assets/Ship3.png"sv);
-}
+//[[gsl::suppress(f.6)]]
+//Resources::Resources() //TODO: default constructor insists on noexcept
+//{
+//    shipTextures.reserve(3);
+//    shipTextures.emplace_back("./Assets/Ship1.png"sv);
+//    shipTextures.emplace_back("./Assets/Ship2.png"sv);
+//    shipTextures.emplace_back("./Assets/Ship3.png"sv);
+//}
 
 
 const Texture2D& Resources::GetAlienTexture() const noexcept
@@ -77,12 +61,48 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
     return laserTexture.Get();
 }
 
-const Texture2D& Resources::GetShipTexture() noexcept
-{
-    const size_t frame = animator.Get(shipTextures.size()-1);
+//const Texture2D& Resources::GetShipTexture(size_t frame) const noexcept
+//{
+//    
+//    [[gsl::suppress(bounds.4)]]
+//    return shipTextures[frame].Get();
+// 
+//}
 
-    [[gsl::suppress(bounds.4)]]
-    return shipTextures[frame].Get();
- 
+//size_t Animator::Get() noexcept
+//{
+//    return size_t();
+//}
+
+Animator::Animator(std::vector<std::string_view> file_paths)
+{
+    frames.reserve(file_paths.size());
+        for (const auto& path : file_paths)
+        {
+            frames.emplace_back(path);
+        } //TODO: throw if empty
+}
+
+void Animator::Update(float deltaTime) noexcept
+{
+    if (frames.empty()) 
+    {
+        return;
+    }
+
+    timer += deltaTime;
+    float frame_duration = 1.0f / frames_per_second;
+    while (timer >= frame_duration) 
+    {
+
+        timer -= frame_duration;
+        current_frame = (current_frame + 1) % frames.size();
+    }
+}
+
+
+const Texture2D& Animator::GetFrame() const noexcept
+{
+    return frames[current_frame].Get();
 }
 
