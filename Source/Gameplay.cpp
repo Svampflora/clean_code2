@@ -219,7 +219,7 @@ bool Gameplay::PlayerHasLives() const noexcept
 
 bool Gameplay::CheckAlienHasInvaded(const Alien& alien) const noexcept
 {
-	if (alien.GetPosition().y > GetScreenHeight() - player.GetSize().y)
+	if (alien.YPosition() > GetScreenHeight() - player.GetHeight())
 	{
 		return true;
 	}
@@ -242,7 +242,7 @@ void Gameplay::AlienShooting()
 		if (aliens.size() > 1)
 		{
 			const int randomAlienIndex = rand() % aliens.size();
-			enemyProjectiles.push_back(Projectile({ aliens[randomAlienIndex].GetXPosition(), aliens[randomAlienIndex].GetYPosition() + 40 }, -15));
+			enemyProjectiles.push_back(Projectile({ aliens[randomAlienIndex].XPosition(), aliens[randomAlienIndex].YPosition() + 40 }, -15)); //TODO:suppress
 
 		}
 		shootTimer = 0;
@@ -258,7 +258,7 @@ void Gameplay::CheckPlayerShooting()
 	}
 }
 
-float Gameplay::CalculateOffset() const noexcept		//TODO: remove this and provide a backround.update(player.get_x())
+float Gameplay::CalculateOffset() const		//TODO: remove this and provide a backround.update(player.get_x())
 {
 	const Vector2 playerPos = { player.GetXPosition(), player.GetHeight()};
 	const Vector2 cornerPos = { 0, player.GetHeight() };

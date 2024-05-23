@@ -34,7 +34,7 @@ class Gameplay : public State
 	template <typename ObjectType>
 	void HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects);
 
-	float CalculateOffset() const noexcept;
+	float CalculateOffset() const;
 	int	GetScore() const noexcept;
 	int GetLives() const noexcept;
 	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);

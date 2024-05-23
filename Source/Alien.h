@@ -5,15 +5,12 @@
 #include "raylib.h"
 #pragma warning(pop)
 
-
+static constexpr int alien_height = 50;
 
 class Alien
 {
-	Color color;
 	Vector2 position;
 	float radius;
-	int x;
-	int y;
 	int speed;
 	bool active; 
 
@@ -22,8 +19,8 @@ public:
 
 	Alien(Vector2 _position) noexcept;
 	Vector2 GetPosition() const noexcept;
-	float GetXPosition() const noexcept;
-	float GetYPosition() const noexcept;
+	float XPosition() const noexcept;
+	float YPosition() const noexcept;
 	float GetRadius() const noexcept;
 	bool Active() const noexcept;
 	void SetActive(bool _status) noexcept;

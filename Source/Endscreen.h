@@ -6,18 +6,18 @@
 struct ScoreData
 {
 	std::string name{ "" };
-	unsigned int score = 0;
+	unsigned int score{ 0 };
 };
 
 class Endscreen : public State
 {
-	ScoreData currentScore{};
-	std::vector<ScoreData> Leaderboard;
-	Rectangle textBox = { 600, 500, 225, 50 };
-	std::string name{};
-	int letterCount = 0;
-	int framesCounter = 0;
-	bool mouseOnText = false;
+	std::vector<ScoreData> leaderboard{ {"Player 1", 500}, {"Player 2", 400}, {"Player 3", 300}, {"Player 4", 200}, {"Player 5", 100} };
+	ScoreData current_score{};
+	Rectangle text_box = { 600, 500, 225, 50 };
+	std::string name{""};
+	int letter_count = 0;
+	int frame_counter = 0;
+	bool mouse_on_text = false;
 
 	void DrawTextBox() const noexcept;
 	void DrawLeaderboard() const noexcept;
@@ -28,9 +28,8 @@ class Endscreen : public State
 	void SaveLeaderboard();
 	bool IsNewHighScore() const noexcept;
 public:
-	Endscreen() noexcept;
 	Switch_State Update() override;
+	int Reset() noexcept override;
 	void ProvideScore(ScoreData scoreData) noexcept;
 	void Render() const noexcept override;
-	int Reset() noexcept override;
 };

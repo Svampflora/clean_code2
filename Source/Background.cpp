@@ -9,29 +9,21 @@
 
 
 
-Star::Star() noexcept
+void Star::Update(float star_offset) noexcept
 {
-	initPosition={ GetRandomValueF(-150, GetScreenWidth() + 150), GetRandomValueF(0, GetScreenHeight()) }; //TODO: consider int positions for stars
-	position = { 0, 0 };
-	size = (GetRandomValueF(1, 4) / 2);
-	color = SKYBLUE;
-}
-
-void Star::Update(float starOffset) noexcept
-{
-	position.x = initPosition.x + starOffset;
-	position.y = initPosition.y;
+	position.x = start_position.x + narrow_cast<int>(star_offset);
+	position.y = start_position.y;
 
 }
 
 void Star::Render() const noexcept
 {
-	DrawCircleF(position.x, position.y, size, color);
+	DrawCircle(position.x, position.y, size, color);
 }
 
-Background::Background(int starAmount) noexcept
+Background::Background(int star_amount) noexcept
 {
-	stars.resize(starAmount);
+	stars.resize(star_amount);
 	std::generate(stars.begin(), stars.end(), [this]() noexcept { return Star(); } );
 }
 

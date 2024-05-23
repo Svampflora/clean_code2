@@ -1,14 +1,11 @@
 #include "Alien.h"
 
-Alien::Alien(Vector2 _position) noexcept
+Alien::Alien(Vector2 _position) noexcept :
+	position(_position),
+	radius(30),
+	speed(2),
+	active(true)
 {
-	color = WHITE;
-	position = _position;
-	radius = 30;
-	x = 0;					
-	y = 0;
-	speed = 2;
-	active = true;
 }
 
 Vector2 Alien::GetPosition() const noexcept
@@ -16,14 +13,14 @@ Vector2 Alien::GetPosition() const noexcept
 	return position;
 }
 
-float Alien::GetXPosition() const noexcept
+float Alien::XPosition() const noexcept
 {
-	return 0.0f;
+	return position.x;
 }
 
-float Alien::GetYPosition() const noexcept
+float Alien::YPosition() const noexcept
 {
-	return 0.0f;
+	return position.y;
 }
 
 float Alien::GetRadius() const noexcept
@@ -51,10 +48,10 @@ void Alien::Update() noexcept
 	}
 }
 
-void Alien::ChangeDirection() noexcept //TODO: magic values
+void Alien::ChangeDirection() noexcept
 {
 	speed *= -1;
-	position.y += 50;
+	position.y += alien_height;
 }
 
 void Alien::Render(const Texture2D& texture) const noexcept //TODO: magic values

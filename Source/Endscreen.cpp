@@ -3,15 +3,6 @@
 #include <fstream>
 #include <iostream>
 
-Endscreen::Endscreen() noexcept :
-	Leaderboard({ {"Player 1", 500}, {"Player 2", 400}, {"Player 3", 300}, {"Player 4", 200}, {"Player 5", 100} }),
-	textBox{ 600, 500, 225, 50 },
-	name{},
-	letterCount(0),
-	framesCounter(0),
-	mouseOnText(false)
-{
-}
 
 Switch_State Endscreen::Update()
 {
@@ -48,14 +39,14 @@ int Endscreen::Reset() noexcept
 
 bool Endscreen::IsNewHighScore() const noexcept
 {
-	return (currentScore.score > Leaderboard.back().score);
+	return (current_score.score > leaderboard.back().score);
 }
 
 void Endscreen::EnterName() //TODO: make shorter
 {
-	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);
+	mouse_on_text = CheckCollisionPointRec(GetMousePosition(), text_box);
 
-	if (mouseOnText)
+	if (mouse_on_text)
 	{
 		SetMouseCursor(MOUSE_CURSOR_IBEAM);
 		InsertLetters();
@@ -65,9 +56,9 @@ void Endscreen::EnterName() //TODO: make shorter
 		SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 	}
 
-	framesCounter = mouseOnText ? framesCounter + 1 : 0;
+	frame_counter = mouse_on_text ? frame_counter + 1 : 0;
 
-	if (letterCount > 0 && letterCount < 9 && IsKeyReleased(KEY_ENTER))
+	if (letter_count > 0 && letter_count < 9 && IsKeyReleased(KEY_ENTER))
 	{
 		InsertNewHighScore(name);
 	}
@@ -78,34 +69,34 @@ void Endscreen::InsertLetters()
 	int key;
 	while ((key = GetCharPressed()) > 0)
 	{
-		if ((key >= 32) && (key <= 125) && (letterCount < 9))
+		if ((key >= 32) && (key <= 125) && (letter_count < 9))
 		{
 
 			[[gsl::suppress(type.1)]]
 			const char character_key = static_cast<char>(key); //TODO: find solution so we don't need to cast
 
 			name.push_back(character_key);
-			letterCount++;
+			letter_count++;
 		}
 	}
 
-	if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0)
+	if (IsKeyPressed(KEY_BACKSPACE) && letter_count > 0)
 	{
 		name.pop_back();
-		letterCount--;
+		letter_count--;
 	}
 }
 void Endscreen::InsertNewHighScore(std::string _name)
 {
-	for (auto it = Leaderboard.begin(); it != Leaderboard.end(); ++it)
+	for (auto it = leaderboard.begin(); it != leaderboard.end(); ++it)
 	{
-		if (currentScore.score > it->score)
+		if (current_score.score > it->score)
 		{
-			ScoreData newData{ _name, currentScore.score };
-			Leaderboard.insert(it, newData);
-			Leaderboard.pop_back();
+			ScoreData newData{ _name, current_score.score };
+			leaderboard.insert(it, newData);
+			leaderboard.pop_back();
 
-			currentScore.score = 0;
+			current_score.score = 0;
 			break;
 		}
 	}
@@ -133,31 +124,31 @@ void Endscreen::SaveLeaderboard() //TODO: does not save to file
 
 void Endscreen::ProvideScore(ScoreData scoreData) noexcept
 {
-	currentScore.score = scoreData.score;
+	current_score.score = scoreData.score;
 }
 
 void Endscreen::DrawTextBox() const noexcept //TODO: magic values
 {
-	const Color borderColor = mouseOnText ? RED : DARKGRAY;
+	const Color borderColor = mouse_on_text ? RED : DARKGRAY;
 	constexpr float thickness = 2.0f;
-	DrawRectangleLinesEx(textBox, thickness, borderColor);
-	DrawTextF(name.c_str(), textBox.x + 5.0f, textBox.y + 8.0f, 40, MAROON);
-	DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, 8), 600, 600, 20, YELLOW);
+	DrawRectangleLinesEx(text_box, thickness, borderColor);
+	DrawTextF(name.c_str(), text_box.x + 5.0f, text_box.y + 8.0f, 40, MAROON);
+	DrawText(TextFormat("INPUT CHARS: %i/%i", letter_count, 8), 600, 600, 20, YELLOW);
 
 	constexpr int maxLetterCount = 9;
-	if (mouseOnText && letterCount < maxLetterCount)
+	if (mouse_on_text && letter_count < maxLetterCount)
 	{
-		if ((framesCounter / 20) % 2 == 0)
+		if ((frame_counter / 20) % 2 == 0)
 		{
-			DrawTextF("_", textBox.x + 8 + MeasureText(name.c_str(), 40), textBox.y + 12.0f, 40, MAROON);
+			DrawTextF("_", text_box.x + 8 + MeasureText(name.c_str(), 40), text_box.y + 12.0f, 40, MAROON);
 		}
 	}
-	else if (mouseOnText)
+	else if (mouse_on_text)
 	{
 		DrawText("Press BACKSPACE to delete chars...", 600, 650, 20, YELLOW);
 	}
 
-	if (letterCount > 0 && letterCount < 9)
+	if (letter_count > 0 && letter_count < 9)
 	{
 		DrawText("PRESS ENTER TO CONTINUE", 600, 800, 40, YELLOW);
 	}
@@ -168,7 +159,7 @@ void Endscreen::DrawLeaderboard() const noexcept //TODO: magic values
 	DrawText("PRESS ENTER TO CONTINUE", 600, 200, 40, YELLOW);
 	DrawText("LEADERBOARD", 50, 100, 40, YELLOW);
 	int yOffset = 140;
-	for (const auto& entry : Leaderboard)
+	for (const auto& entry : leaderboard)
 	{
 		DrawText(entry.name.c_str(), 50, yOffset, 40, YELLOW);
 		DrawText(TextFormat("%i", entry.score), 350, yOffset, 40, YELLOW);

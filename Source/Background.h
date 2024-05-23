@@ -5,13 +5,12 @@
 
 class Star
 {
-	Vector2 initPosition;
-	Vector2 position;
-	Color color;
-	float size;
+	Color color = SKYBLUE;
+	Vector2i start_position = { GetRandomValue(-150, GetScreenWidth() + 150), GetRandomValue(0, GetScreenHeight()) };
+	Vector2i position = { 0, 0 };
+	float size = (GetRandomValueF(1, 4) / 2);
 
 public:
-	Star() noexcept;
 
 	void Update(float _starOffset) noexcept;
 	void Render() const noexcept;
@@ -26,7 +25,7 @@ class Background
 
 public:
 
-	Background(int starAmount) noexcept;
+	Background(int star_amount) noexcept;
 	void Update(const float _offset) noexcept;
 	void Render() const noexcept;
 
