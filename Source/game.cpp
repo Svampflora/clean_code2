@@ -33,15 +33,6 @@ void Game::ResetState()
     scoreData.score = current_state->Reset();
 }
 
-Game::Game() //TODO: default constructor insists in noexcept
-{
-    startscreen = std::make_shared<Startscreen>();
-    gameplay = std::make_shared<Gameplay>();
-    endscreen = std::make_shared<Endscreen>();
-    current_state = startscreen;
-    scoreData = ScoreData{};
-}
-
 void Game::Update()
 {
     const Switch_State new_state = current_state->Update();

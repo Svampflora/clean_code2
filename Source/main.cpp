@@ -25,7 +25,7 @@
 #include <iostream>
 
 
-class Window
+class Window //TODO: consider giving a Window to Game
 {
 
 public:
@@ -45,12 +45,12 @@ public:
 };
 
 
-int main(void)
+int main(void) //TODO: too long function
 {    
     try
     { 
         constexpr int screenWidth = 1920;
-        constexpr int screenHeight = 1080;
+        constexpr int screenHeight = 1080 - 80;
 
         Window window(screenWidth, screenHeight);
         SetTargetFPS(60); 

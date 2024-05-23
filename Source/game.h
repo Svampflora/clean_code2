@@ -6,16 +6,15 @@
 
 class Game
 {
-	std::shared_ptr<Startscreen> startscreen;
-	std::shared_ptr<Gameplay> gameplay;
-	std::shared_ptr<Endscreen> endscreen;
-	std::shared_ptr<State> current_state;
-	ScoreData scoreData;
+	std::shared_ptr<Startscreen> startscreen{ std::make_shared<Startscreen>() };
+	std::shared_ptr<Gameplay> gameplay{ std::make_shared<Gameplay>() };
+	std::shared_ptr<Endscreen> endscreen{ std::make_shared<Endscreen>() };
+	std::shared_ptr<State> current_state = startscreen;
+	ScoreData scoreData{};
 
 	void SwitchState(Switch_State);
 	void ResetState();
 public:
-	Game();
 	void Update();
 	void Render() const noexcept;
 };

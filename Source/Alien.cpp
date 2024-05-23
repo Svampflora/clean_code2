@@ -16,6 +16,16 @@ Vector2 Alien::GetPosition() const noexcept
 	return position;
 }
 
+float Alien::GetXPosition() const noexcept
+{
+	return 0.0f;
+}
+
+float Alien::GetYPosition() const noexcept
+{
+	return 0.0f;
+}
+
 float Alien::GetRadius() const noexcept
 {
 	return radius;

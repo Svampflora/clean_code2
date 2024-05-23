@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include "Utilities.h"
 
 
 
@@ -23,7 +24,7 @@ void Projectile::Update() noexcept //TODO: magic values
 {
 	position.y -= speed;
 
-	if (position.y < 0 || position.y > 1500)
+	if (position.y < 0 || position.y > GetScreenHeightF() + projectile_height)
 	{
 		active = false;
 	}

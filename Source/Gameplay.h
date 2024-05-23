@@ -11,22 +11,21 @@
 
 class Gameplay : public State
 {
-	Player player;
-	Background background;
-	Resources resources;
-	float shootTimer;
-	float formationX;
-	float formationY;
-	int formationWidth;
-	int formationHeight;
-	int alienSpacing;
-	int score;
+	Player player{};
+	Background background{ 600 };
+	Resources resources{};
+	float shootTimer{0.0f};
+	float formationX{ 100.0f };
+	float formationY{ 50.0f };
+	int formationWidth{8};
+	int formationHeight{5};
+	int alienSpacing{80};
+	int score{0};
 	std::vector<Projectile> playerProjectiles;
 	std::vector<Projectile> enemyProjectiles;
 	std::vector<Alien> aliens;
 	std::vector<Wall> walls;
 
-	float CalculateOffset() const;
 	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);
 	template <typename Object>
 	bool CheckProjectileCollision(const Projectile& projectile, const Object& object);
@@ -35,12 +34,12 @@ class Gameplay : public State
 	template <typename ObjectType>
 	void HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects);
 
+	float CalculateOffset() const;
 	int	GetScore() const noexcept;
 	int GetLives() const noexcept;
 	void SpawnAliens();
 	void MakeWalls();
 	bool PlayerHasLives() const noexcept; //TODO: dumb?
-
 	bool CheckAlienHasInvaded(const Alien& alien) const noexcept;
 	void CheckPlayerShooting(); //TODO: make bool
 	void CheckAlienAmount(); //TODO: make bool

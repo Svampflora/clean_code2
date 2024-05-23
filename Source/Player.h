@@ -13,7 +13,9 @@
 
 class Player
 {
-	Animator animator;
+	Animator animator{ std::vector{ "./Assets/Ship1.png"sv,
+									"./Assets/Ship2.png"sv,
+									"./Assets/Ship3.png"sv } };
 	Vector2 size = { 70.0f, 70.0f };
 	Vector2 position = { GetScreenWidthF() * 0.5f, GetScreenHeightF() - size.y};
 	float speed = 7;
@@ -22,14 +24,16 @@ class Player
 	int direction = 0;
 
 public:
-	Player();
+
+	Vector2 GetSize() const noexcept;
+	Vector2 GetPosition() const noexcept;
+	float GetHeight() const noexcept;
+	float GetXPosition() const noexcept;
+	float GetRadius() const noexcept;
+	int GetLives() const noexcept;
 	void Update() noexcept;
 	void Render() const noexcept;
 	void Hurt(int damage) noexcept;
 	void Reset() noexcept;
-	Vector2 GetSize() const noexcept;
-	Vector2 GetPosition() const noexcept;
-	float GetRadius() const noexcept;
-	int GetLives() const noexcept;
 
 };

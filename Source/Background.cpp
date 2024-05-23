@@ -11,7 +11,7 @@
 
 Star::Star() noexcept
 {
-	initPosition={ GetRandomValueF(-150, GetScreenWidth() + 150), GetRandomValueF(0, GetScreenHeight()) };
+	initPosition={ GetRandomValueF(-150, GetScreenWidth() + 150), GetRandomValueF(0, GetScreenHeight()) }; //TODO: consider int positions for stars
 	position = { 0, 0 };
 	size = (GetRandomValueF(1, 4) / 2);
 	color = SKYBLUE;
@@ -39,7 +39,7 @@ void Background::Update(const float _offset) noexcept
 {
 	for (auto& star : stars)
 	{
-		star.Update(_offset / 15);
+		star.Update(_offset);
 	}
 }
 

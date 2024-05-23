@@ -1,5 +1,6 @@
 #include "Gameplay.h"
 #include "Endscreen.h"
+#include <ranges>
 
 template<typename T, typename Func>
 void CheckConditionAndPerformAction(T value, Func action)
@@ -110,21 +111,8 @@ Switch_State Gameplay::Update()
 	return Switch_State::stay_at_same;
 }
 
-Gameplay::Gameplay() :
-	player(),
-	background(600),
-	resources(),
-	shootTimer(0),
-	formationX(100.0f),
-	formationY(50.0f),
-	formationWidth(8),
-	formationHeight(5),
-	alienSpacing(80),
-	score(0)
+Gameplay::Gameplay() //TODO: default constructor insists on noexcept, suppress
 {
-	
-	playerProjectiles;
-	enemyProjectiles;
 	SpawnAliens();
 	MakeWalls();
 }
@@ -141,30 +129,31 @@ int Gameplay::Reset()
 	const int _score = score;
 	Clear();
 	MakeWalls();
-	SpawnAliens(); //TODO: put spawn stupp in a function and use similar naming
+	SpawnAliens();
 	player.Reset();
 	return _score;
 }
 
 void Gameplay::SpawnAliens()
 {
-	for (int row = 0; row < formationHeight; row++)
+	for (const int row : std::views::iota(0, formationHeight)) 
 	{
-		for (int column = 0; column < formationWidth; column++)
+		for (const int column : std::views::iota(0, formationWidth)) 
 		{
-			aliens.emplace_back(Alien{ {formationX + 450.0f + (column * alienSpacing), formationY + (row * alienSpacing)} });
+			aliens.emplace_back(Vector2{formationX + 450.0f + (column * alienSpacing), formationY + (row * alienSpacing)});
 		}
 	}
 }
 
-void Gameplay::MakeWalls() //TODO: old loop
+
+void Gameplay::MakeWalls()
 {
 	const float window_width = GetScreenWidthF();
 	const float window_height = GetScreenHeightF();
 	constexpr int wallAmount = 5;
 	const float wall_distance = window_width / (wallAmount + 1);
 
-	for (int i = 0; i < wallAmount; ++i)
+	for (const int i : std::views::iota(0, wallAmount)) 
 	{
 		walls.emplace_back(Vector2{ wall_distance * (i + 1), window_height - 250 });
 	}
@@ -180,8 +169,6 @@ void Gameplay::Clear() noexcept
 	aliens.clear();
 	score = 0;
 }
-
-
 
 void Gameplay::RemoveInactiveEntities() noexcept
 {
@@ -247,7 +234,7 @@ void Gameplay::CheckAlienAmount()
 	}
 }
 
-void Gameplay::AlienShooting() //TODO: get around at()
+void Gameplay::AlienShooting() //TODO: get around at(), demeter
 {
 	const int framesPerSecond = GetFPS();
 	if (++shootTimer > framesPerSecond)
@@ -255,14 +242,16 @@ void Gameplay::AlienShooting() //TODO: get around at()
 		if (aliens.size() > 1)
 		{
 			const int randomAlienIndex = rand() % aliens.size();
-			enemyProjectiles.push_back(Projectile({ aliens.at(randomAlienIndex).GetPosition().x, aliens.at(randomAlienIndex).GetPosition().y + 40 }, -15));
+			//enemyProjectiles.push_back(Projectile({ aliens.at(randomAlienIndex).GetPosition().x, aliens.at(randomAlienIndex).GetPosition().y + 40 }, -15));
+			enemyProjectiles.push_back(Projectile({ aliens[randomAlienIndex].GetXPosition(), aliens[randomAlienIndex].GetYPosition() + 40 }, -15));
 
 		}
 		shootTimer = 0;
 	}
 }
 
-void Gameplay::CheckPlayerShooting()
+void Gameplay::CheckPlayerShooting() //TODO: demeter
+{
 {
 	if (IsKeyPressed(KEY_SPACE))
 	{
@@ -271,22 +260,18 @@ void Gameplay::CheckPlayerShooting()
 	}
 }
 
-float Gameplay::CalculateOffset() const
+float Gameplay::CalculateOffset() const //TODO: remove this and provide a backround.update(player.get_x());
 {
-	const Vector2 playerPos = { player.GetPosition().x, player.GetSize().y };
-	const Vector2 cornerPos = { 0, player.GetSize().y };
-
-	return Vector2Distance(playerPos, cornerPos) * -1;
+	const Vector2 playerPos = { player.GetXPosition(), player.GetHeight()};
+	const Vector2 cornerPos = { 0, player.GetHeight() };
+	const float weird_offset = Vector2Distance(playerPos, cornerPos) * -1;
+	return  weird_offset / 15;
 }
 
 bool Gameplay::CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges)
 {
 	const float length = Vector2Distance(edges.first, edges.second);
-	if (CheckCollisionPointCircle(edges.first, circlePos, circleRadius) || CheckCollisionPointCircle(edges.second, circlePos, circleRadius))
-	{
-		return true;
-	}
-	else if (CheckCollisionCircleRec(circlePos, circleRadius, Rectangle{ edges.first.x, edges.first.y, 0.5f, length }))
+	if (CheckCollisionCircleRec(circlePos, circleRadius, Rectangle{ edges.first.x, edges.first.y, 0.5f, length }))
 	{
 		return true;
 	}
@@ -320,8 +305,6 @@ void Gameplay::RenderBackground() const noexcept
 
 void Gameplay::RenderGameObjects() const noexcept
 {
-	//const size_t frame = resources.animator.Get(shipTextures.size());
-	//player.Render(resources.GetShipTexture(3)); //TODO:Hardcoded bullshit
 	player.Render();
 	RenderObjects(enemyProjectiles, resources.GetLaserTexture());
 	RenderObjects(playerProjectiles, resources.GetLaserTexture());

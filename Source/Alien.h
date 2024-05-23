@@ -22,6 +22,8 @@ public:
 
 	Alien(Vector2 _position) noexcept;
 	Vector2 GetPosition() const noexcept;
+	float GetXPosition() const noexcept;
+	float GetYPosition() const noexcept;
 	float GetRadius() const noexcept;
 	bool Active() const noexcept;
 	void SetActive(bool _status) noexcept;

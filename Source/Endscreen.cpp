@@ -24,7 +24,6 @@ Switch_State Endscreen::Update()
 	if (IsKeyReleased(KEY_ENTER))
 	{
 		SaveLeaderboard();
-		//game.Clear(); //TODO: new place to clear game lists
 		return Switch_State::to_startscreen;
 	}
 	return Switch_State::stay_at_same;
@@ -52,7 +51,7 @@ bool Endscreen::IsNewHighScore() const noexcept
 	return (currentScore.score > Leaderboard.back().score);
 }
 
-void Endscreen::EnterName()
+void Endscreen::EnterName() //TODO: make shorter
 {
 	mouseOnText = CheckCollisionPointRec(GetMousePosition(), textBox);
 
@@ -60,7 +59,6 @@ void Endscreen::EnterName()
 	{
 		SetMouseCursor(MOUSE_CURSOR_IBEAM);
 		InsertLetters();
-
 	}
 	else
 	{
@@ -99,16 +97,16 @@ void Endscreen::InsertLetters()
 }
 void Endscreen::InsertNewHighScore(std::string _name)
 {
-	for (size_t i = 0; i < Leaderboard.size(); i++) //TODO: better for-loop
+	for (auto it = Leaderboard.begin(); it != Leaderboard.end(); ++it)
 	{
-		if (currentScore.score > Leaderboard.at(i).score)
+		if (currentScore.score > it->score)
 		{
 			ScoreData newData{ _name, currentScore.score };
-			Leaderboard.insert(Leaderboard.begin() + i, newData);
+			Leaderboard.insert(it, newData);
 			Leaderboard.pop_back();
 
-			i = Leaderboard.size();
 			currentScore.score = 0;
+			break;
 		}
 	}
 }
