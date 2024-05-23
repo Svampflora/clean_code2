@@ -1,4 +1,5 @@
 #pragma once
+#include <ranges>
 #include "State.h"
 
 #include "Player.h"
@@ -26,7 +27,6 @@ class Gameplay : public State
 	std::vector<Alien> aliens;
 	std::vector<Wall> walls;
 
-	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);
 	template <typename Object>
 	bool CheckProjectileCollision(const Projectile& projectile, const Object& object);
 	template <typename ProjectileContainer, typename ObjectType>
@@ -34,13 +34,14 @@ class Gameplay : public State
 	template <typename ObjectType>
 	void HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects);
 
-	float CalculateOffset() const;
+	float CalculateOffset() const noexcept;
 	int	GetScore() const noexcept;
 	int GetLives() const noexcept;
-	void SpawnAliens();
-	void MakeWalls();
+	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);
 	bool PlayerHasLives() const noexcept; //TODO: dumb?
 	bool CheckAlienHasInvaded(const Alien& alien) const noexcept;
+	void SpawnAliens();
+	void MakeWalls();
 	void CheckPlayerShooting(); //TODO: make bool
 	void CheckAlienAmount(); //TODO: make bool
 	void UpdatePlayer() noexcept;

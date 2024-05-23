@@ -1,6 +1,6 @@
 #include "Gameplay.h"
-#include "Endscreen.h"
-#include <ranges>
+
+
 
 template<typename T, typename Func>
 void CheckConditionAndPerformAction(T value, Func action)
@@ -234,7 +234,7 @@ void Gameplay::CheckAlienAmount()
 	}
 }
 
-void Gameplay::AlienShooting() //TODO: get around at(), demeter
+void Gameplay::AlienShooting()
 {
 	const int framesPerSecond = GetFPS();
 	if (++shootTimer > framesPerSecond)
@@ -242,7 +242,6 @@ void Gameplay::AlienShooting() //TODO: get around at(), demeter
 		if (aliens.size() > 1)
 		{
 			const int randomAlienIndex = rand() % aliens.size();
-			//enemyProjectiles.push_back(Projectile({ aliens.at(randomAlienIndex).GetPosition().x, aliens.at(randomAlienIndex).GetPosition().y + 40 }, -15));
 			enemyProjectiles.push_back(Projectile({ aliens[randomAlienIndex].GetXPosition(), aliens[randomAlienIndex].GetYPosition() + 40 }, -15));
 
 		}
@@ -250,17 +249,16 @@ void Gameplay::AlienShooting() //TODO: get around at(), demeter
 	}
 }
 
-void Gameplay::CheckPlayerShooting() //TODO: demeter
-{
+void Gameplay::CheckPlayerShooting()
 {
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		const float window_height = GetScreenHeightF();
-		playerProjectiles.push_back(Projectile({ player.GetPosition().x, window_height - 130 }, 15));
+		playerProjectiles.push_back(Projectile({ player.GetXPosition(), window_height - 130 }, 15));
 	}
 }
 
-float Gameplay::CalculateOffset() const //TODO: remove this and provide a backround.update(player.get_x());
+float Gameplay::CalculateOffset() const noexcept		//TODO: remove this and provide a backround.update(player.get_x())
 {
 	const Vector2 playerPos = { player.GetXPosition(), player.GetHeight()};
 	const Vector2 cornerPos = { 0, player.GetHeight() };
