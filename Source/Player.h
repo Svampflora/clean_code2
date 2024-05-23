@@ -9,7 +9,7 @@
 #include "Utilities.h"
 #include "Resources.h"
 
-
+static constexpr int start_lives = 3;
 
 class Player
 {
@@ -20,7 +20,7 @@ class Player
 	Vector2 position = { GetScreenWidthF() * 0.5f, GetScreenHeightF() - size.y};
 	float speed = 7;
 	float radius = 50;
-	int lives = 3;
+	int lives = start_lives;
 	int direction = 0;
 
 public:

@@ -44,7 +44,7 @@ void Player::Hurt(int damage) noexcept
 
 void Player::Reset() noexcept
 {
-	lives = 3;
+	lives = start_lives;
 	position = { GetScreenWidthF() * 0.5f, GetScreenHeightF() - size.y };
 }
 

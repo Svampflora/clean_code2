@@ -111,7 +111,8 @@ Switch_State Gameplay::Update()
 	return Switch_State::stay_at_same;
 }
 
-Gameplay::Gameplay() //TODO: default constructor insists on noexcept, suppress
+[[gsl::suppress(f.6)]]
+Gameplay::Gameplay()
 {
 	SpawnAliens();
 	MakeWalls();
@@ -158,8 +159,6 @@ void Gameplay::MakeWalls()
 		walls.emplace_back(Vector2{ wall_distance * (i + 1), window_height - 250 });
 	}
 }
-
-
 
 void Gameplay::Clear() noexcept
 {
@@ -242,7 +241,8 @@ void Gameplay::AlienShooting()
 		if (aliens.size() > 1)
 		{
 			const int randomAlienIndex = rand() % aliens.size();
-			enemyProjectiles.push_back(Projectile({ aliens[randomAlienIndex].XPosition(), aliens[randomAlienIndex].YPosition() + 40 }, -15)); //TODO:suppress
+			[[gsl::suppress(bounds.4)]]
+			enemyProjectiles.push_back(Projectile({ aliens[randomAlienIndex].XPosition(), aliens[randomAlienIndex].YPosition() + 40 }, -15));
 
 		}
 		shootTimer = 0;

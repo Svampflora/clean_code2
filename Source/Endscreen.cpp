@@ -71,10 +71,7 @@ void Endscreen::InsertLetters()
 	{
 		if ((key >= 32) && (key <= 125) && (letter_count < 9))
 		{
-
-			[[gsl::suppress(type.1)]]
-			const char character_key = static_cast<char>(key); //TODO: find solution so we don't need to cast
-
+			const char character_key = narrow_cast<char>(key);
 			name.push_back(character_key);
 			letter_count++;
 		}

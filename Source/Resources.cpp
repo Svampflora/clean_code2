@@ -83,8 +83,9 @@ void Animator::Update(float deltaTime) noexcept
 }
 
 
-const Texture2D& Animator::GetFrame() const noexcept //TODO: suppress
+const Texture2D& Animator::GetFrame() const noexcept
 {
+    [[gsl::suppress(bounds.4)]]
     return frames[current_frame].Get();
 }
 
