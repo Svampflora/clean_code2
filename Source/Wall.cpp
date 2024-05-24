@@ -6,14 +6,14 @@ float Wall::GetRadius() const noexcept
 	return radius;
 }
 
-Wall::Wall(Vector2 _position) noexcept
+Wall::Wall(Vector2 _position) noexcept:
+ position(_position),
+ rectangle{},
+ color{},
+ radius(60),
+ health(50),
+ active(true)
 {
-	position = _position;
-	rec = Rectangle{};
-	color = Color{};
-	health = 50;
-	radius = 60;
-	active = true;
 }
 
 Vector2 Wall::GetPosition() const noexcept

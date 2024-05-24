@@ -1,14 +1,14 @@
 #pragma once
-#include "raylib.h"
+#include "raylib.h" //TODO: suppress
 
 
 class Wall
 {
 	Vector2 position;
-	Rectangle rec;
+	Rectangle rectangle;
 	Color color;
-	int health;
 	float radius;
+	int health;
 	bool active;
 
 public:

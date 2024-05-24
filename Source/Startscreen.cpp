@@ -8,7 +8,6 @@ Switch_State Startscreen::Update() noexcept
 {
 	if (IsKeyReleased(KEY_SPACE))
 	{
-		//game.Reset();//TODO: new place to reset in between games
 		return Switch_State::to_gameplay;
 	}
 	return Switch_State::stay_at_same;

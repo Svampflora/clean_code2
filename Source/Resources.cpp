@@ -55,7 +55,7 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
 Animator::Animator(std::vector<std::string_view> file_paths)
 {
     frames.reserve(file_paths.size());
-        for (const auto& path : file_paths) //TODO: double layered reference?
+        for (const auto& path : file_paths) //TODO: double layered reference. supress?
         {
             frames.emplace_back(path);
         } 
