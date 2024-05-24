@@ -25,7 +25,7 @@
 #include <iostream>
 
 
-class Window //TODO: consider giving a Window to Game
+class Window //TODO: give Game a Window
 {
 
 public:
@@ -34,10 +34,10 @@ public:
         InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
         SetTargetFPS(60);
     }
-    Window(const Window&) = delete;//copy construct
-    Window& operator=(const Window&) = delete;//copy assignment
-    Window(Window&&) = delete;//move construct
-    Window& operator=(Window&&) = delete; //move assignment
+    Window(const Window&) = delete;
+    Window& operator=(const Window&) = delete;
+    Window(Window&&) = delete;
+    Window& operator=(Window&&) = delete;
 
     ~Window()
     {
@@ -51,7 +51,7 @@ int main(void)
     try
     { 
         constexpr int screenWidth = 1920;
-        constexpr int screenHeight = 1080;
+        constexpr int screenHeight = 1080 - 80;
 
         Window window(screenWidth, screenHeight);
         Game game{};

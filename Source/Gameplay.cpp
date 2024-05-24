@@ -59,7 +59,6 @@ void Gameplay::HandleProjectileCollisions(ProjectileContainer& projectiles, Obje
 	}
 }
 
-
 template <typename ObjectType>
 void Gameplay::HandleProjectileCollisions(std::vector<Projectile>& projectiles, std::vector<ObjectType>& objects) 
 {

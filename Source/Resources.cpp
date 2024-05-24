@@ -55,14 +55,14 @@ const Texture2D& Resources::GetLaserTexture() const noexcept
 Animator::Animator(std::vector<std::string_view> file_paths)
 {
     frames.reserve(file_paths.size());
-        for (const auto& path : file_paths) //TODO: double layered reference. supress?
-        {
-            frames.emplace_back(path);
-        } 
-        if (frames.empty())
-        {
-            throw std::runtime_error("the animator did not recieve any frames");
-        }
+    for (const auto path : file_paths)
+    {
+        frames.emplace_back(path);
+    } 
+    if (frames.empty())
+    {
+        throw std::runtime_error("the animator did not recieve any frames");
+    }
 }
 
 void Animator::Update(float deltaTime) noexcept

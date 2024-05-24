@@ -38,7 +38,7 @@ class Gameplay : public State
 	int	GetScore() const noexcept;
 	int GetLives() const noexcept;
 	bool CheckCollision(Vector2 circlePos, float circleRadius, std::pair<Vector2, Vector2> edges);
-	bool PlayerHasLives() const noexcept; //TODO: dumb?
+	bool PlayerHasLives() const noexcept;
 	bool CheckAlienHasInvaded(const Alien& alien) const noexcept;
 	void SpawnAliens();
 	void MakeWalls();
