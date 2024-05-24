@@ -46,5 +46,8 @@ void Game::Update()
 
 void Game::Render() const noexcept 
 {
+    BeginDrawing();
+    ClearBackground(BLACK);
 	current_state->Render();
+    EndDrawing();
 }

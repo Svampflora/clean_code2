@@ -32,6 +32,7 @@ public:
     Window(int screenWidth, int screenHeight) noexcept
     {
         InitWindow(screenWidth, screenHeight, "SPACE INVADERS");
+        SetTargetFPS(60);
     }
     Window(const Window&) = delete;//copy construct
     Window& operator=(const Window&) = delete;//copy assignment
@@ -45,25 +46,20 @@ public:
 };
 
 
-int main(void) //TODO: too long function
+int main(void)
 {    
     try
     { 
         constexpr int screenWidth = 1920;
-        constexpr int screenHeight = 1080 - 80;
+        constexpr int screenHeight = 1080;
 
         Window window(screenWidth, screenHeight);
-        SetTargetFPS(60); 
-
         Game game{};
 
         while (!WindowShouldClose())
         {
             game.Update();
-            BeginDrawing();
-            ClearBackground(BLACK);
             game.Render();
-            EndDrawing();
         }
     }
     catch (const std::exception& _exception)
